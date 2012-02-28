@@ -2,4 +2,7 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  incorrect_login_or_password: "Incorrect login or password"
+  login_required: "Login required"
+  logged_in: "You have been successfuly logged in"
+  forbidden: "Forbidden"

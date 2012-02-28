@@ -1,4 +1,6 @@
 class UnitsController < ApplicationController
+  before_filter :require_admin
+  
   # GET /units
   # GET /units.json
   def index

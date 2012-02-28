@@ -1,0 +1,17 @@
+<h1>login</h1>
+
+<div id="login">
+
+<%= form_tag login_path do %>
+   
+  <%= label_tag :login, "Login" %>
+  <%= text_field_tag :login, params[:login] %>
+     
+  <%= label_tag :password, "Hasło" %>
+  <%= password_field_tag :password %>
+      
+	<%= submit_tag "Zaloguj" %>        
+    
+<% end %>
+
+</div>

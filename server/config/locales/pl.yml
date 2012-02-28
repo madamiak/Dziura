@@ -1,0 +1,5 @@
+pl:
+  incorrect_login_or_password: "Niepoprawny login i/lub hasło"
+  login_required: "Musisz się zalogować"
+  logged_in: "Zostałeś zalogowany"
+  forbidden: "Brak dostępu"

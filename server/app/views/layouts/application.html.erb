@@ -14,7 +14,13 @@
   <li><%= link_to 'jednostki', units_path  %></li>
   <li><%= link_to 'statusy', statuses_path  %></li>
   <li><%= link_to 'kategorie', categories_path  %></li>
+  <% if logged_in? %>
+    <li><%= link_to 'wyloguj', logout_path  %></li>
+  <% end %>
 </ul>
+
+<%= flash[:notice] %>
+<%= flash[:error] %>
 
 <%= yield %>
 

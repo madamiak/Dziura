@@ -120,11 +120,11 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
 
   create_table "users", :force => true do |t|
     t.string   "login"
-    t.string   "password"
+    t.string   "password_hash"
     t.string   "role"
     t.integer  "unit_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "users", ["unit_id"], :name => "index_users_on_unit_id"

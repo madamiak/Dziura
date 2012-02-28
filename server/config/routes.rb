@@ -1,15 +1,15 @@
 Dziura::Application.routes.draw do
-  get "home/index"
-
+  
   resources :statuses
-
   resources :categories
-
   resources :users
-
   resources :units
   
-  root :to => "home#index"
+  match 'home' => 'main#index'
+  match 'login' => 'main#login'
+  match 'logout' => 'main#logout'
+  
+  root :to => "main#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
