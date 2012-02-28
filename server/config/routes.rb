@@ -5,11 +5,11 @@ Dziura::Application.routes.draw do
   resources :users
   resources :units
   
-  match 'home' => 'main#index'
+  match 'admin' => 'main#index'
   match 'login' => 'main#login'
   match 'logout' => 'main#logout'
   
-  root :to => "main#index"
+  root :to => "notifies#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

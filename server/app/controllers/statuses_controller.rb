@@ -1,6 +1,8 @@
 class StatusesController < ApplicationController
   before_filter :require_admin
   
+  layout "admin"
+  
   # GET /statuses
   # GET /statuses.json
   def index

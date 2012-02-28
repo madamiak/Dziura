@@ -1,6 +1,8 @@
 class MainController < ApplicationController
   skip_before_filter :require_login, :only => [:login]
   
+  layout "admin"
+  
   def index
   end
   
@@ -11,7 +13,7 @@ class MainController < ApplicationController
       if user != nil
         session[:current_user_id] = user.id
         flash[:notice] = t(:logged_in)
-        redirect_to root_url
+        redirect_to admin_url
       else
         flash[:error] = t(:incorrect_login_or_password)
       end

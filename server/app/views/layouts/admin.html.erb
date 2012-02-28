@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dziura</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% if logged_in? %>
+<ul>
+  <li><%= link_to 'glowna', admin_path  %></li>
+  <li><%= link_to 'uzytkownicy', users_path  %></li>
+  <li><%= link_to 'jednostki', units_path  %></li>
+  <li><%= link_to 'statusy', statuses_path  %></li>
+  <li><%= link_to 'kategorie', categories_path  %></li>  
+  <li><%= link_to 'wyloguj', logout_path  %></li>  
+</ul>
+<% end %>
+
+<%= flash[:notice] %>
+<%= flash[:error] %>
+
+<%= yield %>
+
+</body>
+</html>
