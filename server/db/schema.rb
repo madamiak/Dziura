@@ -87,11 +87,12 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
   add_index "photos", ["issue_instance_id"], :name => "index_photos_on_issue_instance_id"
 
   create_table "points", :force => true do |t|
-    t.float    "longtitude"
-    t.float    "latitude"
+    t.integer  "number"
+    t.decimal  "longitude",  :precision => 15, :scale => 10
+    t.decimal  "latitude",   :precision => 15, :scale => 10
     t.integer  "polygon_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   add_index "points", ["polygon_id"], :name => "index_points_on_polygon_id"

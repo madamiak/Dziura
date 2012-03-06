@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 70% }
+    </style>
+
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAvbhSpBLXkwHjkQ-sB5Wvaup7KHLet3lY&sensor=false">
+    </script>
+
+    <script type="text/javascript">
+
+      var map;
+
+      function initialize()
+      {
+        var myOptions =
+        {
+          center: new google.maps.LatLng(51.1101, 17.0324),
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        google.maps.event.addListener(map, 'click', mapClicked);
+      }
+
+      var polygons = [];
+      var polygonPoints = [];
+      var closePolygonListener;
+
+      function mapClicked(event)
+      {
+        var polygonNum = polygons.length + 1;
+        var pointNum = polygonPoints.length + 1;
+
+        var marker = new google.maps.Marker
+          ( {
+              map: map,
+              position: event.latLng,
+              title: "W" + polygonNum + " P" + pointNum
+            } );
+
+        polygonPoints.push(event.latLng);
+
+        if (pointNum == 1)
+        {
+          closePolygonListener = google.maps.event.addListener(marker, 'click', closePolygon);
+
+          var panel = document.getElementById("panel");
+
+          var polygonDiv = document.createElement("div");
+          polygonDiv.setAttribute("id", "polygon_" + polygonNum);
+
+          var title = document.createElement("h3");
+          title.innerHTML = "Wielokąt #" + polygonNum;
+
+          var list = document.createElement("ol");
+          list.setAttribute("id", "polygon_path_" + polygonNum);
+          list.setAttribute("type", "1");
+
+          polygonDiv.appendChild(title);
+          polygonDiv.appendChild(list);
+
+          panel.appendChild(polygonDiv);
+        }
+
+        var list = document.getElementById("polygon_path_" + polygonNum);
+
+        var element = document.createElement("li");
+        element.innerHTML = event.latLng;
+        list.appendChild(element);
+      }
+
+      function closePolygon(event)
+      {
+        google.maps.event.removeListener(closePolygonListener);
+
+        var points = new google.maps.MVCArray(polygonPoints);
+
+        var polygon = new google.maps.Polygon
+          ( {
+              map: map,
+              paths: points
+            } );
+
+        polygons.push(polygonPoints);
+        polygonPoints = [];
+      }
+
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas" style="width:100%; height:70%"></div>
+
+    <div id="panel" style="width:100%; height:30%">
+      <h2>Wielokąty:</h2>
+    </div>
+
+  </body>
+</html>
