@@ -59,10 +59,10 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
   create_table "logs", :force => true do |t|
     t.string   "message"
     t.integer  "user_id"
-    t.string   "model_name"
-    t.integer  "model_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "loggable_id"
+    t.string   "loggable_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "logs", ["user_id"], :name => "index_logs_on_user_id"

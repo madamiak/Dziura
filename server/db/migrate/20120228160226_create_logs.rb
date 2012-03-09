@@ -3,8 +3,7 @@ class CreateLogs < ActiveRecord::Migration
     create_table :logs do |t|
       t.string :message
       t.references :user
-      t.string :model_name
-      t.integer :model_id
+      t.references :loggable, :polymorphic => true
 
       t.timestamps
     end

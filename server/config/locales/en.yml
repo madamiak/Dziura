@@ -6,3 +6,4 @@ en:
   login_required: "Login required"
   logged_in: "You have been successfuly logged in"
   forbidden: "Forbidden"
+  status_change_message: "Status changed from  %{old} to %{new}!"

@@ -3,3 +3,4 @@ pl:
   login_required: "Musisz się zalogować"
   logged_in: "Zostałeś zalogowany"
   forbidden: "Brak dostępu"
+  status_change_message: "Status zmieniony z %{old} na %{new}!"
