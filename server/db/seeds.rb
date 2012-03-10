@@ -6,6 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
+
 # Na razie bez adresu
 unit = Unit.create(:name => "ZDIUM")
 
