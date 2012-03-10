@@ -1,10 +1,35 @@
+<%- content_for(:head_extra) do -%>
+
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAvbhSpBLXkwHjkQ-sB5Wvaup7KHLet3lY&sensor=false" -%>
+<%= javascript_include_tag "Polygons.js" -%>
+<%- end -%>
+
+<%- @body_onload = "initializeShow(#{@unit.id})" -%>
+
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Nazwa:</b>
   <%= @unit.name %>
-</p>
 
+  <br>
+
+  <b>Adres:</b>
+  <br>
+  <div style='margin-left: 3em'>
+  <% if @unit.address == nil
+        concat "(brak)"
+      else
+        display_address(@unit.address)
+      end %>
+  </div>
+
+  <br>
+
+  <b>Obszar:</b>
+  <div id="map_canvas" style="width:70%; height:60%"></div>
+</p>
 
 <%= link_to 'Edit', edit_unit_path(@unit) %> |
 <%= link_to 'Back', units_path %>

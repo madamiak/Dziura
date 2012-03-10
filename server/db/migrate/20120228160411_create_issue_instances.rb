@@ -6,6 +6,7 @@ class CreateIssueInstances < ActiveRecord::Migration
       t.float :latitude
       t.string :notificar_email
       t.references :address
+      t.string :photo
 
       t.timestamps
     end

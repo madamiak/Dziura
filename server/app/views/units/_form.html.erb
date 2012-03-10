@@ -15,6 +15,12 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+
+  <div class="field">
+    Obszar:<br />
+    <%= text_area_tag("polygons", "{ \"polygons\": [] }", :size => "50x15") %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

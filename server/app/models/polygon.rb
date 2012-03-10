@@ -3,11 +3,7 @@ class Polygon < ActiveRecord::Base
 
   has_many :points
 
-  validate :has_points?
-
-  def has_points?
-    errors.add_to_base "Polygon must have at least 3 points" if self.points.size < 3
-  end
+  # Trzeba zrobić sprawdzanie, czy wielokąt ma >= 3 punkty (poprzednie nie działało)
 
   def print()
     myPoints = self.points.sort_by(&:number)

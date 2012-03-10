@@ -1,4 +1,14 @@
+<%- content_for(:head_extra) do -%>
+
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAvbhSpBLXkwHjkQ-sB5Wvaup7KHLet3lY&sensor=false" -%>
+<%= javascript_include_tag "Polygons.js" -%>
+<%- end -%>
+
+<%- @body_onload = "initializeNew(#{@unit.id})" -%>
+
 <h1>New unit</h1>
+
+<div id="map_canvas" style="width:70%; height:60%"></div>
 
 <%= render 'form' %>
 

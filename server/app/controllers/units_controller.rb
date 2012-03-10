@@ -1,8 +1,8 @@
 class UnitsController < ApplicationController
   before_filter :require_admin
-  
+
   layout "admin"
-  
+
   # GET /units
   # GET /units.json
   def index
@@ -21,7 +21,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @unit }
+      format.json { render :json => @unit.to_json(:include => { :polygons => { :include => :points }}) }
     end
   end
 
@@ -45,6 +45,21 @@ class UnitsController < ApplicationController
   # POST /units.json
   def create
     @unit = Unit.new(params[:unit])
+
+    polys = ActiveSupport::JSON.decode(params[:polygons])
+    polys["polygons"].each do |poly|
+      railsPoly = Polygon.new()
+
+      poly["points"].each do |pt|
+        railsPt = Point.new( :number => pt["number"],
+                             :latitude => BigDecimal(pt["latitude"].to_s()),
+                             :longitude => BigDecimal(pt["longitude"].to_s()) )
+        railsPt.save()
+        railsPoly.points << railsPt;
+      end
+
+      @unit.polygons << railsPoly;
+    end
 
     respond_to do |format|
       if @unit.save
