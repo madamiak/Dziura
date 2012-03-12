@@ -74,3 +74,13 @@ Point.create([
             ])
 
 User.create(:login => "test", :password => "test", :role => "admin")
+
+Status.create [ { :name => "Nowy"}, 
+                { :name => "W toku" },
+                { :name => "Rozwiazany" },
+                { :name => "Zamkniety" }] 
+                
+Category.create [ { :name => "Dziura"}, 
+                  { :name => "Śnieg" },
+                  { :name => "Uszkodzony znak drogowy" },
+                  { :name => "Graffity" }] 
