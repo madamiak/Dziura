@@ -12,7 +12,7 @@ Dziura::Application.routes.draw do
   root :to => "notifies#index"
   
   match 'res/categories' => 'services#categories'
-  match 'res/issue' => 'services#issue', :via => post
+  #match 'res/issue' => 'services#issue', :via => post
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

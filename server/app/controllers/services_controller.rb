@@ -4,7 +4,7 @@ class ServicesController < ApplicationController
   #Tutaj umieszczamy wszystkie REST servisy dla clienta
   #Inne kontrolery to typowy CRUD, do ktorych dostep jest chroniony
   
-  def issue_instances
+  def issue
     #Issue.add_issue(params[:photo]...)
   end
   
