@@ -10,14 +10,20 @@
 <body <%= " onload='#{@body_onload}'"%> >
 
 <% if logged_in? %>
-<ul>
-  <li><%= link_to 'glowna', admin_path  %></li>
-  <li><%= link_to 'uzytkownicy', users_path  %></li>
-  <li><%= link_to 'jednostki', units_path  %></li>
-  <li><%= link_to 'statusy', statuses_path  %></li>
-  <li><%= link_to 'kategorie', categories_path  %></li>  
-  <li><%= link_to 'wyloguj', logout_path  %></li>  
-</ul>
+<div id="header-container">
+	<div id="header">
+		<div id="nav">
+			<ul>
+			  <li><%= link_to image_tag("main.png"), admin_path  %></li>
+			  <li><%= link_to image_tag("users.png"), users_path  %></li>
+			  <li><%= link_to image_tag("units.png"), units_path  %></li>
+			  <li><%= link_to image_tag("statuses.png"), statuses_path  %></li>
+			  <li><%= link_to image_tag("categories.png"), categories_path  %></li>  
+			  <li><%= link_to image_tag("logout.png"), logout_path  %></li>  
+			</ul>
+		</div>
+	</div>
+</div>
 <% end %>
 
 <%= flash[:notice] %>
