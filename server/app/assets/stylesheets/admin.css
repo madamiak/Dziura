@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin: 0px;
+	padding: 0px;
+}
+ 
+#header-container {
+	width: 100%;
+	height: 204px;
+	background-color: #000000;
+}
+ 
+#header {
+	background: url(dziura.JPG);
+	background-repeat: no-repeat;
+	width: 1024px;
+	height: 204px;
+	margin: auto;
+}
+
+img {
+	border: none;
+}
+ 
+#nav {
+	height: 76px;
+	width: 1024px;
+	padding-top: 152px;
+}
+ 
+#nav ul
+{
+	text-align: left;
+	margin: auto;
+	width: 1024px;
+}
+ 
+#nav ul li
+{
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+}
