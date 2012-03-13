@@ -34,18 +34,16 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
     t.float    "longitude"
     t.float    "latitude"
     t.string   "notificar_email"
-    t.integer  "address_id"
-    t.string   "photo"
+    t.integer  "issue_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "issue_instances", ["address_id"], :name => "index_issue_instances_on_address_id"
-
   create_table "issues", :force => true do |t|
-    t.float    "longtitude"
+    t.float    "longitude"
     t.float    "latitude"
     t.text     "desc"
+    t.integer  "address_id"
     t.integer  "status_id"
     t.integer  "category_id"
     t.integer  "unit_id"

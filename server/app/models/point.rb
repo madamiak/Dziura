@@ -6,7 +6,7 @@ class Point < ActiveRecord::Base
   validates :longitude, :presence => true
 
   def ==(other)
-    return @latitude == other.latitude && @longitude == other.longitude
+    return latitude == other.latitude && longitude == other.longitude
   end
 
   def <=>(other)

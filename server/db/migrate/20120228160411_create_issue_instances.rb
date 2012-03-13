@@ -4,12 +4,10 @@ class CreateIssueInstances < ActiveRecord::Migration
       t.text :desc
       t.float :longitude
       t.float :latitude
-      t.string :notificar_email
-      t.references :address
-      t.string :photo
+      t.string :notificar_email   
+      t.references :issue   
 
       t.timestamps
     end
-    add_index :issue_instances, :address_id
   end
 end

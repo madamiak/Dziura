@@ -16,7 +16,7 @@ class IssueTest < ActiveSupport::TestCase
     @i = Issue.new :status => @s_new, :category => @c, :unit => @u
     @i.save
     
-    @u = User.new
+    @u = User.new :login => "a@a.pl", :password => "a"
     @u.save
   end
   

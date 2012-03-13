@@ -24,4 +24,15 @@ class UserTest < ActiveSupport::TestCase
     assert User.authenticate("a@a.pl", "tajnehaslo123")
     assert !User.authenticate("a@a.pl", "tajnehaslo")
   end
+  
+  test "login and password presence" do
+    @u = User.new
+    assert !@u.save
+    
+    @u = User.new :login => "b@b.pl"
+    assert !@u.save
+    
+    @u = User.new :password => "b@b.pl"
+    assert !@u.save
+  end
 end

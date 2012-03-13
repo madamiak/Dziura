@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   before_save :hash_password
   attr_accessor :password
   
+  validates :login, :presence => true, :uniqueness => true
+  validates :password, :presence => true, :if => :perform_password_validation?
+  
   def self.authenticate(login, password)
     u = find(:first, :conditions => ["login = ?", login])
      
@@ -22,5 +25,9 @@ class User < ActiveRecord::Base
   
   def hash_password
     self.password_hash = self.class.hash_password(self.password) unless self.password.blank?
+  end
+  
+  def perform_password_validation?
+    self.new_record? ? true : !self.password.blank?
   end
 end

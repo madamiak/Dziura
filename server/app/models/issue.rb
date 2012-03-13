@@ -5,6 +5,7 @@ class Issue < ActiveRecord::Base
 
   belongs_to :status
   has_many :logs, :as => :loggable
+  has_many :issue_instances
 
   validates :status, :presence => true
   validates :unit, :presence => true
@@ -16,36 +17,51 @@ class Issue < ActiveRecord::Base
     l = logs.new :user => user, :message => status.get_log_message(old_status)
     l.save
   end
+  
+  # Dodaje zgloszenie do systemu
+  # photo - string base64 format
+  # category - obiekt category (nie samo id)
+  # Rzuca wyjatek gdy nie odnajdzie pasujacej jednostki do punktu
+  # TODO inne wyjatki
+  def self.add_issue(desc, notificar_email, category, longitude, latitude, photo, marker_x, marker_y)
+    Issue.transaction do
+      unit = Unit.find_unit_by_point(longitude, latitude)
+      
+      raise Exception::NonUnitForPoint.new if unit.nil?
+      
+      precision_latitude = 0.0001
+      precision_longitude = 0.0001
 
-  # Metoda sluzaca do dodawania nowego issue oraz issue_instance
-  #
-  # Metoda probuje dopasowac issue, jezeli to sie nie uda tworzy nowy issue.
-  # Metoda zawsze tworzy nowy issue_instance i przypisuje go do odpowiedniego issue (dopasowanego lub nowego).
-  ## czy ta metoda nie powinna byc raczej w issue_instance (przyjmuje argumenty z REST issue_instance)
-  ## brakuje obslugi zdjec
-  def add_issue (photo, desc, notificar_email, category_id, longitude, latitude)
-    # dokladnosc dopasowania issue
-    precision_latitude = 0.0001
-    precision_longitude = 0.0001
+      i = Issue.where(:category_id => category.id, 
+        :latitude => (latitude-precision_latitude)..(latitude+precision_latitude), 
+        :longitude => (longitude-precision_longitude)..(longitude+precision_longitude)).first
 
-    # szukanie istniejacego issue
-    i = issue.where(:category_id => category_id, :latitude => (latitude-precision_latitude)..(latitude+precision_latitude), :longitude => (longitude-precision_longitude)..(longitude+precision_longitude))
+      if i.nil?
+        i = Issue.new :latitude => latitude, :longitude => longitude, 
+          :category => category, :unit => unit, :status => Status.get_default_status
+          
+        # TODO pobranie adresu na podstawie latitude i logitude z googla i zapisanie adresu
+        # do issue       
+          
+        i.save
+      end
 
-    # jezeli nie dopasowano zadnego issue
-    ## czy ponizszy zapis jest prawidlowy?
-    if !i.exist()
-      ## czy trzeba recznie sprawdzac i podawac do jakiego unit nalezy dany issue?
-      ## czy ustawiac status_id, czy ustawi sie jakis domyslny?
-      ## chyba warto sprawdzac poprawnosc category_id?
-      i = issue.new :latitude => latitude, :longitude => longitude, :category_id => category_id
-      i.save
+      issue_instance = i.issue_instances.build :latitude => latitude, 
+        :longitude => longitude, :desc => desc, :notificar_email => notificar_email
+      
+      if !photo.nil?  
+        photo = issue_instance.photos.build :photo => photo
+        
+        if !marker_x.nil? and !marker_y.nil?
+          # TODO and sa w granicach obrazka (od 0 do width/height)
+          
+          photo.markers.build :x => marker_x, :y => marker_y
+        end
+      end
+        
+      issue_instance.save
+      
+      return issue_instance
     end
-
-    # tworzenie nowego issue_instance
-    ## jak przyporzadkowac issue_instance do issue?
-    ## nalezy tworzyc obiekt address i uzupelnic go na podstawie danych z zewnetrznego API
-    ## nie mam pojecia jak wykorzystac google api w railsach
-    issue_instance_new = issue_instance.new :latitude => latitude, :longitude => longitude, :desc => desc, :notificar_email => notificar_email
-    issue_instance_new.save
   end
 end

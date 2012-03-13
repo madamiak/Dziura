@@ -8,7 +8,10 @@
 
 
 # Na razie bez adresu
-unit = Unit.create(:name => "ZDIUM")
+unit = Unit.new(:name => "ZDIUM")
+unit.address = Address.create :city => "Wrocław", :street => "Jakas", 
+  :home_number => "1"
+unit.save
 
 polygon = Polygon.create(:unit => unit)
 

@@ -1,9 +1,10 @@
 class CreateIssues < ActiveRecord::Migration
   def change
     create_table :issues do |t|
-      t.float :longtitude
+      t.float :longitude
       t.float :latitude
       t.text :desc
+      t.references :address
       t.references :status
       t.references :category
       t.references :unit

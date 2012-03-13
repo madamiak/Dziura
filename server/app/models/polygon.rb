@@ -14,8 +14,10 @@ class Polygon < ActiveRecord::Base
     end
   end
 
-  def pointInside(point)
-
+  def point_inside(point)
+    # for dev;p
+    return true
+    
     myPoints = self.points.sort_by(&:number)
 
     for i in 0..myPoints.length-1
