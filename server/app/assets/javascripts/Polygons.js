@@ -60,7 +60,8 @@ function mapClicked(event)
   var marker = new google.maps.Marker
     ( {
         map: map,
-        position: event.latLng
+        position: event.latLng,
+	draggable: true
       } );
 
   polygonPoints.push(event.latLng);
