@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Dziura</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body onload=initialize() >
-  <div id="map_canvas" />
-  <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
-  <%= javascript_include_tag "map.js" -%>
-  <%= javascript_include_tag "ajax.js" -%>	
-</body>
-</html>
+<%- @body_onload = "initialize()" -%>
+<div id="map_canvas" />
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
+<%= javascript_include_tag "map.js" -%>
+<%= javascript_include_tag "ajax.js" -%>
