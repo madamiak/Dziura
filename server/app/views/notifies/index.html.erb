@@ -1,11 +1,15 @@
+<!DOCTYPE html>
 <html>
-	<body onload="initialize()">
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<%= stylesheet_link_tag "map.css" %>
-		<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
-		<%= javascript_include_tag "map.js" -%>
-		<%= javascript_include_tag "ajax.js" -%>
-		<div id="map_canvas" style="width:80%; height:80%"></div>
-	</body>
+<head>
+  <title>Dziura</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body onload=initialize() >
+  <div id="map_canvas" />
+  <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
+  <%= javascript_include_tag "map.js" -%>
+  <%= javascript_include_tag "ajax.js" -%>	
+</body>
 </html>
