@@ -1,7 +1,8 @@
 <%- content_for(:head_extra) do -%>
 
-<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAvbhSpBLXkwHjkQ-sB5Wvaup7KHLet3lY&sensor=false" -%>
-<%= javascript_include_tag "Polygons.js" -%>
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
+<%= javascript_include_tag "polygons.js" -%>
+
 <%- end -%>
 
 <%- @body_onload = "initializeShow(#{@unit.id})" -%>
@@ -18,11 +19,7 @@
   <b>Adres:</b>
   <br>
   <div style='margin-left: 3em'>
-  <% if @unit.address == nil
-        concat "(brak)"
-      else
-        display_address(@unit.address)
-      end %>
+  <%= display_address(@unit.address) %>
   </div>
 
   <br>
