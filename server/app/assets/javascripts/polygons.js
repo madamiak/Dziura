@@ -28,16 +28,18 @@ function initializeShow(unit_id)
 
 function showUnitDataReceived(data)
 {
-  for each (var poly in data.polygons)
+  for (var i = 0; i < data.polygons.length; i++)
   {
+    var poly = data.polygons[i];
     var points = new google.maps.MVCArray();
 
     poly.points.sort(function(a, b){
       return a.number-b.number
     })
 
-    for each (var pt in poly.points)
+    for (var j = 0; j < poly.points.length; ++j)
     {
+      var pt = poly.points[j];
       points.push(new google.maps.LatLng(pt.latitude, pt.longitude));
     }
 
@@ -76,22 +78,23 @@ function initializeEdit(unit_id)
 
 function editUnitDataReceived(data)
 {
-  for each (var poly in data.polygons)
+  for (var i = 0; i < data.polygons.length; i++)
   {
+    var poly = data.polygons[i];
+
     var points = new google.maps.MVCArray();
 
     poly.points.sort(function(a, b){
       return a.number-b.number
     })
 
-    for each (var pt in poly.points)
+    for (var j = 0; j < poly.points.length; j++)
     {
+      var pt = poly.points[j];
       points.push(new google.maps.LatLng(pt.latitude, pt.longitude));
     }
 
     createEditablePolygon(points);
-
-    polygons.push(polygon);
   }
 
   updatePolygonsJSON();
@@ -127,8 +130,9 @@ function closePolygon(event)
 
   var points = new google.maps.MVCArray();
 
-  for each (var mk in polygonMarkers)
+  for (var i = 0; i < polygonMarkers.length; i++)
   {
+    var mk = polygonMarkers[i];
     points.push(mk.getPosition());
     mk.setMap(null);
   }
@@ -180,16 +184,19 @@ function updatePolygonsJSON()
 
   var polygonsExport = [];
 
-  for each (var poly in polygons)
+  for (var i = 0; i < polygons.length; i++)
   {
+    var poly = polygons[i];
     var pointsExport = [];
     var num = 0;
-    for (i = 0; i < poly.getPath().getLength(); i++)
+    for (j = 0; j < poly.getPath().getLength(); j++)
     {
+      var pt = poly.getPath().getAt(j);
+
       var ptExport = new Object();
       ptExport.number = ++num;
-      ptExport.latitude = poly.getPath().getAt(i).lat();
-      ptExport.longitude = poly.getPath().getAt(i).lng();
+      ptExport.latitude = pt.lat();
+      ptExport.longitude = pt.lng();
       pointsExport.push(ptExport);
     }
 
