@@ -3,7 +3,13 @@ class Polygon < ActiveRecord::Base
 
   has_many :points
 
-  # Trzeba zrobić sprawdzanie, czy wielokąt ma >= 3 punkty (poprzednie nie działało)
+  validate :must_have_at_least_3_points
+
+  def must_have_at_least_3_points
+    if points.length < 3
+      errors.add(:points, "Wielokąt musi mieć co najmniej 3 punkty")
+    end
+  end
 
   def print()
     myPoints = self.points.sort_by(&:number)
@@ -15,9 +21,7 @@ class Polygon < ActiveRecord::Base
   end
 
   def point_inside(point)
-    # for dev;p
-    return true
-    
+
     myPoints = self.points.sort_by(&:number)
 
     for i in 0..myPoints.length-1
