@@ -20,7 +20,7 @@ class Issue < ActiveRecord::Base
   
   # Dodaje zgloszenie do systemu
   #
-  # photo - sciezka do pliku tmp
+  # photo - string, zdjecie w base64
   # category - id category
   # longitude, latitude - string
   #

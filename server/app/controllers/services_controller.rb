@@ -8,14 +8,20 @@ class ServicesController < ApplicationController
   
   def issue
     if request.post?
-      issue = Issue.add_issue(params[:desc], params[:nitificar_email], 
-        params[:issue][:category_id], params[:longitude], params[:latitude], 
-        params[:photo], params[:marker_x], params[:marker_y])
-      
-      if !issue.nil?
-        redirect_to root_url, :notice => 'Issue has been added.'
-      else
-        redirect_to root_url, :notice => 'Error.'
+      begin
+        issue = Issue.add_issue(params[:desc], params[:nitificar_email], 
+          params[:issue][:category_id], params[:longitude], params[:latitude], 
+          params[:photo], params[:marker_x], params[:marker_y])
+        
+        if !issue.nil?
+          render :json => 'Zgłoszenie zostało przyjęte'
+        else
+          render :json => 'Error'
+        end
+      rescue Exceptions::NoUnitForPoint
+        render :json => 'Nie ma jednostki dla takiego punktu', :status => 500
+      rescue
+        render :json => 'Jakis blad', :status => 500
       end
     end
   end

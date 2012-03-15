@@ -4,6 +4,7 @@ Dziura::Application.routes.draw do
   resources :categories
   resources :users
   resources :units
+  resources :issues
   
   match 'admin' => 'main#index'
   match 'login' => 'main#login'
@@ -12,7 +13,7 @@ Dziura::Application.routes.draw do
   root :to => "notifies#index"
   
   match 'res/categories' => 'services#categories'
-  match 'res/issue' => 'services#issue'
+  match 'res/issue' => 'services#issue', :as => :issue_add
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

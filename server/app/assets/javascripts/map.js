@@ -25,6 +25,21 @@ function setExisting(value) {
 	existing = value;
 }
 
+function bindIssueForm() {
+  $("#issue_form form").bind("submit", function() {
+    $("#issue_form input[name=longitude]").val(marker.getPosition().lng());
+    $("#issue_form input[name=latitude]").val(marker.getPosition().lat());
+  });
+  
+  $("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
+    $("#issue_message").html(data.responseText);
+  });
+  
+  $("#issue_form form").live("ajax:error", function(event, data, status, xhr) {
+    $("#issue_message").html(data.responseText);
+  });
+}
+
 function placeMarker(location, isExisted) {
 	if (isExisted == false) {
 		marker = new google.maps.Marker({
@@ -32,32 +47,7 @@ function placeMarker(location, isExisted) {
 				map: map,
 				draggable: true
 		});
-		
-		/*var contentString =
-			'<div id="content">'+
-				'<div id="bodyContent">'+
-					'<form action="...">'+
-						'<p>'+'<h3>Formularz zgłoszenia szkody</h3>'+
-						'</p>'+
-						'<p>Rodzaj szkody: &nbsp'+
-							'<select name="nazwa">'+
-								'<option>Dziura w jezdni</option>'+
-								'<option>Przekrzywiony znak</option>'+
-							'</select>'+
-						'</p>'+
-						'<p>'+
-							'<input type="checkbox" name="agreed" />Chcę dostać informacje na e-mail'+'<br />'+
-						'</p>'+
-						'<p>'+
-							'E-mail: &nbsp'+'<input name="email" />'+
-						'</p>'+
-						'<p>'+
-							'<input type="button" value="Zgłoś">'
-						'</p>'+
-					'</form>'+
-				'</div>'+
-			'</div>';*/
-		
+
 		//pobieranie formularza zgloszenia szkody z serwera	
 	  $.get('res/issue', function(data) {
       infowindow = new google.maps.InfoWindow({
@@ -67,10 +57,7 @@ function placeMarker(location, isExisted) {
 		  infowindow.open(map, marker);	
 		  
 		  google.maps.event.addListener(infowindow, 'domready', function() {
-		    $("#issue_form form").submit(function() {
-		      $("#issue_form input[name=longitude]").val(marker.getPosition().lng());
-          $("#issue_form input[name=latitude]").val(marker.getPosition().lat());
-		    });
+		    bindIssueForm();
 		  });
     });	
     

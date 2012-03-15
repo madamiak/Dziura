@@ -1,9 +1,11 @@
 <h2>Formularz zgloszenia szkody</h2>
 
 <div id="issue_form">
+  <div id="issue_message"></div>
+
   <!-- TODO Jakies divy zamiast br, zeby formularz ladniej wygladal -->
   <!-- TODO internacjonalizacja labelow -->
-  <%= form_tag do %>
+  <%= form_tag issue_add_path, :remote => true do %>
 
     <!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
     <%= label_tag(:category_id, "Kategoria") %>
