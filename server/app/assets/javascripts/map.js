@@ -19,52 +19,44 @@ function initialize() {
 	google.maps.event.addListener(map, 'click', function(event, isExisted) {
 		placeMarker(event.latLng, existing);
 	});
+	
 }
 
 function setExisting(value) {
 	existing = value;
 }
 
-function bindIssueForm() {
-  $("#issue_form form").bind("submit", function() {
-    $("#issue_form input[name=longitude]").val(marker.getPosition().lng());
-    $("#issue_form input[name=latitude]").val(marker.getPosition().lat());
-  });
-  
-  $("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
-    $("#issue_message").html(data.responseText);
-  });
-  
-  $("#issue_form form").live("ajax:error", function(event, data, status, xhr) {
-    $("#issue_message").html(data.responseText);
-  });
-}
-
 function placeMarker(location, isExisted) {
 	if (isExisted == false) {
 		marker = new google.maps.Marker({
-				position: location,
-				map: map,
-				draggable: true
+			position: location,
+			map: map,
+			draggable: true
 		});
-
+		
 		//pobieranie formularza zgloszenia szkody z serwera	
-	  $.get('res/issue', function(data) {
-      infowindow = new google.maps.InfoWindow({
-			  content: data
-		  });
+	  	$.get('res/issue', function(data) {
+      		infowindow = new google.maps.InfoWindow({
+			content: data
+		});
 		
-		  infowindow.open(map, marker);	
+		infowindow.open(map, marker);	
 		  
-		  google.maps.event.addListener(infowindow, 'domready', function() {
-		    bindIssueForm();
-		  });
+		google.maps.event.addListener(infowindow, 'domready', function() {
+			$("#issue_form form").submit(function() {
+				$("#issue_form input[name=longitude]").val(marker.getPosition().lng());
+				$("#issue_form input[name=latitude]").val(marker.getPosition().lat());
+			});
+		});
     });	
-    
-    //TODO jak sie zamknie okno, zeby potem mozna bylo je jeszcze raz otworzyc	
-		
-		setExisting(true);
-	} else {
-	 // TODO przenies marker na nowa pozycje po kliknieciu gdzies
+
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map, marker);
+	});
+
+	setExisting(true);
+	} 
+	else {
+		marker.setPosition(location);			
 	}
 }
