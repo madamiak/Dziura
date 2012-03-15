@@ -10,4 +10,7 @@ module Exceptions
   
   class IncorrectNotificarEmail < StandardError
   end
+
+  class NetworkException < StandardError
+  end
 end

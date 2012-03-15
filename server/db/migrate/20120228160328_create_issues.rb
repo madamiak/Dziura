@@ -1,8 +1,8 @@
 class CreateIssues < ActiveRecord::Migration
   def change
     create_table :issues do |t|
-      t.float :longitude
-      t.float :latitude
+      t.decimal :longitude, { :precision => 15, :scale => 10 }
+      t.decimal :latitude,  { :precision => 15, :scale => 10 }
       t.text :desc
       t.references :address
       t.references :status
