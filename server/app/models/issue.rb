@@ -19,12 +19,20 @@ class Issue < ActiveRecord::Base
   end
   
   # Dodaje zgloszenie do systemu
+  #
   # photo - sciezka do pliku tmp
   # category - id category
   # longitude, latitude - string
-  # Rzuca wyjatek gdy nie odnajdzie pasujacej jednostki do punktu
-  # TODO inne wyjatki
-  def self.add_issue(desc, notificar_email, category, longitude, latitude, photo, marker_x, marker_y)
+  #
+  # Rzuca NilArguments gdy lgn, lat lub category jest nil
+  # Rzuca NoUnitForPoint gdy nie odnajdzie pasujacej jednostki do punktu
+  # Rzuca ActiveRecord::RecordNotFound gdy nie odnajdzie category 
+  def self.add_issue(desc, notificar_email, category, longitude, latitude,
+    photo, marker_x, marker_y)
+  
+    raise Exceptions::NilArguments if category.nil? or longitude.nil? or
+      latitude.nil? 
+    
     Issue.transaction do
       longitude = BigDecimal.new(longitude)
       latitude = BigDecimal.new(latitude)
@@ -33,27 +41,29 @@ class Issue < ActiveRecord::Base
       
       unit = Unit.find_unit_by_point(longitude, latitude)
       
-      raise Exception::NonUnitForPoint.new if unit.nil?
+      raise Exceptions::NoUnitForPoint.new if unit.nil?
       
-      precision_latitude = 0.0001
-      precision_longitude = 0.0001
+      p_lat = 0.0001
+      p_lng = 0.0001
 
       i = Issue.where(:category_id => category.id, 
-        :latitude => (latitude-precision_latitude)..(latitude+precision_latitude), 
-        :longitude => (longitude-precision_longitude)..(longitude+precision_longitude)).first
+        :latitude => (latitude - p_lat)..(latitude + p_lat), 
+        :longitude => (longitude - p_lng)..(longitude + p_lng)).first
 
       if i.nil?
         i = Issue.new :latitude => latitude, :longitude => longitude, 
-          :category => category, :unit => unit, :status => Status.get_default_status
+          :category => category, :unit => unit, 
+          :status => Status.get_default_status
           
-        # TODO pobranie adresu na podstawie latitude i logitude z googla i zapisanie adresu
-        # do issue       
+        # TODO pobranie adresu na podstawie latitude i logitude z googla 
+        # i zapisanie adresu do issue       
           
         i.save
       end
 
       issue_instance = i.issue_instances.build :latitude => latitude, 
-        :longitude => longitude, :desc => desc, :notificar_email => notificar_email
+        :longitude => longitude, :desc => desc, 
+        :notificar_email => notificar_email
       
       if !photo.nil?  
         photo = issue_instance.photos.build :photo => photo

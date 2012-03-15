@@ -13,7 +13,7 @@ unit.address = Address.create :city => "Wrocław", :street => "Jakas",
   :home_number => "1"
 unit.save
 
-polygon = Polygon.create(:unit => unit)
+polygon = Polygon.new(:unit => unit)
 
 # Punkty dla Wrocławia (mniej więcej)
 Point.create([
@@ -75,6 +75,9 @@ Point.create([
                 :latitude => BigDecimal.new("51.063518414307445"),
                 :longitude => BigDecimal.new("16.95781313171392") }
             ])
+
+polygon.points << Point.all
+polygon.save
 
 User.create(:login => "test", :password => "test", :role => "admin")
 
