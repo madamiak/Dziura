@@ -5,7 +5,7 @@ class Issue < ActiveRecord::Base
 
   belongs_to :status
   has_many :logs, :as => :loggable
-  has_many :issue_instances
+  has_many :issue_instances, :validate => true
 
   validates :status, :presence => true
   validates :unit, :presence => true
@@ -27,6 +27,8 @@ class Issue < ActiveRecord::Base
   # Rzuca NilArguments gdy lgn, lat lub category jest nil
   # Rzuca NoUnitForPoint gdy nie odnajdzie pasujacej jednostki do punktu
   # Rzuca ActiveRecord::RecordNotFound gdy nie odnajdzie category 
+  # Rzuca ActiveRecord::RecordInvalid gdy cos nie przejdzie walidacji
+  # (aktualnie jedynie notificar_email)
   def self.add_issue(desc, notificar_email, category, longitude, latitude,
     photo, marker_x, marker_y)
   
@@ -58,7 +60,7 @@ class Issue < ActiveRecord::Base
         # TODO pobranie adresu na podstawie latitude i logitude z googla 
         # i zapisanie adresu do issue       
           
-        i.save
+        i.save!
       end
 
       issue_instance = i.issue_instances.build :latitude => latitude, 
@@ -68,14 +70,12 @@ class Issue < ActiveRecord::Base
       if !photo.nil?  
         photo = issue_instance.photos.build :photo => photo
         
-        if !marker_x.nil? and !marker_y.nil?
-          # TODO and sa w granicach obrazka (od 0 do width/height)
-          
+        if !marker_x.nil? and !marker_y.nil?        
           photo.markers.build :x => marker_x, :y => marker_y
         end
       end
         
-      issue_instance.save
+      i.save!
       
       return issue_instance
     end
