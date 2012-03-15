@@ -31,9 +31,9 @@ class Issue < ActiveRecord::Base
   #
   # Rzuca NilArguments gdy lgn, lat lub category jest nil
   # Rzuca NoUnitForPoint gdy nie odnajdzie pasujacej jednostki do punktu
-  # Rzuca ActiveRecord::RecordNotFound gdy nie odnajdzie category 
-  # Rzuca ActiveRecord::RecordInvalid gdy cos nie przejdzie walidacji
-  # (aktualnie jedynie notificar_email)
+  # Rzuca UnknownCategory gdy nie odnajdzie category 
+  # Rzuca IncorrectNotificarEmail gdy notificar email jest nieprawidlowy
+  # Rzuca ActiveRecord::RecordInvalid gdy wystapi inny blad walidacji
   def self.add_issue(desc, notificar_email, category, longitude, latitude,
     photo, marker_x, marker_y)
   
@@ -44,7 +44,11 @@ class Issue < ActiveRecord::Base
       longitude = BigDecimal.new(longitude)
       latitude = BigDecimal.new(latitude)
       
-      category = Category.find(category)
+      begin
+        category = Category.find(category)
+      rescue ActiveRecord::RecordNotFound
+        raise Exceptions::UnknownCategory.new
+      end
       
       unit = Unit.find_unit_by_point(longitude, latitude)
       
@@ -79,8 +83,13 @@ class Issue < ActiveRecord::Base
           photo.markers.build :x => marker_x, :y => marker_y
         end
       end
-        
-      i.save!
+      
+      begin  
+        i.save!
+      rescue ActiveRecord::RecordInvalid => e  
+        raise Exceptions::IncorrectNotificarEmail.new if i.errors.messages[:notificar_email].nil?
+        raise e
+      end
       
       return issue_instance
     end
