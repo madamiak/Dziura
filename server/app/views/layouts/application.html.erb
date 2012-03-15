@@ -9,6 +9,9 @@
 </head>
 <body <%= " onload='#{@body_onload}'"%> >
 
+<%= flash[:notice] %>
+<%= flash[:error] %>
+
 <%= yield %>
 
 </body>

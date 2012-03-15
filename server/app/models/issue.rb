@@ -19,12 +19,18 @@ class Issue < ActiveRecord::Base
   end
   
   # Dodaje zgloszenie do systemu
-  # photo - string base64 format
-  # category - obiekt category (nie samo id)
+  # photo - sciezka do pliku tmp
+  # category - id category
+  # longitude, latitude - string
   # Rzuca wyjatek gdy nie odnajdzie pasujacej jednostki do punktu
   # TODO inne wyjatki
   def self.add_issue(desc, notificar_email, category, longitude, latitude, photo, marker_x, marker_y)
     Issue.transaction do
+      longitude = BigDecimal.new(longitude)
+      latitude = BigDecimal.new(latitude)
+      
+      category = Category.find(category)
+      
       unit = Unit.find_unit_by_point(longitude, latitude)
       
       raise Exception::NonUnitForPoint.new if unit.nil?

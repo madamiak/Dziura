@@ -1,0 +1,30 @@
+<h2>Formularz zgloszenia szkody</h2>
+
+<div id="issue_form">
+  <!-- TODO Jakies divy zamiast br, zeby formularz ladniej wygladal -->
+  <!-- TODO internacjonalizacja labelow -->
+  <%= form_tag do %>
+
+    <!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
+    <%= label_tag(:category_id, "Kategoria") %>
+    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
+    <br />
+    
+    <%= label_tag(:desc, "Opis") %>
+    <%= text_area_tag(:desc, "", :size => "24x6") %>
+    
+    <!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
+    <%= hidden_field_tag(:longitude, "") %>
+    <%= hidden_field_tag(:latitude, "") %>
+    
+    <%= hidden_field_tag(:marker_x, "") %>
+    <%= hidden_field_tag(:marker_y, "") %>
+    
+    <!-- TODO notificar_email, photo -->    
+    
+    <br />
+    
+    <%= submit_tag("Zgłoś") %>
+    
+  <% end %>
+</div>
