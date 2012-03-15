@@ -31,24 +31,24 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
 
   create_table "issue_instances", :force => true do |t|
     t.text     "desc"
-    t.float    "longitude"
-    t.float    "latitude"
+    t.decimal  "longitude",       :precision => 15, :scale => 10
+    t.decimal  "latitude",        :precision => 15, :scale => 10
     t.string   "notificar_email"
     t.integer  "issue_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
   create_table "issues", :force => true do |t|
-    t.float    "longitude"
-    t.float    "latitude"
+    t.decimal  "longitude",   :precision => 15, :scale => 10
+    t.decimal  "latitude",    :precision => 15, :scale => 10
     t.text     "desc"
     t.integer  "address_id"
     t.integer  "status_id"
     t.integer  "category_id"
     t.integer  "unit_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   add_index "issues", ["category_id"], :name => "index_issues_on_category_id"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(:version => 20120228161018) do
   add_index "markers", ["photo_id"], :name => "index_markers_on_photo_id"
 
   create_table "photos", :force => true do |t|
-    t.string   "path"
+    t.text     "photo"
     t.integer  "issue_instance_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
