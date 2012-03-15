@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class IssueInstance < ActiveRecord::Base
   belongs_to :address
   belongs_to :issue

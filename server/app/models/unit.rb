@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Unit < ActiveRecord::Base
   has_many :polygons
   has_many :issues

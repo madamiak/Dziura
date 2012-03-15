@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Exceptions
   class NoUnitForPoint < StandardError
   end

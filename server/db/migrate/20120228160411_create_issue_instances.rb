@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateIssueInstances < ActiveRecord::Migration
   def change
     create_table :issue_instances do |t|

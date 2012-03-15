@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module ApplicationHelper
 
   # Wyświetlanie adresu (może się przydać w kilku miejscach)

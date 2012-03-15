@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreatePolygons < ActiveRecord::Migration
   def change
     create_table :polygons do |t|

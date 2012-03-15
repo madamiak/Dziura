@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CategoriesController < ApplicationController
   before_filter :require_admin
   

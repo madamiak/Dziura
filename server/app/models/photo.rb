@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Photo ma pole photo, ktore jest stringiem. 
 # Zdjecie zapisane jest w formacie base64
 class Photo < ActiveRecord::Base

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Exception
   class NoUnitForPoint < Exception
   end

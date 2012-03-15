@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateUnits < ActiveRecord::Migration
   def change
     create_table :units do |t|

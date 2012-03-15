@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Dziura::Application.routes.draw do
   
   resources :statuses
