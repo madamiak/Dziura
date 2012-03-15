@@ -1,3 +1,8 @@
+class Exception
+  class NoUnitForPoint < Exception
+  end
+end
+
 class Issue < ActiveRecord::Base
   belongs_to :status
   belongs_to :category

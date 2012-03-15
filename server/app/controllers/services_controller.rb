@@ -9,7 +9,7 @@ class ServicesController < ApplicationController
   def issue
     if request.post?
       begin
-        issue = Issue.add_issue(params[:desc], params[:nitificar_email], 
+        issue = Issue.add_issue(params[:desc], params[:notificar_email], 
           params[:issue][:category_id], params[:longitude], params[:latitude], 
           params[:photo], params[:marker_x], params[:marker_y])
         

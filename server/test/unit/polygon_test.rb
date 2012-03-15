@@ -69,7 +69,7 @@ class PolygonTest < ActiveSupport::TestCase
       assert poly.point_inside(p)
     end
 
-    # Punkty testowe na zewnątrz wielokąta:
+    # Punkty testowe na zewnątrz wielokąta
     outsideCoords = [ { :lat => "51.11538059741992" , :lng => "17.03394495239263"  },
                       { :lat => "51.102124076426925", :lng => "17.04939447631841"  },
                       { :lat => "51.10406429261789" , :lng => "17.011800634765677" },
@@ -81,6 +81,41 @@ class PolygonTest < ActiveSupport::TestCase
       puts "Point outside: #{p.latitude}, #{p.longitude}"
       assert (!poly.point_inside(p))
     end
+
+  end
+
+  test "polygon validation test" do
+
+    points = [ Point.new(:number => 1, :latitude => BigDecimal.new("12.443"),
+                         :longitude => BigDecimal.new("132.11")),
+               Point.new(:number => 1, :latitude => BigDecimal.new("12.44322"),
+                         :longitude => BigDecimal.new("132.11")),
+               Point.new(:number => 2, :latitude => BigDecimal.new("-12.44322"),
+                         :longitude => BigDecimal.new("-132.11")),
+               Point.new(:number => 3, :latitude => BigDecimal.new("-12.44322"),
+                         :longitude => BigDecimal.new("-132.11")),
+               Point.new(:number => 3, :latitude => BigDecimal.new("2.44322"),
+                         :longitude => BigDecimal.new("-132.11")) ]
+
+    # za mało punktów
+    p = Polygon.new()
+    assert !p.valid?
+    p = Polygon.new(:points => [ points[0] ])
+    assert !p.valid?
+    p = Polygon.new(:points => [ points[0], points[2] ])
+    assert !p.valid?
+
+    # take same nry
+    p = Polygon.new(:points => [ points[0], points[1], points[2] ])
+    assert !p.valid?
+
+    # takie same współrzędne
+    p = Polygon.new(:points => [ points[0], points[2], points[3] ])
+    assert !p.valid?
+
+    # wszystko ok
+    p = Polygon.new(:points => [ points[0], points[2], points[4] ])
+    assert p.valid?
 
   end
 

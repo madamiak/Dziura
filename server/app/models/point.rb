@@ -9,14 +9,4 @@ class Point < ActiveRecord::Base
     return latitude == other.latitude && longitude == other.longitude
   end
 
-  def <=>(other)
-    if (@number > other.number)
-      return 1
-    end
-    if (@number < other.number)
-      return -1
-    end
-    return 0
-  end
-
 end
