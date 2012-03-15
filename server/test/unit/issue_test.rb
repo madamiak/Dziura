@@ -41,15 +41,53 @@ class IssueTest < ActiveSupport::TestCase
       :old => "old", :new => "new" )
   end
 
-  test "add_issue" do
 
-    # TODO: 
+  # Sprawdzanie wyjątku NilArguments
+  test "add_issue nil arguments" do
 
-    # Poza obszarem jednostki
-    assert_raise Exceptions::NoUnitForPoint do
-      Issue.add_issue("bla", "bla@bla.com", 1, "1000", "1000", nil, nil, nil)
+    assert_raise Exceptions::NilArguments do
+      Issue.add_issue("", "", nil, "", "", nil, nil, nil)
     end
 
+    assert_raise Exceptions::NilArguments do
+      Issue.add_issue("", "", 1, nil, "", nil, nil, nil)
+    end
+
+    assert_raise Exceptions::NilArguments do
+      Issue.add_issue("", "", 1, "", nil, nil, nil, nil)
+    end
+
+  end
+
+  # Zgłoszenie poza obszarem jednostki
+  test "add_issue outside unit area" do
+
+    assert_raise Exceptions::NoUnitForPoint do
+      Issue.add_issue("bla", "bla@bla.com", 1, "10", "10", nil, nil, nil)
+    end
+
+  end
+
+  # Nieistniejąca kategoria
+  test "add_issue invalid category" do
+
+    assert_raise Exceptions::UnknownCategory do
+      Issue.add_issue("bla", "bla@bla.com", -1, "10", "10", nil, nil, nil)
+    end
+
+  end
+
+  # Nieprawidłowy e-mail
+  test "add_issue invalid e-mail" do
+
+    assert_raise Exceptions::IncorrectNotificarEmail do
+      Issue.add_issue("bla", "bla", 1, "0", "0", nil, nil, nil)
+    end
+
+  end
+
+  # Łączenie zgłoszeń
+  test "add_issue joining issues" do
 
     # Wszystko OK
     i_1 = Issue.add_issue("bla", "bla@bla.com",
@@ -67,6 +105,19 @@ class IssueTest < ActiveSupport::TestCase
 
     # Zgłoszenia powinny być złączone
     assert_equal(i_1.issue, i_2.issue)
+
+    # Zgłoszenie poza obszarem złączania ma osobne issue
+    i_3 = Issue.add_issue("bla", "bla@bla.com",
+                          1, "0.99", "-0.99",
+                          nil, nil, nil)
+
+    assert_not_equal(i_1.issue, i_3.issue)
+
+    # Zgłoszenie w pobliżu, ale w innej kategorii też ma mieć osobne issue
+    i_4 = Issue.add_issue("bla", "bla@bla.com",
+                          2, "0.000001", "0.0",
+                          nil, nil, nil)
+    assert_not_equal(i_1.issue, i_4.issue)
 
   end
 
