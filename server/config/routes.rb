@@ -1,18 +1,21 @@
 # -*- encoding : utf-8 -*-
 Dziura::Application.routes.draw do
-  
+
+  match 'issues/by_rect' => 'issues#get_by_rect'
+  match 'issues/by_pages' => 'issues#get_by_pages'
+
   resources :statuses
   resources :categories
   resources :users
   resources :units
   resources :issues
-  
+
   match 'admin' => 'main#index'
   match 'login' => 'main#login'
   match 'logout' => 'main#logout'
-  
+
   root :to => "notifies#index"
-  
+
   match 'res/categories' => 'services#categories'
   match 'res/issue' => 'services#issue', :as => :issue_add
 

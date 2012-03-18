@@ -84,5 +84,32 @@ class IssuesController < ApplicationController
       format.json { head :no_content }
     end
   end  
-  
+
+  # GET /issues/by_rect.json
+  def get_by_rect
+
+    nw_lat = BigDecimal.new(params[:nw_lat] || "")
+    nw_lng = BigDecimal.new(params[:nw_lng] || "")
+    se_lat = BigDecimal.new(params[:se_lat] || "")
+    se_lng = BigDecimal.new(params[:se_lng] || "")
+
+    @issues = Issue.where(:latitude => se_lat..nw_lat, :longitude => nw_lng..se_lng)
+
+    respond_to do |format|
+      format.json { render :json => @issues }
+    end
+
+  end
+
+  # GET /issues/by_pages.json
+  def get_by_pages
+
+    @issues = Issue.order(:created_at).limit(params[:limit]).offset(params[:offset])
+
+    respond_to do |format|
+      format.json { render :json => @issues }
+    end
+
+  end
+
 end
