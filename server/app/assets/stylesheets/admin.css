@@ -38,7 +38,57 @@ img {
  
 #nav ul li
 {
+	font: 120%/1.5em "Lucida Grande", Geneva,
+                    "DejaVu Sans", "Bitstream Vera Sans", AnjaliOldLipi,
+                    "Lucida sans", "Trebuchet MS", Arial, Verda;
 	display: inline;
 	padding: 0px;
 	margin: 0px;
+	color: #000000;
 }
+
+table {
+	margin-left: 100px;
+    font: 90%/1.5em "Lucida Grande", Geneva,
+                    "DejaVu Sans", "Bitstream Vera Sans", AnjaliOldLipi,
+                    "Lucida sans", "Trebuchet MS", Arial, Verdana;
+    text-align: left;
+    border: 3px black double;
+    border-spacing: 0;
+    -moz-border-radius: 8px;
+    -moz-box-shadow: #6a3d37 5px 5px 6px;
+    -webkit-border-radius: 8px;
+    -webkit-box-shadow: #6a3d37 5px 5px 6px;
+    border-radius: 8px;
+    box-shadow: #6a3d37 5px 5px 6px;
+}
+
+th {
+    color: #000000;
+    font-size: 110%;
+    text-shadow: #6a3d37 1px 1px 1px;
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+td {
+	border-top-style:groove;
+	border-top-width: 1px;
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+th:first-of-type,
+td:first-of-type {
+    padding: 0 0 0 2em
+}
+
+th:last-of-type,
+td:last-of-type {
+    padding: 0 2em 0 0
+}
+
+
+
+
+
