@@ -88,12 +88,12 @@ class IssuesController < ApplicationController
   # GET /issues/by_rect.json
   def get_by_rect
 
-    nw_lat = BigDecimal.new(params[:nw_lat] || "")
-    nw_lng = BigDecimal.new(params[:nw_lng] || "")
-    se_lat = BigDecimal.new(params[:se_lat] || "")
-    se_lng = BigDecimal.new(params[:se_lng] || "")
+    ne_lat = BigDecimal.new(params[:ne_lat] || "")
+    ne_lng = BigDecimal.new(params[:ne_lng] || "")
+    sw_lat = BigDecimal.new(params[:sw_lat] || "")
+    sw_lng = BigDecimal.new(params[:sw_lng] || "")
 
-    @issues = Issue.where(:latitude => se_lat..nw_lat, :longitude => nw_lng..se_lng)
+    @issues = Issue.where(:latitude => sw_lat..ne_lat, :longitude => sw_lng..ne_lng)
 
     respond_to do |format|
       format.json { render :json => @issues }
@@ -108,6 +108,15 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.json { render :json => @issues }
+    end
+
+  end
+
+  # GET /issues/map
+  def show_map
+
+    respond_to do |format|
+      format.html { render :action => "map" }
     end
 
   end

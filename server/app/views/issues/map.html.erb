@@ -1,0 +1,14 @@
+<%- content_for(:head_extra) do -%>
+
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
+<%= javascript_include_tag "issue_map.js" -%>
+
+<%- end -%>
+
+<%- @body_onload = "initialize()" -%>
+
+<p id="notice"><%= notice %></p>
+
+<div id="map_canvas" style="width:70%; height:60%"></div>
+
+<%= link_to 'Lista', issues_path %>
