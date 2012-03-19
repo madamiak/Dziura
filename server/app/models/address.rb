@@ -83,8 +83,9 @@ class Address < ActiveRecord::Base
 
     end
 
+    address.save!
+    
     return address
-
   end
 
 end

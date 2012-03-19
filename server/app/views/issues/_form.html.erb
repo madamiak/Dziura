@@ -30,7 +30,7 @@
     <%= f.text_area :desc, :size => "60x12" %>
   </div>  
   
-  <!-- TODO address form -->
+  <%= render @issue.address %>
     
   <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
   <% @issue.issue_instances.each do |issue| %>

@@ -1,8 +1,4 @@
 # -*- encoding : utf-8 -*-
-class Exception
-  class NoUnitForPoint < Exception
-  end
-end
 
 class Issue < ActiveRecord::Base
   belongs_to :status
@@ -10,6 +6,8 @@ class Issue < ActiveRecord::Base
   belongs_to :unit
 
   belongs_to :status
+  
+  belongs_to :address
   has_many :logs, :as => :loggable
   has_many :issue_instances, :validate => true
 
@@ -66,9 +64,8 @@ class Issue < ActiveRecord::Base
         i = Issue.new :latitude => latitude, :longitude => longitude, 
           :category => category, :unit => unit, 
           :status => Status.get_default_status
-          
-        # TODO pobranie adresu na podstawie latitude i logitude z googla 
-        # i zapisanie adresu do issue       
+
+        i.address = Address.create_by_position(latitude, longitude)    
           
         i.save!
       end
