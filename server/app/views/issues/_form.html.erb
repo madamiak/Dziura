@@ -1,4 +1,4 @@
-<%= form_for(@issue) do |f| %>
+<%= form_for(@issue, :remote => true) do |f| %>
   <% if @issue.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@issue.errors.count, "error") %> prohibited this category from being saved:</h2>
@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :status %><br />
-    <%= collection_select(:issue, :category_id, Status.all, :id, :name) %>
+    <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
   </div>
   
   <div class="field">
@@ -30,7 +30,9 @@
     <%= f.text_area :desc, :size => "60x12" %>
   </div>  
   
+  <% if !@issue.address.nil? %>
   <%= render @issue.address %>
+  <% end %>
     
   <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
   <% @issue.issue_instances.each do |issue| %>

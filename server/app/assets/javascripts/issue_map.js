@@ -78,8 +78,16 @@ function addIssueClickListener(marker)
   google.maps.event.addListener(marker, 'click', function() {
     var id = marker.getTitle();
 
-    infoWindow = new google.maps.InfoWindow({
-      content: "Tu będzie formularz"
+    $.get('/issues/'+id+'/edit', function(data) {
+			  infowindow = new google.maps.InfoWindow({
+				  content: data
+		  });
+
+		  infowindow.open(map, marker);
+
+		  google.maps.event.addListener(infowindow, 'domready', function() {
+			  bindEditIssueForm();
+		  });
     });
 
     infoWindow.open(map, marker);
