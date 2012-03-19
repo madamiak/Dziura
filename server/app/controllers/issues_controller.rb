@@ -19,10 +19,7 @@ class IssuesController < ApplicationController
   def show
     @issue = Issue.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @issue }
-    end
+    format.json { render :json => @issue }
   end
 
   # GET /issues/new
@@ -63,8 +60,8 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
 
     respond_to do |format|
-      if @issue.update_attributes(params[:Issue])
-        format.html { redirect_to @issue, :notice => 'Issue was successfully updated.' }
+      if @issue.update_attributes(params[:issue])
+        format.html { redirect_to edit_issue_path(@issue), :notice => 'Issue was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }

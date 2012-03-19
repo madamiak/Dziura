@@ -12,13 +12,33 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.label :category %><br />
+    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
   </div>
   <div class="field">
-    <%= f.label :icon %><br />
-    <%= f.text_field :icon %>
+    <%= f.label :status %><br />
+    <%= collection_select(:issue, :category_id, Status.all, :id, :name) %>
   </div>
+  
+  <div class="field">
+    <%= f.label :unit %><br />
+    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :desc %><br />
+    <%= f.text_area :desc, :size => "60x12" %>
+  </div>  
+  
+  <!-- TODO address form -->
+    
+  <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
+  <% @issue.issue_instances.each do |issue| %>
+    <%= issue.created_at %>
+    <%= issue.desc %> <br />
+    <!-- TODO photo & markers -->
+  <% end %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
