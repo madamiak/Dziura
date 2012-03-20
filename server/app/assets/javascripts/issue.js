@@ -7,3 +7,11 @@ function bindEditIssueForm() {
 		$("#issue_edit").html(data.responseText);
 	});
 }
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "bProcessing": true,
+	"bRetrieve": true,
+        "sAjaxSource": "/arrays.txt"
+    } );
+} );
