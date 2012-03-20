@@ -90,8 +90,10 @@ class IssuesController < ApplicationController
     ne_lng = BigDecimal.new(params[:ne_lng] || "")
     sw_lat = BigDecimal.new(params[:sw_lat] || "")
     sw_lng = BigDecimal.new(params[:sw_lng] || "")
-
-    @issues = Issue.where(:latitude => sw_lat..ne_lat, :longitude => sw_lng..ne_lng)
+    
+    f = { :latitude => sw_lat..ne_lat, :longitude => sw_lng..ne_lng }
+    
+    @issues = Issue.find(:all, :conditions => f.merge(get_filter_hash))
 
     respond_to do |format|
       format.json { render :json => @issues }
@@ -102,14 +104,14 @@ class IssuesController < ApplicationController
   # GET /issues/by_pages.json
   def get_by_pages
 
-    @issues = Issue.order(:created_at).limit(params[:limit]).offset(params[:offset])
+    @issues = Issue.find(:all, :conditions => get_filter_hash).order(:created_at).limit(params[:limit]).offset(params[:offset])
 
     respond_to do |format|
       format.json { render :json => @issues }
     end
 
   end
-
+  
   # GET /issues/map
   def show_map
 
@@ -117,6 +119,27 @@ class IssuesController < ApplicationController
       format.html { render :action => "map" }
     end
 
+  end
+
+  private
+  def get_filter_hash
+    hash_filter = Hash.new
+    
+    if !params[:category_id].nil?
+      hash_filter["category_id"] = params[:category_id]
+    end
+    
+    if !params[:status_id].nil?
+      hash_filter["status_id"] = params[:status_id]
+    end
+    
+    if !params[:unit_id].nil?
+      hash_filter["unit_id"] = params[:unit_id]
+    end
+    
+    #todo po dacie
+    
+    return hash_filter
   end
 
 end

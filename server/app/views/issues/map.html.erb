@@ -9,6 +9,18 @@
 
 <p id="notice"><%= notice %></p>
 
+<% categories = Category.all.map { |category| [category.name, category.id] } %>
+<% categories.insert(0, ["all",0]) %>
+<%= select_tag(:category_id, options_for_select(categories, "")) %>
+  
+<% statuses = Status.all.map { |status| [status.name, status.id] } %>
+<% statuses.insert(0, ["all",0]) %>
+<%= select_tag(:status_id, options_for_select(statuses, "")) %>
+  
+<% units = Unit.all.map { |unit| [unit.name, unit.id] } %>
+<% units.insert(0, ["all",0]) %>
+<%= select_tag(:unit_id, options_for_select(units, "")) %>
+  
 <div id="map_canvas" style="width:70%; height:60%"></div>
 
 <%= link_to 'Lista', issues_path %>

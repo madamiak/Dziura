@@ -36,6 +36,26 @@ function initialize()
 
     updateTimer = setTimeout(updateIssues, 1000);
   });
+  
+  $("select").bind("change", updateIssues);
+}
+
+function getFilterParams() {
+  var params = {};
+  
+  if( $("select[name=category_id]").val() != 0 ) {
+    params["category_id"] = $("select[name=category_id]").val();
+  }
+  
+  if( $("select[name=status_id]").val() != 0 ) {
+    params["status_id"] = $("select[name=status_id]").val();
+  }
+  
+  if( $("select[name=unit_id]").val() != 0 ) {
+    params["unit_id"] = $("select[name=unit_id]").val();
+  }
+  
+  return params;
 }
 
 function updateIssues()
@@ -47,7 +67,8 @@ function updateIssues()
   sw_lat: sw.lat(), sw_lng: sw.lng() };
 
   var urlParams = jQuery.param(params);
-  jQuery.getJSON("/issues/by_rect.json?" + urlParams, issuesReceived);
+  var filterParams = jQuery.param(getFilterParams());
+  jQuery.getJSON("/issues/by_rect.json?" + urlParams + "&" + filterParams, issuesReceived);
 }
 
 function issuesReceived(data)
@@ -56,7 +77,7 @@ function issuesReceived(data)
   {
     issueMarkers[i].setMap(null);
   }
-  issueMarkers = [];
+  issueMarkers = new Array();
 
   for (var i = 0; i < data.length; i++)
   {
@@ -68,7 +89,9 @@ function issuesReceived(data)
         position: latLng,
         title: "" + data[i].id
       } );
-
+    
+    issueMarkers.push(marker);
+    
     addIssueClickListener(marker);
   }
 }
