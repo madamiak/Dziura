@@ -1,4 +1,4 @@
-/* Wyświetlanie issues na mapie */
+/* Wyswietlanie issues na mapie */
 
 var map;
 
