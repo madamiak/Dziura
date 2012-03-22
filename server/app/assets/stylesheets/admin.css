@@ -88,6 +88,15 @@ td:last-of-type {
     padding: 0 2em 0 0
 }
 
+#nav a {
+  text-decoration: none;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
 
 
 

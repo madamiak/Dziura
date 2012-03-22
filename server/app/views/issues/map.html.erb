@@ -9,18 +9,28 @@
 
 <p id="notice"><%= notice %></p>
 
+<%= label_tag "Kategoria" %>
 <% categories = Category.all.map { |category| [category.name, category.id] } %>
 <% categories.insert(0, ["all",0]) %>
 <%= select_tag(:category_id, options_for_select(categories, "")) %>
   
+<%= label_tag "Status" %>
 <% statuses = Status.all.map { |status| [status.name, status.id] } %>
 <% statuses.insert(0, ["all",0]) %>
 <%= select_tag(:status_id, options_for_select(statuses, "")) %>
-  
+
+<%= label_tag "Jednostka" %>
 <% units = Unit.all.map { |unit| [unit.name, unit.id] } %>
 <% units.insert(0, ["all",0]) %>
 <%= select_tag(:unit_id, options_for_select(units, "")) %>
+
+<%= label_tag "Dodane" %>
+<%= select_tag(:date, options_for_select([['all',0], ['dzis', Date.today], 
+  ['w tym tygodniu', 7.days.ago], ['w tym miesiacu', 1.month.ago]] )) %>
   
-<div id="map_canvas" style="width:70%; height:60%"></div>
+<%= label_tag "ulica" %>
+<%= text_field_tag :street %>
+  
+<div id="map_canvas" style="width:80%; height:70%"></div>
 
 <%= link_to 'Lista', issues_path %>

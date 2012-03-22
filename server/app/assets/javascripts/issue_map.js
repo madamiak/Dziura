@@ -38,21 +38,31 @@ function initialize()
   });
   
   $("select").bind("change", updateIssues);
+  $("input[name=street]").bind("keyup", updateIssues);
 }
 
 function getFilterParams() {
   var params = {};
+  params["search"] = {};
   
   if( $("select[name=category_id]").val() != 0 ) {
-    params["category_id"] = $("select[name=category_id]").val();
+    params["search"]["category_id_equals"] = $("select[name=category_id]").val();
   }
   
   if( $("select[name=status_id]").val() != 0 ) {
-    params["status_id"] = $("select[name=status_id]").val();
+    params["search"]["status_id_equals"] = $("select[name=status_id]").val();
   }
   
   if( $("select[name=unit_id]").val() != 0 ) {
-    params["unit_id"] = $("select[name=unit_id]").val();
+    params["search"]["unit_id_equals"] = $("select[name=unit_id]").val();
+  }
+  
+  if( $("input[name=street]").val() != "" ) {
+    params["search"]["address_street_contains"] = $("input[name=street]").val();
+  }
+  
+  if( $("select[name=date]").val() != 0 ) {
+    params["search"]["created_at_greater_than"] = $("select[name=date]").val();
   }
   
   return params;
@@ -75,7 +85,7 @@ function issuesReceived(data)
 {
   for (var i = 0; i < issueMarkers.length; i++)
   {
-    issueMarkers[i].setMap(null);
+    issueMarkers[i].setVisible(false);
   }
   issueMarkers = new Array();
 
@@ -112,7 +122,5 @@ function addIssueClickListener(marker)
 			  bindEditIssueForm();
 		  });
     });
-
-    infoWindow.open(map, marker);
   });
 }

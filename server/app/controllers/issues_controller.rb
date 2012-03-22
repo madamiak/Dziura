@@ -84,62 +84,35 @@ class IssuesController < ApplicationController
   end  
 
   # GET /issues/by_rect.json
-  def get_by_rect
-
-    ne_lat = BigDecimal.new(params[:ne_lat] || "")
-    ne_lng = BigDecimal.new(params[:ne_lng] || "")
-    sw_lat = BigDecimal.new(params[:sw_lat] || "")
-    sw_lng = BigDecimal.new(params[:sw_lng] || "")
+  def get_by_rect   
+    params[:search] = {} if params[:search].nil?
     
-    f = { :latitude => sw_lat..ne_lat, :longitude => sw_lng..ne_lng }
+    params[:search][:latitude_greater_than] = BigDecimal.new(params[:sw_lat])
+    params[:search][:latitude_less_than] = BigDecimal.new(params[:ne_lat])
+    params[:search][:longitude_greater_than] = BigDecimal.new(params[:sw_lng])
+    params[:search][:longitude_less_than] = BigDecimal.new(params[:ne_lng])
     
-    @issues = Issue.find(:all, :conditions => f.merge(get_filter_hash))
+    @issues = Issue.search(params[:search])
 
     respond_to do |format|
-      format.json { render :json => @issues }
+      format.json { render :json => @issues.all }
     end
-
   end
 
   # GET /issues/by_pages.json
   def get_by_pages
-
     @issues = Issue.find(:all, :conditions => get_filter_hash).order(:created_at).limit(params[:limit]).offset(params[:offset])
 
     respond_to do |format|
       format.json { render :json => @issues }
     end
-
   end
   
   # GET /issues/map
   def show_map
-
     respond_to do |format|
       format.html { render :action => "map" }
     end
-
-  end
-
-  private
-  def get_filter_hash
-    hash_filter = Hash.new
-    
-    if !params[:category_id].nil?
-      hash_filter["category_id"] = params[:category_id]
-    end
-    
-    if !params[:status_id].nil?
-      hash_filter["status_id"] = params[:status_id]
-    end
-    
-    if !params[:unit_id].nil?
-      hash_filter["unit_id"] = params[:unit_id]
-    end
-    
-    #todo po dacie
-    
-    return hash_filter
   end
 
 end
