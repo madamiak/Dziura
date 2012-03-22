@@ -94,7 +94,9 @@ class Issue < ActiveRecord::Base
           photo.markers.build :x => marker_x, :y => marker_y
         end
       end
-      
+
+      Delayed::Job.enqueue(MailIssueAdded.new(issue_instance.id))
+
       return issue_instance
     end
   end

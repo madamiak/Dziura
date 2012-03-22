@@ -35,4 +35,8 @@ Dziura::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Nie chcemy wysyłać prawdziwych maili
+  ActionMailer::Base.delivery_method = :test
+
 end
