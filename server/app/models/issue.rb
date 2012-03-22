@@ -64,9 +64,13 @@ class Issue < ActiveRecord::Base
         i = Issue.new :latitude => latitude, :longitude => longitude, 
           :category => category, :unit => unit, 
           :status => Status.get_default_status
-
-        i.address = Address.create_by_position(latitude, longitude)    
-          
+        
+        begin
+          i.address = Address.create_by_position(latitude, longitude)    
+        rescue ActiveRecord::RecordInvalid => e
+          print "Błąd pobierania adresu."
+        end  
+        
         i.save!
       end
 
@@ -74,19 +78,21 @@ class Issue < ActiveRecord::Base
         :longitude => longitude, :desc => desc, 
         :notificar_email => notificar_email
       
-      if !photo.nil?  
+      begin  
+        i.save!
+      rescue ActiveRecord::RecordInvalid => e  
+        raise Exceptions::IncorrectNotificarEmail.new if !i.errors.messages[:notificar_email].nil?
+        raise e
+      end
+      
+      if !photo.nil? and photo != ""
         photo = issue_instance.photos.build :photo => photo
+        
+        issue_instance.save!
         
         if !marker_x.nil? and !marker_y.nil?        
           photo.markers.build :x => marker_x, :y => marker_y
         end
-      end
-      
-      begin  
-        i.save!
-      rescue ActiveRecord::RecordInvalid => e  
-        raise Exceptions::IncorrectNotificarEmail.new if i.errors.messages[:notificar_email].nil?
-        raise e
       end
       
       return issue_instance

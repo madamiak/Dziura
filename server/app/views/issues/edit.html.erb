@@ -2,5 +2,11 @@
 
 <div id="issue_edit">
   <%= render 'form' %>
+  
+  <% @issue.issue_instances.each do |ii| %>
+    <% ii.photos.each do |photo| %>  
+      <img id="uploaded_image" src="data:image/png;base64,<%= photo.photo %>" width="200px"/>
+    <% end %>
+  <% end %>
 </div>
 

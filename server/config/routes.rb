@@ -20,6 +20,8 @@ Dziura::Application.routes.draw do
 
   match 'res/categories' => 'services#categories'
   match 'res/issue' => 'services#issue', :as => :issue_add
+  
+  match 'res/upload' => 'image_converter_service#upload'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

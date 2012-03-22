@@ -22,9 +22,13 @@
     <%= hidden_field_tag(:marker_x, "") %>
     <%= hidden_field_tag(:marker_y, "") %>
     
+    <%= hidden_field_tag(:photo, "") %>
+    
     <!-- TODO notificar_email, photo -->    
     
     <br />
+    
+    <iframe id="upload_iframe" src="/res/upload"></iframe>
     
     <%= submit_tag("Zgłoś") %>
     

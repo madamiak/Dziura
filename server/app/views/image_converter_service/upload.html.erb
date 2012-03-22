@@ -1,0 +1,8 @@
+<% if !@picture.nil? %>  
+  <img id="uploaded_image" src="data:image/png;base64,<%= @picture %>" width="200px"/>
+<% end %>
+
+<%= form_tag({:action => :upload}, :multipart => true) do %>
+  <%= file_field_tag 'picture' %>
+  <%= submit_tag("Upload") %>
+<% end %>

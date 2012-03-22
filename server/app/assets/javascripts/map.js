@@ -25,10 +25,15 @@ function setExisting(value) {
 	existing = value;
 }
 
+function getPhotoInBase64() {
+  return $("#upload_iframe").contents().find("img").attr("src").split(',')[1]
+}
+
 function bindIssueForm() {
 	$("#issue_form form").bind("submit", function() {
 		$("#issue_form input[name=longitude]").val(marker.getPosition().lng());
 		$("#issue_form input[name=latitude]").val(marker.getPosition().lat());
+		$("#issue_form input[name=photo]").val(getPhotoInBase64 ());
 	});
 
 	$("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
