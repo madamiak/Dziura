@@ -17,6 +17,10 @@ gem 'rmagick'
 # Potrzebne w nowszej wersji ruby
 gem 'therubyracer'
 
+# Do mailowania
+gem "delayed_job",  :git => 'git://github.com/collectiveidea/delayed_job.git'
+gem 'delayed_job_active_record'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

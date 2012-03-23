@@ -1,0 +1,19 @@
+<%# encoding: utf-8 %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Status Twojego zgłoszenia o nr <% @issue_instance.id %> został zmieniony</h1>
+    <p>
+      Poprzedni status: <b><% @old_status.name %></b>.<br/>
+      Nowy status: <b><% @issue_instance.issue.status.name %></b>.<br/>
+    </p>
+    <p>
+      Status Twojego zgłoszenia możesz w każdej chwili sprawdzić na stronie: __tutaj będzie link__.<br>
+      O każdej kolejnej zmianie statusu, zostaniesz również poinformowany(a) kolejną wiadomością e-mail.<br>
+    </p>
+    <p><small>Ten e-mail został wysłany automatycznie. Prosimy nie odpowiadać na niego.</small></p>
+  </body>
+</html>

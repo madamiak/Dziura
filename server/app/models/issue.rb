@@ -20,6 +20,8 @@ class Issue < ActiveRecord::Base
   def log_status_change(user, old_status)
     l = logs.new :user => user, :message => status.get_log_message(old_status)
     l.save
+
+    Delayed::Job.enqueue(MailIssueStatusChanged.new(id, old_status))
   end
   
   # Dodaje zgloszenie do systemu
@@ -94,7 +96,9 @@ class Issue < ActiveRecord::Base
           photo.markers.build :x => marker_x, :y => marker_y
         end
       end
-      
+
+      Delayed::Job.enqueue(MailIssueAdded.new(issue_instance.id))
+
       return issue_instance
     end
   end
