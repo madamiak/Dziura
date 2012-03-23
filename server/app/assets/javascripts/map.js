@@ -26,7 +26,13 @@ function setExisting(value) {
 }
 
 function getPhotoInBase64() {
-  return $("#upload_iframe").contents().find("img").attr("src").split(',')[1]
+  var img = $("#upload_iframe").contents().find("img").attr("src");
+
+  if( img != undefined ) {
+    return img.split(',')[1];
+  }
+  
+  return ''; 
 }
 
 function bindIssueForm() {

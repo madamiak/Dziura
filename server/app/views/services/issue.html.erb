@@ -9,7 +9,10 @@
 
     <!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
     <%= label_tag(:category_id, "Kategoria") %>
-    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
+    
+    <%= select_tag(:category_id, 
+    options_from_collection_for_select(Category.all, :id, :name)) %>
+    
     <br />
     
     <%= label_tag(:desc, "Opis") %>
@@ -33,4 +36,4 @@
     <%= submit_tag("Zgłoś") %>
     
   <% end %>
-</div>
+</div> 
