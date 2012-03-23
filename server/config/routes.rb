@@ -20,6 +20,7 @@ Dziura::Application.routes.draw do
 
   match 'res/categories' => 'services#categories'
   match 'res/issue' => 'services#issue', :as => :issue_add
+	match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
   
   match 'res/upload' => 'image_converter_service#upload'
 
