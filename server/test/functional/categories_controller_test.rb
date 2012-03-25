@@ -2,8 +2,19 @@
 require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
+
   setup do
-    @category = categories(:one)
+    # "Hack" do logowania
+    User.create(:login => "test", :password => "test", :role => "admin")
+    session[:current_user_id] = User.where(:role => "admin").first.id
+
+    # Testowe dane
+    @category = Category.new
+    @category.name = "Testowa kategoria"
+    @category.save!
+
+    @new_category = Category.new
+    @new_category.name = "Nowa testowa kategoria"
   end
 
   test "should get index" do
@@ -19,30 +30,30 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, :category => @category.attributes
+      post :create, :category => @new_category.attributes
     end
 
     assert_redirected_to category_path(assigns(:category))
   end
 
   test "should show category" do
-    get :show, :id => @category
+    get :show, :id => @category.id
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @category
+    get :edit, :id => @category.id
     assert_response :success
   end
 
   test "should update category" do
-    put :update, :id => @category, :category => @category.attributes
+    put :update, :id => @category.id, :category => @category.attributes
     assert_redirected_to category_path(assigns(:category))
   end
 
   test "should destroy category" do
     assert_difference('Category.count', -1) do
-      delete :destroy, :id => @category
+      delete :destroy, :id => @category.id
     end
 
     assert_redirected_to categories_path

@@ -2,8 +2,19 @@
 require 'test_helper'
 
 class StatusesControllerTest < ActionController::TestCase
+
   setup do
-    @status = statuses(:one)
+    # "Hack" do logowania
+    User.create(:login => "test", :password => "test", :role => "admin")
+    session[:current_user_id] = User.where(:role => "admin").first.id
+
+    # Testowe dane
+    @status = Status.new
+    @status.name = "Testowy status"
+    @status.save!
+
+    @new_status = Status.new
+    @new_status.name = "Nowy testowy status"
   end
 
   test "should get index" do
@@ -19,30 +30,30 @@ class StatusesControllerTest < ActionController::TestCase
 
   test "should create status" do
     assert_difference('Status.count') do
-      post :create, :status => @status.attributes
+      post :create, :status => @new_status.attributes
     end
 
     assert_redirected_to status_path(assigns(:status))
   end
 
   test "should show status" do
-    get :show, :id => @status
+    get :show, :id => @status.id
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @status
+    get :edit, :id => @status.id
     assert_response :success
   end
 
   test "should update status" do
-    put :update, :id => @status, :status => @status.attributes
+    put :update, :id => @status.id, :status => @status.attributes
     assert_redirected_to status_path(assigns(:status))
   end
 
   test "should destroy status" do
     assert_difference('Status.count', -1) do
-      delete :destroy, :id => @status
+      delete :destroy, :id => @status.id
     end
 
     assert_redirected_to statuses_path
