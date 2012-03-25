@@ -1,8 +1,11 @@
 <%# encoding: utf-8 %>
+
+<p>
+
 <%= form_for(@unit) do |f| %>
   <% if @unit.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@unit.errors.count, "error") %> prohibited this unit from being saved:</h2>
+      <h2><%= pluralize(@unit.errors.count, "błąd") %> nie pozwolił na zapisanie jednostki:</h2>
 
       <ul>
       <% @unit.errors.full_messages.each do |msg| %>
@@ -13,7 +16,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, "Nazwa" %><br />
     <%= f.text_field :name %>
   </div>
 
@@ -22,7 +25,15 @@
     <%= text_area_tag("polygons", "{ \"polygons\": [] }", :size => "50x15") %>
   </div>
 
+  <%= f.fields_for(:address, @unit.address) do |builder| %>
+    <%= render 'address', :f => builder %>
+  <% end %>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Zapisz" %>
   </div>
+
 <% end %>
+
+</p>
+

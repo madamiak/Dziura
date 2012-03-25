@@ -30,6 +30,7 @@ class UnitsController < ApplicationController
   # GET /units/new.json
   def new
     @unit = Unit.new
+    @unit.address = Address.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,25 +47,11 @@ class UnitsController < ApplicationController
   # POST /units.json
   def create
     @unit = Unit.new(params[:unit])
-
-    polys = ActiveSupport::JSON.decode(params[:polygons])
-    polys["polygons"].each do |poly|
-      railsPoly = Polygon.new()
-
-      poly["points"].each do |pt|
-        railsPt = Point.new( :number => pt["number"],
-                             :latitude => BigDecimal(pt["latitude"].to_s()),
-                             :longitude => BigDecimal(pt["longitude"].to_s()) )
-        railsPt.save()
-        railsPoly.points << railsPt;
-      end
-
-      @unit.polygons << railsPoly;
-    end
+    @unit.set_polygons_json(params[:polygons])
 
     respond_to do |format|
       if @unit.save
-        format.html { redirect_to @unit, :notice => 'Unit was successfully created.' }
+        format.html { redirect_to @unit, :notice => 'Jednostka została utworzona.' }
         format.json { render :json => @unit, :status => :created, :location => @unit }
       else
         format.html { render :action => "new" }
@@ -79,8 +66,8 @@ class UnitsController < ApplicationController
     @unit = Unit.find(params[:id])
 
     respond_to do |format|
-      if @unit.update_attributes(params[:unit])
-        format.html { redirect_to @unit, :notice => 'Unit was successfully updated.' }
+      if @unit.update_attributes(params[:unit]) && @unit.set_polygons_json(params[:polygons])
+        format.html { redirect_to @unit, :notice => 'Jednostka została zaktualizowana.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }

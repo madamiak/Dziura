@@ -1,9 +1,10 @@
 <%# encoding: utf-8 %>
-<h1>Listing units</h1>
+
+<h1>Jednostki</h1>
 
 <table>
   <tr>
-    <th>Name</th>
+    <th>Nazwa</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,13 +13,14 @@
 <% @units.each do |unit| %>
   <tr>
     <td><%= unit.name %></td>
-    <td><%= link_to 'Show', unit %></td>
-    <td><%= link_to 'Edit', edit_unit_path(unit) %></td>
-    <td><%= link_to 'Destroy', unit, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Pokaż', unit %></td>
+    <td><%= link_to 'Edytuj', edit_unit_path(unit) %></td>
+    <td><%= link_to 'Usuń', unit, :confirm => 'Na pewno?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
+<br/>
 
-<%= link_to 'New Unit', new_unit_path %>
+<%= link_to 'Nowa jednostka', new_unit_path %>
+

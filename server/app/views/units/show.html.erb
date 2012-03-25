@@ -9,8 +9,6 @@
 <%- @body_onload = "initializeShow(#{@unit.id})" -%>
 
 
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Nazwa:</b>
   <%= @unit.name %>
@@ -29,5 +27,5 @@
   <div id="map_canvas" style="width:70%; height:60%"></div>
 </p>
 
-<%= link_to 'Edit', edit_unit_path(@unit) %> |
-<%= link_to 'Back', units_path %>
+<%= link_to 'Edytuj', edit_unit_path(@unit) %> |
+<%= link_to 'Wstecz', units_path %>

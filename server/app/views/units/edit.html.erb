@@ -8,11 +8,11 @@
 
 <%- @body_onload = "initializeEdit(#{@unit.id})" -%>
 
-<h1>Editing unit</h1>
+<h1>Edycja jednostki</h1>
 
 <div id="map_canvas" style="width:70%; height:60%"></div>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @unit %> |
-<%= link_to 'Back', units_path %>
+<%= link_to 'Pokaż', @unit %> |
+<%= link_to 'Wstecz', units_path %>
