@@ -13,6 +13,10 @@ html,body {
 	padding: 0px;
 }
 
+body {
+	height: auto;
+}
+
 a {
 	outline: none;
 }
@@ -123,14 +127,12 @@ label {
 	text-align: right;
 }
 
-/* 3.2 Administracja */
+/* 3.2 Admin */
 #wrapper {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-radius: 3px 3px 3px 3px;
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-	margin: 0 auto;
-	position: relative;
-	top: 20px;
+	margin: 20px auto 0;
 	overflow: hidden;
 	width: 950px;
 }
@@ -158,7 +160,9 @@ label {
 }
 
 #wrapper #top a {
-	float: right; font-size : 11px;
+	color: #555555;
+	float: right;
+	font-size: 11px;
 	font-weight: bold;
 	text-decoration: none;
 	font-size: 11px;
@@ -200,10 +204,12 @@ label {
 	border-radius: 3px 3px 3px 3px;
 	color: #FFFFFF;
 	display: inline-block;
+	font-size: 13px;
 	font-weight: bold;
 	padding: 8px 9px;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
 	text-decoration: none;
+	font-weight: bold;
 }
 
 #wrapper #panel ul.menu li a:hover {
@@ -254,46 +260,46 @@ label {
 
 #footer {
 	color: #FFFFFF;
+	font-size: 11px;
+	margin-top: 10px;
 	text-align: center;
 	text-shadow: 0 1px 2px #000000;
+	text-align: center;
 }
 
 /* do kosza docelowo */
 table {
-	margin-left: 100px;
-	font: 90%/1.5em "Lucida Grande", Geneva, "DejaVu Sans",
-		"Bitstream Vera Sans", AnjaliOldLipi, "Lucida sans", "Trebuchet MS",
-		Arial, Verdana;
-	text-align: left;
-	border: 3px black double;
-	border-spacing: 0;
-	-moz-border-radius: 8px;
-	-moz-box-shadow: #6a3d37 5px 5px 6px;
-	-webkit-border-radius: 8px;
-	-webkit-box-shadow: #6a3d37 5px 5px 6px;
-	border-radius: 8px;
-	box-shadow: #6a3d37 5px 5px 6px;
+	border-collapse: collapse;
+	font-size: 13px;
 }
 
-th {
-	color: #000000;
-	font-size: 110%;
-	text-shadow: #6a3d37 1px 1px 1px;
-	padding-left: 10px;
-	padding-right: 5px;
+thead {
+	background: #e7e7e7; background : -moz-linear-gradient( top, #e7e7e7 0%,
+	#d0d0d0 100%); background : -webkit-gradient( linear, left top, left
+	bottom, color-stop( 0%, #e7e7e7), color-stop( 100%, #d0d0d0));
+	background : -webkit-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
+	background : -o-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
+	background : -ms-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
+	background : linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
+	border: 1px solid #999999;
+	border-radius: 3px 3px 0 0;
+	box-shadow: 0 1px #FFFFFF inset, 0 -1px 5px rgba(180, 180, 180, 0.4)
+		inset;
+	color: #333333;
+	font-size: 8pt;
+	padding: 12px 14px;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.7);
 }
 
 td {
-	border-top-style: groove;
-	border-top-width: 1px;
-	padding-left: 10px;
-	padding-right: 5px;
+	border: 1px solid #DDDDDD;
+	padding: 10px 20px;
 }
 
-th:first-of-type,td:first-of-type {
-	padding: 0 0 0 2em
+td:odd {
+	
 }
 
-th:last-of-type,td:last-of-type {
-	padding: 0 2em 0 0
+th:even {
+	
 }
