@@ -19,6 +19,7 @@ body {
 
 a {
 	outline: none;
+	text-decoration: none;
 }
 
 img {
@@ -27,18 +28,44 @@ img {
 
 /* 2 Forms */
 /* 2.1 Buttons */
-input.btn {
+input.btn,a.btn {
+	background: #e7e7e7;
+	background: -moz-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e7e7e7),
+		color-stop(100%, #d0d0d0) );
+	background: -webkit-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -o-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -ms-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	border: 1px solid #999999;
 	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 1px rgba(0, 0, 0, 0.1), 0 1px #FFFFFF inset, 0 -1px 5px
+		rgba(180, 180, 180, 0.4) inset;
+	color: #333333;
 	cursor: pointer;
 	font-size: 8pt;
 	padding: 6px 8px 5px;
 	font-size: 8pt;
 	font-weight: bold;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.7);
 }
 
 .btn:hover,.btn.action:hover {
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.3)
 		inset;
+}
+
+.btn:active {
+	background: #d0d0d0;
+	background: -moz-linear-gradient(top, #d0d0d0 0%, #dfdfdf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d0d0d0),
+		color-stop(100%, #dfdfdf) );
+	background: -webkit-linear-gradient(top, #d0d0d0 0%, #dfdfdf 100%);
+	background: -o-linear-gradient(top, #d0d0d0 0%, #dfdfdf 100%);
+	background: -ms-linear-gradient(top, #d0d0d0 0%, #dfdfdf 100%);
+	background: linear-gradient(top, #d0d0d0 0%, #dfdfdf 100%);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	color: #555555;
 }
 
 .btn.action {
@@ -92,14 +119,13 @@ label {
 /* 3. Tabele */
 table {
 	border-collapse: collapse;
-	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.2 );
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 	border: 1px solid #999999;
 	font-size: 13px;
 	margin: 10px auto;
 }
 
 table a {
-	text-decoration: none;
 	font-size: 12px;
 	font-weight: bold;
 	color: #333333;
@@ -304,6 +330,13 @@ th:even {
 #wrapper #container {
 	min-height: 200px;
 	padding: 20px;
+}
+
+#wrapper #container h1 {
+	border-bottom: 1px solid #DDDDDD;
+	font-size: 17px;
+	margin: 0 0 20px;
+	padding-bottom: 10px;
 }
 
 #footer {

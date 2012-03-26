@@ -1,6 +1,8 @@
 <%# encoding: utf-8 %>
 <h1>Listing users</h1>
 
+<%= link_to 'Nowy użytkownik', new_user_path, :class => 'btn' %>
+
 <table>
  <thead>
   <tr>
@@ -19,13 +21,9 @@
     <td><%= user.password %></td>
     <td><%= user.role %></td>
     <td><%= user.unit %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Pokaż', user %></td>
+    <td><%= link_to 'Edytuj', edit_user_path(user) %></td>
+    <td><%= link_to 'Usuń', user, :confirm => 'Jesteś pewien?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New User', new_user_path %>
