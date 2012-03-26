@@ -16,13 +16,13 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name, "Nazwa" %><br />
+    <%= f.label :name, "Nazwa" %>
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
-    Obszar:<br />
-    <%= text_area_tag("polygons", "{ \"polygons\": [] }", :size => "50x15") %>
+    <%= label_tag('polygons', "Obszar") %>
+    <%= text_area_tag('polygons', "{ \"polygons\": [] }", :size => "50x15") %>
   </div>
 
   <%= f.fields_for(:address, @unit.address) do |builder| %>
