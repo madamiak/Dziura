@@ -96,7 +96,7 @@ input.btn,a.btn {
 }
 
 /* 2.2 Text Inputs */
-input.text {
+input.text, textarea {
 	background-color: #FFFFFF;
 	border: 1px solid #B5BAC3;
 	border-radius: 3px 3px 3px 3px;
@@ -339,11 +339,12 @@ th:even {
 	padding-bottom: 10px;
 }
 
-#footer {
+#footer_admin {
 	color: #FFFFFF;
 	font-size: 11px;
 	margin-top: 10px;
 	text-align: center;
 	text-shadow: 0 1px 2px #000000;
 	text-align: center;
+	padding-bottom: 10px;
 }
