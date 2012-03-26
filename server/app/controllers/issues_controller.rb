@@ -95,7 +95,10 @@ class IssuesController < ApplicationController
     @issues = Issue.search(params[:search])
 
     respond_to do |format|
-      format.json { render :json => @issues.all }
+      format.json { render :json => 
+        @issues.all.to_json(:include => { 
+          :category =>  { :only => [:name, :id] }, 
+          :status => { :only => [:name, :id] } }) }
     end
   end
 
