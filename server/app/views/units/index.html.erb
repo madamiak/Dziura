@@ -2,6 +2,8 @@
 
 <h1>Jednostki</h1>
 
+<%= link_to 'Nowa jednostka', new_unit_path, :class => 'btn'  %>
+
 <table>
  <thead>
   <tr>
@@ -16,12 +18,8 @@
     <td><%= unit.name %></td>
     <td><%= link_to 'Pokaż', unit %></td>
     <td><%= link_to 'Edytuj', edit_unit_path(unit) %></td>
-    <td><%= link_to 'Usuń', unit, :confirm => 'Na pewno?', :method => :delete %></td>
+    <td><%= link_to 'Usuń', unit, :confirm => 'Jesteś pewien?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
-
-<br/>
-
-<%= link_to 'Nowa jednostka', new_unit_path %>
 
