@@ -1,9 +1,11 @@
+<%# encoding: utf-8 %>
 <!DOCTYPE html>
 <html>
 <head>
   <title>Dziura</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "admin.css" %>
   <%= javascript_include_tag "application" %>
+  <%= include_controller_assets %>
   <%= yield(:head_extra) %>
   <%= csrf_meta_tags %>
 </head>
@@ -13,7 +15,7 @@
 <div id="wrapper">
 	<div id="top">
 		<span id="info">
-			Panel administracyjny - System Zgłaszania Uszodzeń Jezdni
+			Panel administracyjny - System Zgłaszania Uszkodzeń Jezdni
 		</span>
 		<%= link_to "Wyloguj", logout_path  %></div>
 		<div id="panel">

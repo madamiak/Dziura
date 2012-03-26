@@ -3,6 +3,7 @@
 
 <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
 <%= javascript_include_tag "issue_map.js" -%>
+<%= stylesheet_link_tag "issue.css" -%>
 
 <%- end -%>
 
@@ -32,6 +33,6 @@
 <%= label_tag "ulica" %>
 <%= text_field_tag :street %>
   
-<div id="map_canvas" style="width: 500px; height: 300px;"></div>
+<div id="map_canvas"></div>
 
 <%= link_to 'Lista', issues_path %>

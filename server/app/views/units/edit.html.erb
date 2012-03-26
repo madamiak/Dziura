@@ -3,6 +3,7 @@
 
 <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
 <%= javascript_include_tag "polygons.js" -%>
+<%= stylesheet_link_tag "units.css" %>
 
 <%- end -%>
 
@@ -10,7 +11,7 @@
 
 <h1>Edycja jednostki</h1>
 
-<div id="map_canvas" style="width:70%; height:60%"></div>
+<div id="map_canvas"></div>
 
 <%= render 'form' %>
 
