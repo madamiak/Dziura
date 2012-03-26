@@ -1,4 +1,0 @@
-Prezentacja w beamerze
-Jest Makefile, więc po wykonaniu make dostaniemy prezentację w pdf'ie: dziura.pdf
-Potrzebny jest pdflatex (paczka beamera jest częścią standardowej dystrybucji)
-Jak ktoś ma inny latex, to też może pójść - wystarczy zmienić w Makefile
