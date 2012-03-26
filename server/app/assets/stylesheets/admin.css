@@ -1,103 +1,299 @@
 @charset "utf-8";
-/* CSS Document */
-body {
+
+html,body {
+	background: url("/images/bg.png") repeat scroll 0 0 #191919;
+	color: #222222;
+	font-family: Arial;
+	height: 100%;
 	margin: 0px;
+	min-width: 1000px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
 	padding: 0px;
 }
- 
-#header-container {
-	width: 100%;
-	height: 204px;
-	background-color: #000000;
-}
- 
-#header {
-	background: url(dziura.JPG);
-	background-repeat: no-repeat;
-	width: 1024px;
-	height: 204px;
-	margin: auto;
+
+a {
+	outline: none;
 }
 
 img {
 	border: none;
 }
- 
-#nav {
-	height: 76px;
-	width: 1024px;
-	padding-top: 152px;
-}
- 
-#nav ul
-{
-	text-align: left;
-	margin: auto;
-	width: 1024px;
-}
- 
-#nav ul li
-{
-	font: 120%/1.5em "Lucida Grande", Geneva,
-                    "DejaVu Sans", "Bitstream Vera Sans", AnjaliOldLipi,
-                    "Lucida sans", "Trebuchet MS", Arial, Verda;
-	display: inline;
-	padding: 0px;
-	margin: 0px;
-	color: #000000;
+
+/* 2 Forms */
+/* 2.1 Buttons */
+input.btn {
+	border-radius: 3px 3px 3px 3px;
+	cursor: pointer;
+	font-size: 8pt;
+	padding: 6px 8px 5px;
+	font-size: 8pt;
+	font-weight: bold;
 }
 
+.btn:hover,.btn.action:hover {
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.3)
+		inset;
+}
+
+.btn.action {
+	background: #555555;
+	background: -moz-linear-gradient(top, #555555 0%, #383838 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #555555),
+		color-stop(100%, #383838) );
+	background: -webkit-linear-gradient(top, #555555 0%, #383838 100%);
+	background: -o-linear-gradient(top, #555555 0%, #383838 100%);
+	background: -ms-linear-gradient(top, #555555 0%, #383838 100%);
+	background: linear-gradient(top, #555555 0%, #383838 100%);
+	border: 1px solid #222222;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.3)
+		inset;
+	color: #FFFFFF;
+	text-shadow: 0 1px #000000;
+}
+
+.btn.action:active {
+	background: #222222;
+	background: -moz-linear-gradient(top, #222222 0%, #383838 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #222222),
+		color-stop(100%, #383838) );
+	background: -webkit-linear-gradient(top, #222222 0%, #383838 100%);
+	background: -o-linear-gradient(top, #222222 0%, #383838 100%);
+	background: -ms-linear-gradient(top, #222222 0%, #383838 100%);
+	background: linear-gradient(top, #222222 0%, #383838 100%);
+}
+
+/* 2.2 Text Inputs */
+input.text {
+	background-color: #FFFFFF;
+	border: 1px solid #B5BAC3;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+	color: #525252;
+	font-size: 11px;
+	padding: 6px;
+}
+
+.text.medium {
+	width: 300px;
+}
+/* 2.3 Labels */
+label {
+	display: block;
+	font-weight: bold;
+	font-size: 11px;
+	margin-bottom: 8px;
+}
+
+/* 3 Widoki */
+/* 3.1 Login */
+#auth {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+	margin: 0 auto;
+	position: relative;
+	top: 100px;
+	overflow: hidden;
+	width: 360px;
+}
+
+#auth .header {
+	margin: 20px;
+}
+
+#auth .header h1 {
+	font-size: 17px;
+	margin: 0;
+}
+
+#auth .field {
+	border-bottom: 1px solid #DDDDDD;
+	padding: 20px;
+	width: 100%;
+}
+
+#auth .field:first-child {
+	border-top: 1px solid #DDDDDD;
+}
+
+#auth .actions {
+	margin: 15px 20px;
+	text-align: right;
+}
+
+/* 3.2 Administracja */
+#wrapper {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+	margin: 0 auto;
+	position: relative;
+	top: 20px;
+	overflow: hidden;
+	width: 950px;
+}
+
+#wrapper #top {
+	background: #dfdfdf;
+	background: -moz-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dfdfdf),
+		color-stop(100%, #999a9f) );
+	background: -webkit-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -o-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -ms-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	border-radius: 3px 3px 0 0;
+	box-shadow: 0 1px #FFFFFF inset;
+	color: #555555;
+	padding: 10px;
+	overflow: hidden;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+}
+
+#wrapper #top #info {
+	float: left;
+	font-size: 11px;
+}
+
+#wrapper #top a {
+	float: right; font-size : 11px;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 11px;
+}
+
+#wrapper #top a:hover {
+	background: none;
+	color: #000000;
+	text-decoration: none;
+}
+
+#wrapper #panel {
+	background: #5d6372;
+	background: -moz-linear-gradient(top, #5d6372 0%, #8d929e 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5d6372),
+		color-stop(100%, #8d929e) );
+	background: -webkit-linear-gradient(top, #5d6372 0%, #8d929e 100%);
+	background: -o-linear-gradient(top, #5d6372 0%, #8d929e 100%);
+	background: -ms-linear-gradient(top, #5d6372 0%, #8d929e 100%);
+	background: linear-gradient(top, #5d6372 0%, #8d929e 100%);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset;
+	overflow: hidden;
+	padding: 28px 14px;
+}
+
+#wrapper #panel ul.menu {
+	float: right;
+	list-style: none outside none;
+	padding: 0;
+	margin: 0;
+}
+
+#wrapper #panel ul.menu li {
+	float: left;
+	margin-left: 5px;
+}
+
+#wrapper #panel ul.menu li a {
+	border-radius: 3px 3px 3px 3px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-weight: bold;
+	padding: 8px 9px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+	text-decoration: none;
+}
+
+#wrapper #panel ul.menu li a:hover {
+	background: rgb(255, 255, 255);
+	background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.6) 0%,
+		rgba(255, 255, 255, 0.2) 100% );
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
+		255, 255, 0.6) ), color-stop(100%, rgba(255, 255, 255, 0.2) ) );
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.6) 0%,
+		rgba(255, 255, 255, 0.2) 100% );
+	background: -o-linear-gradient(top, rgba(255, 255, 255, 0.6) 0%,
+		rgba(255, 255, 255, 0.2) 100% );
+	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.6) 0%,
+		rgba(255, 255, 255, 0.2) 100% );
+	background: linear-gradient(top, rgba(255, 255, 255, 0.6) 0%,
+		rgba(255, 255, 255, 0.2) 100% );
+	box-shadow: 0 1px rgba(255, 255, 255, 0.55) inset, 0 1px 2px
+		rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.3);
+	color: #333333;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+
+#wrapper #panel ul.menu li a:active,#wrapper #panel ul.menu li a.active
+	{
+	background: rgb(0, 0, 0);
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%,
+		rgba(0, 0, 0, 0.15) 100% );
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
+		255, 255, 0.3) ), color-stop(100%, rgba(0, 0, 0, 0.15) ) );
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%,
+		rgba(0, 0, 0, 0.15) 100% );
+	background: -o-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%,
+		rgba(0, 0, 0, 0.15) 100% );
+	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%,
+		rgba(0, 0, 0, 0.15) 100% );
+	background: linear-gradient(top, rgba(0, 0, 0, 0.3) 0%,
+		rgba(0, 0, 0, 0.15) 100% );
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) inset, 0 1px
+		rgba(255, 255, 255, 0.25);
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.6);
+}
+
+#wrapper #container {
+	min-height: 200px;
+	padding: 20px;
+}
+
+#footer {
+	color: #FFFFFF;
+	text-align: center;
+	text-shadow: 0 1px 2px #000000;
+}
+
+/* do kosza docelowo */
 table {
 	margin-left: 100px;
-    font: 90%/1.5em "Lucida Grande", Geneva,
-                    "DejaVu Sans", "Bitstream Vera Sans", AnjaliOldLipi,
-                    "Lucida sans", "Trebuchet MS", Arial, Verdana;
-    text-align: left;
-    border: 3px black double;
-    border-spacing: 0;
-    -moz-border-radius: 8px;
-    -moz-box-shadow: #6a3d37 5px 5px 6px;
-    -webkit-border-radius: 8px;
-    -webkit-box-shadow: #6a3d37 5px 5px 6px;
-    border-radius: 8px;
-    box-shadow: #6a3d37 5px 5px 6px;
+	font: 90%/1.5em "Lucida Grande", Geneva, "DejaVu Sans",
+		"Bitstream Vera Sans", AnjaliOldLipi, "Lucida sans", "Trebuchet MS",
+		Arial, Verdana;
+	text-align: left;
+	border: 3px black double;
+	border-spacing: 0;
+	-moz-border-radius: 8px;
+	-moz-box-shadow: #6a3d37 5px 5px 6px;
+	-webkit-border-radius: 8px;
+	-webkit-box-shadow: #6a3d37 5px 5px 6px;
+	border-radius: 8px;
+	box-shadow: #6a3d37 5px 5px 6px;
 }
 
 th {
-    color: #000000;
-    font-size: 110%;
-    text-shadow: #6a3d37 1px 1px 1px;
+	color: #000000;
+	font-size: 110%;
+	text-shadow: #6a3d37 1px 1px 1px;
 	padding-left: 10px;
 	padding-right: 5px;
 }
 
 td {
-	border-top-style:groove;
+	border-top-style: groove;
 	border-top-width: 1px;
 	padding-left: 10px;
 	padding-right: 5px;
 }
 
-th:first-of-type,
-td:first-of-type {
-    padding: 0 0 0 2em
+th:first-of-type,td:first-of-type {
+	padding: 0 0 0 2em
 }
 
-th:last-of-type,
-td:last-of-type {
-    padding: 0 2em 0 0
+th:last-of-type,td:last-of-type {
+	padding: 0 2em 0 0
 }
-
-#nav a {
-  text-decoration: none;
-  color: #fff;
-}
-
-a {
-  text-decoration: none;
-  color: #000;
-}
-
-
-
-
