@@ -101,7 +101,7 @@ class IssuesController < ApplicationController
 
   # GET /issues/by_pages.json
   def get_by_pages
-    @issues = Issue.find(:all, :conditions => get_filter_hash).order(:created_at).limit(params[:limit]).offset(params[:offset])
+    @issues = Issue.order(:created_at).limit(params[:limit]).offset(params[:offset])
 
     respond_to do |format|
       format.json { render :json => @issues }
