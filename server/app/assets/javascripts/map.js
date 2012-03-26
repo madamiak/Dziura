@@ -63,13 +63,13 @@ function placeMarker(location, isExisted) {
 		$.get('res/issue', function(data) {
 			infowindow = new google.maps.InfoWindow({
 				content: data
-		});
+		  });
 
-		infowindow.open(map, marker);
+		  infowindow.open(map, marker);
 
-		google.maps.event.addListener(infowindow, 'domready', function() {
-			bindIssueForm();
-		});
+		  google.maps.event.addListener(infowindow, 'domready', function() {
+			  bindIssueForm();
+		  });
     });
     
     google.maps.event.addListener(marker, 'click', function() {
