@@ -2,16 +2,17 @@
 <h1>Listing users</h1>
 
 <table>
+ <thead>
   <tr>
     <th>Login</th>
-    <th>Password</th>
-    <th>Role</th>
-    <th>Unit</th>
+    <th>Hasło</th>
+    <th>Rola</th>
+    <th>Jednostka</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-
+</thead>
 <% @users.each do |user| %>
   <tr>
     <td><%= user.login %></td>

@@ -89,9 +89,57 @@ label {
 	font-size: 11px;
 	margin-bottom: 8px;
 }
+/* 3. Tabele */
+table {
+	border-collapse: collapse;
+	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.2 );
+	border: 1px solid #999999;
+	font-size: 13px;
+	margin: 10px auto;
+}
 
-/* 3 Widoki */
-/* 3.1 Login */
+table a {
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+}
+
+thead {
+	background: #e7e7e7;
+	background: -moz-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e7e7e7),
+		color-stop(100%, #d0d0d0) );
+	background: -webkit-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -o-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: -ms-linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	background: linear-gradient(top, #e7e7e7 0%, #d0d0d0 100%);
+	border: 1px solid #DDDDDD;
+	box-shadow: 0 1px #FFFFFF inset, 0 -1px 5px rgba(180, 180, 180, 0.4)
+		inset;
+	color: #333333;
+	font-size: 8pt;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.7);
+}
+
+th {
+	padding: 10px 14px;
+}
+
+td {
+	border: 1px solid #DDDDDD;
+	padding: 10px 20px;
+}
+
+td:odd {
+	
+}
+
+th:even {
+	
+}
+/* 4 Widoki */
+/* 4.1 Login */
 #auth {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-radius: 3px 3px 3px 3px;
@@ -127,7 +175,7 @@ label {
 	text-align: right;
 }
 
-/* 3.2 Admin */
+/* 4.2 Admin */
 #wrapper {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-radius: 3px 3px 3px 3px;
@@ -265,41 +313,4 @@ label {
 	text-align: center;
 	text-shadow: 0 1px 2px #000000;
 	text-align: center;
-}
-
-/* do kosza docelowo */
-table {
-	border-collapse: collapse;
-	font-size: 13px;
-}
-
-thead {
-	background: #e7e7e7; background : -moz-linear-gradient( top, #e7e7e7 0%,
-	#d0d0d0 100%); background : -webkit-gradient( linear, left top, left
-	bottom, color-stop( 0%, #e7e7e7), color-stop( 100%, #d0d0d0));
-	background : -webkit-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
-	background : -o-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
-	background : -ms-linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
-	background : linear-gradient( top, #e7e7e7 0%, #d0d0d0 100%);
-	border: 1px solid #999999;
-	border-radius: 3px 3px 0 0;
-	box-shadow: 0 1px #FFFFFF inset, 0 -1px 5px rgba(180, 180, 180, 0.4)
-		inset;
-	color: #333333;
-	font-size: 8pt;
-	padding: 12px 14px;
-	text-shadow: 0 1px rgba(255, 255, 255, 0.7);
-}
-
-td {
-	border: 1px solid #DDDDDD;
-	padding: 10px 20px;
-}
-
-td:odd {
-	
-}
-
-th:even {
-	
 }

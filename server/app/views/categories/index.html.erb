@@ -2,21 +2,22 @@
 <h1>Listing categories</h1>
 
 <table>
+ <thead>
   <tr>
-    <th>Name</th>
-    <th>Icon</th>
+    <th>Nazwa</th>
+    <th>Ikona</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-
+ </thead>
 <% @categories.each do |category| %>
   <tr>
     <td><%= category.name %></td>
     <td><%= category.icon %></td>
-    <td><%= link_to 'Show', category %></td>
-    <td><%= link_to 'Edit', edit_category_path(category) %></td>
-    <td><%= link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Pokaż', category %></td>
+    <td><%= link_to 'Edytuj', edit_category_path(category) %></td>
+    <td><%= link_to 'Usuń', category, :confirm => 'Jesteś pewien?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
