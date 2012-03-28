@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
+
+# Klasa punktu (pary współrzędnych geograficznych)
+#
 class Point < ActiveRecord::Base
+
   belongs_to :polygon
 
   validates :number, :presence => true

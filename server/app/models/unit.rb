@@ -1,12 +1,15 @@
 # -*- encoding : utf-8 -*-
+
+# Klasa jednostki
+#
 class Unit < ActiveRecord::Base
+
   has_many :polygons
   has_many :issues
   has_many :users
   belongs_to :address 
 
   accepts_nested_attributes_for :address
-
   validates :name, :address, :presence => true
 
   # Ustawia wielokąty z danych w formacie JSON
@@ -37,26 +40,30 @@ class Unit < ActiveRecord::Base
     self.polygons.clear
     self.polygons = new_polys
     return true
+
   end
 
-
-  # Zwraca true jezeli punkt należy do tej jednostki, false przeciwnie
+  # Zwraca true jeżeli punkt należy do tej jednostki, false przeciwnie
   def point_included?(x, y)
+
     polygons.each do |polygon|
       p = Point.new :longitude => x, :latitude => y
       return true if polygon.point_inside(p)      
     end
-    
+
     return false
+
   end
-  
-  # Zwraca unit do ktorego nalezy punkt, nil przeciwnie
+
+  # Zwraca jednostkę do której należy punkt, nil przeciwnie
   def self.find_unit_by_point(x, y)
+
     Unit.all.each do |unit|
       return unit if unit.point_included?(x, y) 
     end
 
     return nil
+
   end
 
 end

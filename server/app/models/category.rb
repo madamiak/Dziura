@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
+
+# Klasa kategorii
+#
 class Category < ActiveRecord::Base
-  validates :name, :presence => true
-  
+
   has_many :issues
+
+  validates :name, :presence => true
+
 end

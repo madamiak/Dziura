@@ -1,19 +1,25 @@
 # -*- encoding : utf-8 -*-
-class Polygon < ActiveRecord::Base
-  belongs_to :unit
 
+# Klasa wielokątu (obszaru jednostki)
+#
+class Polygon < ActiveRecord::Base
+
+  belongs_to :unit
   has_many :points
 
   validate :must_have_at_least_3_points, :points_must_be_unique
-
   validates_associated :points
 
+  # Walidator
+  # Wielokąt musi mieć >= 3 wierchołki
   def must_have_at_least_3_points
     if points.length < 3
       errors.add(:points, "Wielokąt musi mieć co najmniej 3 punkty")
     end
   end
 
+  # Walidator
+  # Wierzchołki muszą być unikalne
   def points_must_be_unique
     usedPoints = []
     usedNumbers = []
@@ -31,6 +37,8 @@ class Polygon < ActiveRecord::Base
     end
   end
 
+  # Wyświetla postać wielokąta
+  # Wykorzystywane w testach
   def print
     myPoints = self.points.sort_by(&:number)
 
@@ -40,6 +48,8 @@ class Polygon < ActiveRecord::Base
     end
   end
 
+  # Zwraca true, jeżeli dany punkt należy do wielokąta
+  # point to obiekt klasy Point
   def point_inside(point)
 
     myPoints = self.points.sort_by(&:number)
