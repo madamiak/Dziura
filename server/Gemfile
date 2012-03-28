@@ -47,6 +47,7 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger
-# gem 'ruby-debug'
+# Debugger się przydaje :) 
+gem 'ruby-debug', :group => [ :development, :test ]
+
 gem "meta_search"
