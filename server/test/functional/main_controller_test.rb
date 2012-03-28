@@ -2,7 +2,7 @@
 require 'test_helper'
 
 class MainControllerTest < ActionController::TestCase
-  
+
   setup do
     # "Hack" do logowania
     User.create(:login => "test", :password => "test", :role => "admin")

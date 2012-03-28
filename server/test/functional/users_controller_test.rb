@@ -11,8 +11,8 @@ class UsersControllerTest < ActionController::TestCase
     # Testowe dane
     @user = User.new
     @user.login = "Użyszkodnik"
-    @user.password = "p@ssw0rd"
-    @user.role = "admin"
+    @user.password = "p@ssw0rd1"
+    @user.role = "test"
     @user.save!
 
     @new_user = User.new
@@ -32,10 +32,9 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # powinno działać, a nie działa
   test "should create user" do
     assert_difference('User.count') do
-      post :create, :user => @new_user.attributes
+      post :create, :user => { :login => @new_user.login, :password => @new_user.password, :role => @new_user.role }
     end
 
     assert_redirected_to user_path(assigns(:user))
