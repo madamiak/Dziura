@@ -35,4 +35,11 @@ Dziura::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Konfiguracja wysyłania e-maili
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings[:address] = "localhost"
+  ActionMailer::Base.smtp_settings[:domain] = "localhost"
+  ActionMailer::Base.smtp_settings[:authentication] = :plain
+  ActionMailer::Base.smtp_settings[:enable_starttls_auto] = false
 end
