@@ -3,13 +3,15 @@ package projekt.zespolowy.dziura;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import projekt.zespolowy.dziura.AppView.GetLocationTask;
+import projekt.zespolowy.dziura.AppView.LocationProgressBar;
+import projekt.zespolowy.dziura.AppView.SendingProgressBar;
+import projekt.zespolowy.dziura.AppView.SendingTask;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.text.Editable;
 import android.view.View;
@@ -24,6 +26,10 @@ public class MyOnZglosClickListener implements OnClickListener
 	private CheckBox gps_check;
 	private CheckBox email_check;
 	private EditText mail_txt; 
+	public double currentLatitude = 0.0, currentLongitude = 0.0;
+	public LocationManager locationManager;
+	public LocationProgressBar locProg;
+	public SendingProgressBar sendProg;
 
 	public MyOnZglosClickListener(DziuraActivity dziuraActivity, CheckBox agps_check, CheckBox aemail_check, EditText amail_txt)
 	{
@@ -37,88 +43,71 @@ public class MyOnZglosClickListener implements OnClickListener
 	{
 		if(sprawdzPola() == true)
 		{
-			if (gps_check.isChecked() == true) //jesli jest zaznaczone pole z GPSem to pobieramy pozycje
+			if (dziuraAct.isInternetEnabled() == true)
 			{
-				LocationManager locationManager = (LocationManager) dziuraAct.getSystemService(Context.LOCATION_SERVICE);
-				if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) 
-				{  //jesli GPS nie jest uruchomiony to pokazujemy okienko zeby wlaczyc GPSa
-					dziuraAct.wyswietlTekst("W³¹cz GPS");
-					try 
-					{
-						Thread.sleep(1000);
-					}
-					catch (InterruptedException e)
-					{
-						dziuraAct.wyswietlTekst(e.getMessage());
-					}
-					Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);  
-					dziuraAct.startActivity(gpsOptionsIntent);
-				}
-				else
-				{ //jesli jest wlaczony to pobieramy lokalizacje
-					Criteria crta = new Criteria(); 
-			        crta.setAccuracy(Criteria.ACCURACY_FINE); 
-			        crta.setAltitudeRequired(false); 
-			        crta.setBearingRequired(false); 
-			        crta.setCostAllowed(true); 
-			        crta.setPowerRequirement(Criteria.POWER_LOW); 
-			        String provider = locationManager.getBestProvider(crta, true);
-			        double currentLatitude, currentLongitude;
-					Location currentLocation = locationManager.getLastKnownLocation(provider);
-					if(currentLocation != null)
-					{
-						currentLatitude = currentLocation.getLatitude();
-						currentLongitude = currentLocation.getLongitude();
-						dziuraAct.wyswietlTekst("lastKnown");
-					}
+				if (gps_check.isChecked() == true) //jesli jest zaznaczone pole z GPSem to pobieramy pozycje
+				{
+					locationManager = (LocationManager) dziuraAct.getSystemService(Context.LOCATION_SERVICE);
+					if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) 
+					{ //jesli GPS nie jest uruchomiony to pokazujemy okienko zeby wlaczyc GPSa
+						showGpsEnableDialog();
+					} 
 					else
-					{
-						LocationListener mlocListener = new MyLocationListener(dziuraAct.getApplicationContext(), this);
-						locationManager.requestLocationUpdates(provider, 1000, 0, mlocListener);
-						currentLatitude = ((MyLocationListener) mlocListener).getLat();
-						currentLongitude = ((MyLocationListener) mlocListener).getLon();
-						dziuraAct.wyswietlTekst("current");
-						locationManager.removeUpdates(mlocListener);
+					{ //jesli jest wlaczony to pobieramy lokalizacje
+						locProg = new LocationProgressBar(dziuraAct);
+						locProg.run();
+						GetLocationTask gpsLoc = new GetLocationTask(dziuraAct);
+						gpsLoc.execute();
 					}
-					dziuraAct.wyswietlTekst("Zg³oszenie wys³ane (aktualna pozycja lat = "+ currentLatitude + ", lon = " + currentLongitude + ")");
+				} else { //jezeli nie chcemy GPSa to tu wysylamy zgloszenie z polozeniem z mapy)
 					showSuccesDialog();
 				}
 			}
 			else
-			{ //jezeli nie chcemy GPSa to tu wysylamy zgloszenie z podanym adresem (albo raczej polozenie z mapy)
-				dziuraAct.wyswietlTekst("Zg³oszenie wys³ane (wykorzystujê adres/mapê)");
-				showSuccesDialog();
+			{
+				dziuraAct.showWirelessOptions("Aby wys³aæ zg³oszenie, nale¿y po³¹czyæ siê z Internetem. Czy chcesz siê po³¹czyæ?", "Uwaga");
 			}
-		}
-		else
-		{
-			//wyswietlTekst("Zg³oszenie nie zosta³o poprawnie wype³nione");
 		}
 	}
 	
-	private void showSuccesDialog() 
+	private void showGpsEnableDialog()
 	{
-		AlertDialog dialog = new AlertDialog.Builder(dziuraAct).create();
-		dialog.setMessage("Zg³oszenie zosta³o pomyœlnie wys³ane");
-		dialog.setTitle("Dziêkujemy");
-		dialog.setCanceledOnTouchOutside(false);
-		dialog.setButton("OK", new DialogInterface.OnClickListener()
+		AlertDialog enableGpsDialog = new AlertDialog.Builder(dziuraAct).create();
+		enableGpsDialog.setTitle("Uwaga");
+		enableGpsDialog.setMessage("Aby pobraæ lokalizacjê, nale¿y uruchomiæ us³ugê u¿ywania satelitów GPS."+
+				" Czy chcesz j¹ teraz w³¹czyæ?");
+		enableGpsDialog.setButton("Tak", new DialogInterface.OnClickListener()
 		{
-			public void onClick(DialogInterface dialog, int which) 
-			{
-				dialog.cancel();
-				dziuraAct.finish();
-			}
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						dziuraAct.startActivity(gpsOptionsIntent);
+					}
 		});
-		dialog.show();
-		
-		//save configuration
-		dziuraAct.appConfig.setEMail(dziuraAct.eMail.getText().toString());
-		dziuraAct.appConfig.setUseGPS(dziuraAct.cGPS.isChecked());
-		dziuraAct.appConfig.setSendMail(dziuraAct.cMail.isChecked());
-		dziuraAct.appConfig.setLat(dziuraAct.point.getLatitudeE6()/1E6);
-		dziuraAct.appConfig.setLon(dziuraAct.point.getLongitudeE6()/1E6);
-		dziuraAct.appConfig.save(dziuraAct.CONFIG_FILENAME, dziuraAct);
+		enableGpsDialog.setButton2("Nie",new DialogInterface.OnClickListener()
+		{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.cancel();
+					}
+		});
+		enableGpsDialog.show();
+	}
+
+	public void showSuccesDialog() 
+	{
+		if(currentLatitude == 0.0 && gps_check.isChecked() == true)
+		{
+			dziuraAct.wyswietlTekst("Nie uda³o siê pobraæ Twojej lokalizacji GPS, spróbuj jeszcze raz");
+		}
+		else
+		{
+			sendProg = new SendingProgressBar(dziuraAct);
+			sendProg.run();
+			SendingTask send = new SendingTask(dziuraAct);
+			send.execute();
+		}
 	}
 
 	//sprawdzenie pol, np regExy, chociaz jak nie bedzie wpisywania adresu to sie mniej to przyda
@@ -139,11 +128,21 @@ public class MyOnZglosClickListener implements OnClickListener
             	return false;
             }
         }
-        if(gps_check.isChecked() == false && dziuraAct.isMarkerAdded == false)
+        else
+        {
+        	Editable email = mail_txt.getText();
+            String strEmail = email.toString();
+            pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}";
+            if(!matchRegEx(strEmail, pattern))
+            {
+            	dziuraAct.vOption.saveMail = false;
+            }
+        }
+        if(gps_check.isChecked() == false && dziuraAct.vOption.isMarkerAdded == false)
         {
         	dziuraAct.vibrate(300);
         	dziuraAct.wyswietlTekst("Zaznacz na mapie miejsce wyst¹pienia szkody");
-        	dziuraAct.mapView.requestFocus();
+        	dziuraAct.vOption.mapView.requestFocus();
         	return false;
         }
     	return true;

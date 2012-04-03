@@ -1,44 +1,31 @@
 package projekt.zespolowy.dziura;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
+import projekt.zespolowy.dziura.AppView.*;
+import projekt.zespolowy.dziura.Menu.*;
 
+import com.google.android.maps.MapActivity;
+
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.gesture.GestureOverlayView;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
-import android.text.Editable;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 public class DziuraActivity extends MapActivity
@@ -49,301 +36,110 @@ public class DziuraActivity extends MapActivity
 	public projekt.zespolowy.dziura.Configuration appConfig;
 	public final String CONFIG_FILENAME = "dziuraApp.conf";
 	
-	// Options view stuff.
-	public View mOptionsView;
+	// Views.
+	public OptionView vOption;
+	public CameraView vCamera;
 	
-	private Spinner sDamageType;
-	public CheckBox cGPS;
-	public CheckBox cMail;
-	public EditText eMail;
-	public TextView tDamagePlace;
-	private Button bSubmit;
+	// Menu.
+	public MyMenu appMenu;
 	
-	// Camera view stuff.
-	private SurfaceView preview 		= null;
-	private SurfaceHolder previewHolder = null;
-	public Camera camera 				= null;
-	public boolean inPreview 			= false;
-	// Maximum number of photos.
-	public final int MAX_PHOTOS = 3;
+	private boolean exitingApp = false;
+	private boolean showInitDialog = true;
 	
-	//layouty - zeby wyswietlic/schowac kontrolki to nie pojedynczo tylko caly layout, ktory je zawiera
-	public LinearLayout lCameraPreview;
-	public LinearLayout lPhotos;
-	public LinearLayout lMinPhotos;
-	public LinearLayout lTagDesc;
-	public LinearLayout lMap;
-
-	// TODO: nakladka na kamere (klasa), ktora bedzie obslugiwac te pierdoly z plikami zdjec?
-	// Keeps file names which contain photos.
-	public final String[] file_names = new String[MAX_PHOTOS]; 
-	public Boolean[] file_names_bool = new Boolean[MAX_PHOTOS]; //tablica przechowujaca boole, czy plik jest uzywany czy nie
-
-	//number of photo on img_big
-	public int duze_foto = -1;
-
-	//coordinates of point where tag will be added
-	public float img_x = 0;
-	public float img_y = 0;
-
-	// list containing tags added to photos
-	public List<PhotoTag> tagList;
-	
-	private ImageButton bTakeFoto;
-	private Button bUsunFoto;
-	private Button bTakeNextFoto;
-	private Button bUsunTagi;
-	public ImageView[] imgMinis;
-	public MyImageView imgBig;
-	private EditText tagTxt;
-	private Button bSave;
-	private Button bCancel;
-	
-	public View mCameraView;
-	
-	//map stuff
-	public MapView mapView;
-	public MapController mapCtrl;
-	public GeoPoint point;
-	public boolean isMarkerAdded;
-	public MyItemizedOverlay itemizedOverlay;
-	public double latitude;
-	public double longitude;
+	public boolean isGpsEnabled = false;
+	public boolean isInternetEnabled = false;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.main);
 		
 		//load configuration from file
 		appConfig = new projekt.zespolowy.dziura.Configuration();
 		appConfig = appConfig.load(CONFIG_FILENAME, this);
 		
-		// Creating all views.
-		mOptionsView = findViewById(R.id.optionView);
-		mCameraView = findViewById(R.id.cameraView);
-		
-		//creating camera layouts
-		lCameraPreview = (LinearLayout) findViewById(R.id.linLayCameraPreview);
-		lPhotos = (LinearLayout) findViewById(R.id.linLayPhotos);
-		lMinPhotos = (LinearLayout) findViewById(R.id.linLayMinPhotos);
-		lTagDesc = (LinearLayout) findViewById(R.id.linLayTagDesc);
-		lMap = (LinearLayout) findViewById(R.id.linLayMap);		
-
-		optionsView();
-		cameraView();
-		
-		//set data read from config file
-		eMail.setText(appConfig.getEMail());
-		cGPS.setChecked(!appConfig.getUseGPS());
-		cMail.setChecked(!appConfig.getSendMail());
-		cGPS.performClick();
-		cMail.performClick();
+		vOption = new OptionView(this);
+		vCamera = new CameraView(this);
 		
 		// Disable visibility for all views besides current.
-		mCameraView.setVisibility(View.VISIBLE);
-		bTakeFoto.requestFocus();
+		vCamera.mCameraView.setVisibility(View.VISIBLE);
+		vCamera.bTakePhoto.requestFocus();
 
-		mOptionsView.setVisibility(View.GONE);
+		vOption.mOptionsView.setVisibility(View.GONE);
+		//cGPS.requestFocus();
+		//isCameraViewSet = false;
 		
-		lPhotos.setVisibility(View.GONE);
-		lCameraPreview.setVisibility(View.VISIBLE);
-	}
-
-	public void optionsView() {
+		showInitDialog = appConfig.getShowInitDialog();
+		if(showInitDialog==true)
+		{
+			showInitDialog();
+		}
 		
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		isCameraViewSet = false;
-
-		initGesture();
-		initDamageTypeList();
-		initMail();
-		initGPS();
-		initMap();
-
-		// TODO: valid comment? 
-		//sprawdzenie przed wys³aniem, czy pola zosta³y poprawnie wype³nione
-		bSubmit = (Button) findViewById(R.id.submit);
-		bSubmit.setOnClickListener(new MyOnZglosClickListener(this, cGPS, cMail, eMail));
-
+		checkServices();
 	}
 	
-	public void cameraView() {	
-		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		isCameraViewSet = true;
-		// gestures
-		initGestureCamera();
-		
+	private void checkServices() 
+	{
+		isGpsEnabled = isGpsEnabled();
+		isInternetEnabled = isInternetEnabled();
+	}
 
-		//ustawienie nazw plikow
-		for(int i = 0; i<MAX_PHOTOS; i++) 
+	private void showInitDialog() 
+	{
+		AlertDialog dialog = new AlertDialog.Builder(this).create();
+		dialog.setTitle("Witaj");
+		dialog.setMessage("Wykonaj zdjêcie szkody, któr¹ chcesz zg³osiæ. Nastêpnie wype³nij krótki formularz."+
+				"\n\nJe¿eli nie chcesz, aby ta wiadomoœæ siê wyœwietla³a, naciœnij przycisk \"Rozumiem\".");
+		dialog.setButton("OK", new DialogInterface.OnClickListener()
 		{
-			// TODO: check if file exist.
-			file_names[i] = "dziura_"+Integer.toString(i)+".jpg";
-			file_names_bool[i] = false;
-		}
-
-		tagList = new ArrayList<PhotoTag>();
-
-		tagTxt = (EditText) findViewById(R.id.editText7);
-		bSave = (Button) findViewById(R.id.buttonSave);
-		bCancel = (Button) findViewById(R.id.buttonCancel);
-		bSave.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View arg0) 
+			public void onClick(DialogInterface dialog, int which) 
 			{
-				Editable txt = tagTxt.getText();
-				String str_txt = txt.toString();
-				PhotoTag tag = new PhotoTag(img_x, img_y, str_txt, duze_foto);
-				tagList.add(tag);
-				wyswietlTekst("Zapisano");
-				tagTxt.setText("");
-				lTagDesc.setVisibility(View.GONE);
-				imgBig.setClickable(true);
-				showDeleteTagsButton();
+				dialog.cancel();
 			}
 		});
-
-		bCancel.setOnClickListener(new OnClickListener()
+		final DziuraActivity dziuraAct = this;
+		dialog.setButton2("Wiêcej...", new DialogInterface.OnClickListener()
 		{
-			public void onClick(View arg0) 
+			public void onClick(DialogInterface dialog, int which) 
 			{
-				tagTxt.setText("");
-				lTagDesc.setVisibility(View.GONE);
-				imgBig.setClickable(true);
-				showDeleteTagsButton();
-			}
-
-		});
-
-		imgBig = (MyImageView) findViewById(R.id.imageViewCamera);
-		imgBig.setDziuraActivity(this);
-
-		imgMinis = new ImageView[MAX_PHOTOS];
-		imgMinis[0] = (ImageView) findViewById(R.id.imageViewPhoto1);
-		imgMinis[1] = (ImageView) findViewById(R.id.imageViewPhoto2);
-		imgMinis[2] = (ImageView) findViewById(R.id.imageViewPhoto3);
-		for(int i = 0; i<MAX_PHOTOS; i++)
-		{
-			imgMinis[i].setPadding(5, 0, 5, 0);
-			imgMinis[i].setOnClickListener(new MyOnMiniFotoClickListener(this, i));
-		}
-
-		//wlaczenie aparatu
-		preview = (SurfaceView) findViewById(R.id.surfaceViewCamera);
-		previewHolder = preview.getHolder();
-		previewHolder.addCallback(surfaceCallback);
-		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		if(camera == null)
-		{
-			camera = Camera.open();
-		}
-
-		//zrobienie zdjêcia
-		bTakeFoto = (ImageButton) findViewById(R.id.imageButton1);
-		bTakeFoto.setOnClickListener(new MyOnFotoClickListener(this));
-
-		//usuniecie zdjecia
-		bUsunFoto = (Button) findViewById(R.id.buttonDeletePhoto);
-		bUsunFoto.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				if(duze_foto != -1)
+				dialog.cancel();
+				final AlertDialog dialog2 = new AlertDialog.Builder(dziuraAct).create();
+				dialog2.setMessage("Aby wykonaæ zdjêcie, naciœnij przycisk z ikon¹ aparatu."+
+						" Przegl¹daj¹c zdjêcia mo¿esz oznaczaæ na nich tagi, naciskaj¹c na element zdjêcia, który chcesz oznaczyæ."+
+						" Aby z widoku aparatu i zdjêæ przejœæ do formularza, wykonaj na ekranie gest z lewej do prawej."+
+						" Aby wróciæ z formularza do zdjêæ, wykonaj gest w drug¹ stronê.");
+				dialog2.setButton("OK", new DialogInterface.OnClickListener()
 				{
-					File photo = new File(Environment.getExternalStorageDirectory(), file_names[duze_foto]);
-					if (photo.exists())
+					public void onClick(DialogInterface dialog, int which) 
 					{
-						photo.delete();
-						pokazPodglad();
-						file_names_bool[duze_foto] = false;
-						pokazZdjecia();
-						for(int i=0; i<tagList.size(); i++)
-						{
-							if(tagList.get(i).getNumerZdjecia() == duze_foto)
-							{
-								tagList.remove(i);
-								i--;
-							}
-						}
+						dialog2.cancel();
 					}
-				}
-				showDeleteTagsButton();
+				});
+				dialog2.show();
 			}
 		});
-
-		//zrobienie nastepnego zdjecia
-		bTakeNextFoto = (Button) findViewById(R.id.buttonNextPhoto);
-		bTakeNextFoto.setOnClickListener(new OnClickListener()
+		dialog.setButton3("Rozumiem", new DialogInterface.OnClickListener()
 		{
-			public void onClick(View v) 
+			public void onClick(DialogInterface dialog, int which) 
 			{
-				pokazPodglad();
-				lTagDesc.setVisibility(View.GONE);
-				showDeleteTagsButton();
+				showInitDialog = false;
+				dialog.cancel();
 			}
 		});
-		
-		//usuniecie tagow ze zdjecia
-		bUsunTagi = (Button) findViewById(R.id.buttonDeleteTags);
-		bUsunTagi.setOnClickListener(new OnClickListener()
-		{
+		dialog.show();
+	}
 
-			public void onClick(View arg0) 
-			{
-				for(int i=0; i<tagList.size(); i++)
-				{
-					if(tagList.get(i).getNumerZdjecia() == duze_foto)
-					{
-						tagList.remove(i);
-						i--;
-					}
-				}
-				imgBig.postInvalidate();
-				showDeleteTagsButton();
-			}
-			
-		});
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		appMenu = new MyMenu(this, menu);
+		return true;
 	}
 	
-	private void pokazPodglad()
+	public boolean onMenuItemSelected(int featureId, MenuItem item)
 	{
-		if(!inPreview)
-		{
-			lCameraPreview.setVisibility(View.VISIBLE);
-			camera.startPreview();
-			inPreview = true;
-			lPhotos.setVisibility(View.GONE);
-		}
-	}
-
-	public void pokazZdjecia()
-	{
-		int showedPhotos = 0;
-		for(int i=0; i<file_names_bool.length; i++)
-		{
-			if(file_names_bool[i]==true)
-			{
-				imgMinis[i].setVisibility(View.VISIBLE);
-				File photo = new File(Environment.getExternalStorageDirectory(), file_names[i]);
-				Bitmap bm = BitmapFactory.decodeFile(photo.getAbsolutePath());
-				bm = Bitmap.createScaledBitmap(bm, 80, 60, true);
-				imgMinis[i].setImageBitmap(bm);
-				showedPhotos++;
-			}
-			else
-			{
-				imgMinis[i].setVisibility(View.GONE);
-			}
-		}
-		if(showedPhotos!=0)
-		{
-			lMinPhotos.setVisibility(View.VISIBLE);
-		}
+		return appMenu.onMenuItemSelected(featureId, item);
 	}
 
 	public void onConfigurationChanged(Configuration configuration)
@@ -351,49 +147,29 @@ public class DziuraActivity extends MapActivity
 		super.onConfigurationChanged(configuration);
 	}
 
-	public void onResume()
-	{
+	public void onResume() {
 		super.onResume();
-
-		if (camera == null && isCameraViewSet) 
-		{
-			camera=Camera.open();
-			if(preview.getVisibility() == View.VISIBLE)
-			{
-				inPreview = true;
-				camera.startPreview();
-			}
-		}
+		vCamera.resume();
 	}
 
 	public void onPause() 
 	{
-		if (isCameraViewSet) {
-			if (inPreview) 
+		if(!exitingApp)
+		{
+			if (vCamera.inPreview) 
 			{
-				camera.stopPreview();
+				vCamera.camera.stopPreview();
 			}
-
-			camera.release();
-			camera = null;
-			inPreview = false;
+			vCamera.camera.release();
 		}
+		vCamera.camera = null;
+		vCamera.inPreview = false;
 		super.onPause();
 	}
 
 	public void onDestroy()
 	{
-		File photo;
-		for(int i=0; i<MAX_PHOTOS; i++)
-		{
-			photo = new File(Environment.getExternalStorageDirectory(), file_names[i]);
-
-			if (photo.exists())
-			{
-				photo.delete();
-			}
-			photo = null;
-		}
+		//vCamera.destroy();
 
 		super.onDestroy();
 	}
@@ -435,24 +211,17 @@ public class DziuraActivity extends MapActivity
 		}
 		else
 		{
-			size.height = 180;
-			size.width = 240;
+			size.height = 240;
+			size.width = 320;
 		}
 		return size;
 	}
 
-	SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback()
+	public SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback()
 	{
 		public void surfaceCreated(SurfaceHolder holder)
 		{
-			try
-			{
-				camera.setPreviewDisplay(previewHolder);
-			}
-			catch (Throwable t)
-			{
-				wyswietlTekst(t.getMessage());
-			}
+			vCamera.resume();
 		}
 
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
@@ -463,19 +232,41 @@ public class DziuraActivity extends MapActivity
 	        int displayHeight = displaymetrics.heightPixels;
 	        int displayWidth = displaymetrics.widthPixels;
 	        
-	        //set camera preview size
-			Camera.Parameters parameters = camera.getParameters();
-			Camera.Size size = getClosestPreviewSize((int)(displayWidth), (int)(0.75 * displayHeight), parameters);
-			parameters.setPreviewSize(size.width, size.height);
-			parameters.setRotation(90);
-			parameters.set("orientation", "landscape");
-			camera.setParameters(parameters);
-			preview.setMinimumHeight(size.height);
-			preview.setMinimumWidth(size.width);
-			if(!inPreview)
-			{
-				camera.startPreview();
-				inPreview = true;
+	        
+	        if (vCamera.camera != null)
+	        {
+				//set camera preview size
+				Camera.Parameters parameters = vCamera.camera.getParameters();
+				Camera.Size size = getClosestPreviewSize((int) (displayWidth),
+						(int) (0.8 * displayHeight), parameters);
+				LayoutParams params = vCamera.preview.getLayoutParams();
+				params.height = size.height;
+				params.width = size.width;
+				vCamera.preview.setLayoutParams(params);
+				parameters.setPreviewSize(size.width, size.height);
+				parameters.setRotation(90);
+				parameters.setSceneMode(Parameters.SCENE_MODE_AUTO);
+				parameters.setWhiteBalance(Parameters.WHITE_BALANCE_AUTO);
+				parameters.setJpegQuality(100);
+				if (appConfig.getCameraSettings() != null) {
+					parameters.unflatten(appConfig.getCameraSettings());
+				}
+				vCamera.camera.setParameters(parameters);
+				vCamera.preview.setMinimumHeight(size.height);
+				vCamera.preview.setMinimumWidth(size.width);
+				vCamera.previewHolder = vCamera.preview.getHolder();
+				vCamera.previewHolder.addCallback(surfaceCallback);
+				vCamera.previewHolder
+						.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+				try {
+					vCamera.camera.setPreviewDisplay(vCamera.previewHolder);
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
+				if (!vCamera.inPreview) {
+					vCamera.camera.startPreview();
+					vCamera.inPreview = true;
+				}
 			}
 		}
 
@@ -485,62 +276,6 @@ public class DziuraActivity extends MapActivity
 		}
 	};
 
-	public void initGesture() {
-        GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gestures);
-        gestures.addOnGesturePerformedListener(new GestureListener(this));
-	}
-	
-	public void initGestureCamera() {
-        GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gesturesCamera);
-        gestures.addOnGesturePerformedListener(new GestureListener(this));
-	}
-	
-	public void initGPS() {
-		cGPS = (CheckBox) findViewById(R.id.checkBoxGetGPS); //checkBox 'czy pobierac polozenie GPS'
-		tDamagePlace = (TextView) findViewById(R.id.textViewDamagePlace); //napisz 'miejsce wystapienia zdarzenia'
-
-		//pokazanie pola na adres, w zaleznosci od checkBoxa
-		cGPS.setOnClickListener(new MyOnGPSClickListener(this));
-	}
-	
-	public void initMail() {
-		cMail = (CheckBox) findViewById(R.id.checkBoxGetInfo); //checkBox o emailu
-		eMail = (EditText) findViewById(R.id.editTextMail); //pole tekstowe na email
-		eMail.addTextChangedListener(new MailChecker(eMail));
-		
-		//pokazanie pola na email, w zaleznosci od checkBoxa
-		cMail.setOnClickListener(new MyOnEmailClickListener(cMail, eMail));
-	}
-	
-	public void initDamageTypeList() {
-		sDamageType = (Spinner) findViewById(R.id.spinnerDamageType);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.damage_type_items, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sDamageType.setOnItemSelectedListener(new MyOnItemSelectedListener());
-		sDamageType.setAdapter(adapter);
-	}
-	
-	public void initMap() {
-		mapView = (MapView) findViewById(R.id.mapView);
-	    mapView.setBuiltInZoomControls(true);
-	    MapController mapCtrl = mapView.getController();
-	    mapCtrl.setZoom(12);
-	    latitude = appConfig.getLat();
-	    longitude = appConfig.getLon();
-	    point = new GeoPoint((int)(latitude * 1e6), (int)(longitude * 1e6));
-	    mapCtrl.setCenter(point);
-	    isMarkerAdded = false;
-	    
-		//Add marker to map
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.mapmarker);
-		itemizedOverlay = new MyItemizedOverlay(drawable, this);
-		OverlayItem overlayitem = new OverlayItem(new GeoPoint(0, 0), null, null);
-		itemizedOverlay.addOverlay(overlayitem);
-		mapOverlays.add(itemizedOverlay);
-	}
-	
 	public void wyswietlTekst(String tekst)
 	{
 		Toast.makeText(DziuraActivity.this, tekst, Toast.LENGTH_LONG).show();
@@ -548,7 +283,6 @@ public class DziuraActivity extends MapActivity
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -569,23 +303,70 @@ public class DziuraActivity extends MapActivity
 		return false;
 	}
 	
-	public void showDeleteTagsButton()
+	public boolean isGpsEnabled()
 	{
-		int licznik = 0;
-		for(int i=0; i < tagList.size(); i++)
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) 
 		{
-			if(tagList.get(i).nr_zdjecia == duze_foto)
-			{
-				licznik++;
-			}
-		}
-		if(licznik > 0)
-		{
-			bUsunTagi.setVisibility(View.VISIBLE);
+			return false;
 		}
 		else
 		{
-			bUsunTagi.setVisibility(View.GONE);
+			return true;
 		}
+	}
+	
+	public void showWirelessOptions(String message, String title)
+	{
+		AlertDialog enableInternetDialog = new AlertDialog.Builder(this).create();
+		enableInternetDialog.setTitle(title);
+		enableInternetDialog.setMessage(message);
+		enableInternetDialog.setButton("Tak", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.cancel();
+				Intent wifiOptionsIntent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);  
+				startActivity(wifiOptionsIntent);
+			}
+		});
+		enableInternetDialog.setButton2("Nie", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.cancel();
+			}
+		});
+		enableInternetDialog.show();
+	}
+	
+	public void appExit()
+	{
+		//save configuration
+		if(vOption.saveMail)
+		{
+			appConfig.setEMail(vOption.eMail.getText().toString());			
+		}
+		appConfig.setUseGPS(vOption.cGPS.isChecked());
+		appConfig.setSendMail(vOption.cMail.isChecked());
+		appConfig.setLat(vOption.point.getLatitudeE6()/1E6);
+		appConfig.setLon(vOption.point.getLongitudeE6()/1E6);
+		appConfig.setCameraSettings(vCamera.camera.getParameters().flatten());
+		appConfig.setMapSatellite(vOption.mapView.isSatellite());
+		appConfig.setShowInitDialog(showInitDialog);
+		appConfig.save(CONFIG_FILENAME, this);
+		
+		exitingApp = true;
+		
+		if(vCamera.camera!=null)
+		{
+			vCamera.camera.stopPreview();
+			vCamera.camera.release();
+		}
+		
+		//delete photos
+		vCamera.destroy();
+		
+		finish();
 	}
 }

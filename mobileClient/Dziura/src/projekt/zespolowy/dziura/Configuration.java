@@ -22,6 +22,9 @@ public class Configuration implements Serializable
 	private String eMail;
 	private double lat;
 	private double lon;
+	private String cameraSettings;
+	private boolean mapSatellite;
+	private boolean showInitDialog;
 	
 	public Configuration()
 	{
@@ -30,6 +33,9 @@ public class Configuration implements Serializable
 		eMail = "";
 	    lat = 51.107769;
 	    lon = 17.038658;
+	    cameraSettings = null;
+	    mapSatellite = false;
+	    showInitDialog = true;
 	}
 	
 	public boolean getUseGPS()
@@ -57,6 +63,21 @@ public class Configuration implements Serializable
 		return lon;
 	}
 	
+	public String getCameraSettings()
+	{
+		return cameraSettings;
+	}
+	
+	public boolean getMapSatellite()
+	{
+		return mapSatellite;
+	}
+	
+	public boolean getShowInitDialog()
+	{
+		return showInitDialog;
+	}
+	
 	public void setUseGPS(boolean use)
 	{
 		useGPS = use;
@@ -80,6 +101,21 @@ public class Configuration implements Serializable
 	public void setLon(double longitude)
 	{
 		lon = longitude;
+	}
+	
+	public void setCameraSettings(String camSettings)
+	{
+		cameraSettings = camSettings;
+	}
+	
+	public void setMapSatellite(boolean satellite)
+	{
+		mapSatellite = satellite;
+	}
+	
+	public void setShowInitDialog(boolean show)
+	{
+		showInitDialog = show;
 	}
 	
 	public Configuration load(String fileName, DziuraActivity dziuraAct)
@@ -110,7 +146,7 @@ public class Configuration implements Serializable
 			} 
 			catch (ClassNotFoundException e) 
 			{
-				dziuraAct.wyswietlTekst("B³¹d podczas ³adowania konfiguracji: nie znaleziono klasy");
+				dziuraAct.wyswietlTekst("B³¹d podczas ³adowania konfiguracji: nie znaleziono klasy"); // TODO: text wyswietlajacy dac do stalych stringow (tak jak dla widokow)
 			}
 		}
 		else
@@ -122,6 +158,7 @@ public class Configuration implements Serializable
 	
 	public void save(String fileName, DziuraActivity dziuraAct)
 	{
+		// FIXME: "config" jako stala powinna byc
 		File configFile = new File(dziuraAct.getDir("config", Context.MODE_PRIVATE), fileName);
 		if(!configFile.exists())
 		{

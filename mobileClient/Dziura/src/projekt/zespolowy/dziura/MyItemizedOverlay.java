@@ -63,19 +63,19 @@ public class MyItemizedOverlay extends com.google.android.maps.ItemizedOverlay<O
 	public boolean onTap(GeoPoint p, MapView mapView)
 	{
 		
-		dziuraAct.point = p;
-		List<Overlay> mapOverlays = dziuraAct.mapView.getOverlays();
-		OverlayItem overlayitem = new OverlayItem(dziuraAct.point, null, null);
-		dziuraAct.itemizedOverlay.addOverlay(overlayitem);
+		dziuraAct.vOption.point = p;
+		List<Overlay> mapOverlays = dziuraAct.vOption.mapView.getOverlays();
+		OverlayItem overlayitem = new OverlayItem(dziuraAct.vOption.point, null, null);
+		dziuraAct.vOption.itemizedOverlay.addOverlay(overlayitem);
 		mapOverlays.remove(mapOverlays.size()-1);
-		mapOverlays.add(dziuraAct.itemizedOverlay);
-		dziuraAct.isMarkerAdded = true;
+		mapOverlays.add(dziuraAct.vOption.itemizedOverlay);
+		dziuraAct.vOption.isMarkerAdded = true;
 		
 		Geocoder geoCoder = new Geocoder(dziuraAct.getBaseContext(), Locale.getDefault());
 		try 
 		{
-			List<Address> addresses = geoCoder.getFromLocation(dziuraAct.point.getLatitudeE6()  / 1E6, 
-					dziuraAct.point.getLongitudeE6() / 1E6, 1);
+			List<Address> addresses = geoCoder.getFromLocation(dziuraAct.vOption.point.getLatitudeE6()  / 1E6, 
+					dziuraAct.vOption.point.getLongitudeE6() / 1E6, 1);
 	
 	     	String add = "";
 	     	if (addresses.size() > 0) 
@@ -90,6 +90,11 @@ public class MyItemizedOverlay extends com.google.android.maps.ItemizedOverlay<O
 		}
 		catch (IOException e)
 		{                
+			dziuraAct.wyswietlTekst(e.getMessage());
+			e.printStackTrace();
+		}
+		catch (StringIndexOutOfBoundsException e)
+		{
 			dziuraAct.wyswietlTekst(e.getMessage());
 			e.printStackTrace();
 		}

@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
+<ScrollView android:id="@+id/scrollView"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-	android:fadeScrollbars="true">
-	
+    android:layout_height="fill_parent"
+    android:fadeScrollbars="true" xmlns:android="http://schemas.android.com/apk/res/android">
+	
 <LinearLayout
+    android:id="@+id/linLayMain"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:gravity="center"
     android:orientation="vertical" >
-
+
+	<!-- Option View -->
+	
+	
     <LinearLayout
         android:id="@+id/optionView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="visible" >
 
-        <android.gesture.GestureOverlayView
-            android:id="@+id/gestures"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:gestureColor="#01212200"
-            android:uncertainGestureColor="#00000000" />
+	<android.gesture.GestureOverlayView
+            android:id="@+id/gesturesOptions"
+            android:gestureColor="#FF0000FF"
+            android:uncertainGestureColor="#00000000"
+            android:visibility="visible" 
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:gestureStrokeType="multiple"
+		    android:eventsInterceptionEnabled="true"
+		    android:orientation="vertical">
 
         <CheckBox
             android:id="@+id/checkBoxGetGPS"
@@ -34,11 +40,14 @@
             android:checked="true"
             android:clickable="true"
             android:text="@string/get_gps" />
-
+        
+        
+		</android.gesture.GestureOverlayView> 
+
         <LinearLayout
             android:id="@+id/linLayMap"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone" >
@@ -49,30 +58,49 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/damage_place"
 		            android:visibility="visible" />
-		        
-		
-		
-		
+		       
 				<projekt.zespolowy.dziura.MyMapView
 				    xmlns:android="http://schemas.android.com/apk/res/android"
 				    android:id="@+id/mapView"
 				    android:layout_width="fill_parent"
-				    android:layout_height="200dp"
+				    android:layout_height="250dp"
+				    android:layout_weight="0.8"
 				    android:apiKey="02cGt3VILwNGjXzgaRaFFEmdoGOcAUuLhv3QdIw"
 				    android:clickable="true"
 				    android:visibility="visible" />
+				
+				
 
         </LinearLayout>
+        
+    		<android.gesture.GestureOverlayView
+		            android:id="@+id/gesturesOptions2"
+		            android:gestureColor="#FF0000FF"
+		            android:uncertainGestureColor="#00000000"
+		            android:visibility="visible" 
+				    android:layout_width="fill_parent"
+				    android:layout_height="fill_parent"
+				    android:gestureStrokeType="multiple"
+				    android:eventsInterceptionEnabled="true"
+				    android:orientation="vertical">
+				
+    		    <LinearLayout
+		        android:id="@+id/optionView2"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:orientation="vertical"
+		        android:visibility="visible" >
 
         <TextView
             android:id="@+id/textViewDamageType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/damage_type" />
-
+
         <Spinner
             android:id="@+id/spinnerDamageType"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <CheckBox
@@ -92,88 +120,104 @@
             android:inputType="textEmailAddress"
             android:visibility="gone" >
         </EditText>
-
+
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextDescription"
             android:layout_width="fill_parent"
             android:layout_height="90dp"
             android:layout_weight="0.61"
             android:hint="@string/description_hint"
             android:inputType="textMultiLine" >
 
-            <requestFocus />
         </EditText>
 
         <Button
             android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
+            android:text="@string/submit" />   
+            
+        </LinearLayout>
+        
+     </android.gesture.GestureOverlayView>
+        
     </LinearLayout>
-    
-    <LinearLayout
+        <!-- Camera View -->
+	<android.gesture.GestureOverlayView
+            android:id="@+id/gesturesCamera"
+            android:gestureColor="#FF0000FF"
+            android:uncertainGestureColor="#00000000"
+            android:visibility="visible" 
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:gestureStrokeType="multiple"
+		    android:eventsInterceptionEnabled="true"
+		    android:orientation="vertical">
+    <LinearLayout
         android:id="@+id/cameraView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:orientation="vertical" >
-    
+        android:orientation="vertical"
+        android:visibility="gone" >
+   
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="visible" >
 
         <requestFocus />
-
+
         <LinearLayout
             android:id="@+id/linLayCameraPreview"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="visible" >
-
+
             <SurfaceView
                 android:id="@+id/surfaceViewCamera"
-                android:layout_width="fill_parent"
-                android:layout_height="250dp"
+                android:layout_width="320dp"
+                android:layout_height="240dp"
                 android:paddingTop="10dp" />
-
+
             <ImageButton
                 android:id="@+id/imageButton1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_gravity="bottom|center"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:src="@android:drawable/ic_menu_camera" />
 
         </LinearLayout>
-
+
         <LinearLayout
             android:id="@+id/linLayPhotos"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone" >
-
-            <projekt.zespolowy.dziura.MyImageView
+
+            <projekt.zespolowy.dziura.Photo.MyImageView
                 android:id="@+id/imageViewCamera"
                 android:layout_width="fill_parent"
                 android:layout_height="240dp"
                 android:paddingBottom="5dp"
                 android:src="@drawable/ic_launcher"
                 android:visibility="visible" />
-
+
             <LinearLayout
                 android:id="@+id/linLayTagDesc"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center"
                 android:visibility="gone" >
-
+
                 <EditText
                     android:id="@+id/editText7"
                     android:layout_width="230dp"
@@ -184,7 +228,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:visibility="visible" />
-
+
                 <LinearLayout
                     android:id="@+id/linearLayout6"
                     android:layout_width="wrap_content"
@@ -209,81 +253,72 @@
                         android:visibility="visible" />
                 </LinearLayout>
             </LinearLayout>
-
+
             <LinearLayout
-                android:id="@+id/linearLayout4"
+                android:id="@+id/linLayButtons"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="visible" >
-
+
                 <Button
                     android:id="@+id/buttonDeletePhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:text="@string/delete_photo"
                     android:visibility="visible" />
-
+
                 <Button
                     android:id="@+id/buttonNextPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:text="@string/take_next_photo"
                     android:visibility="visible" />
-                
+
                 <Button
                     android:id="@+id/buttonDeleteTags"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:text="@string/delete_tags"
                     android:visibility="gone" />
-
             </LinearLayout>
-
         </LinearLayout>
-
+
         <LinearLayout
             android:id="@+id/linLayMinPhotos"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|center"
             android:visibility="gone" >
-
+
             <ImageView
                 android:id="@+id/imageViewPhoto1"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_launcher"
                 android:visibility="visible" />
-
+
             <ImageView
                 android:id="@+id/imageViewPhoto2"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_launcher"
                 android:visibility="visible" />
-
+
             <ImageView
                 android:id="@+id/imageViewPhoto3"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_launcher"
                 android:visibility="visible" />
-
         </LinearLayout>
+       
+
     </LinearLayout>
-    
-    <android.gesture.GestureOverlayView
-        android:id="@+id/gesturesCamera"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:gestureColor="#00000000"
-        android:uncertainGestureColor="#00000000"
-        android:visibility="visible" />
         
     </LinearLayout>
     
-    
+    </android.gesture.GestureOverlayView>
 </LinearLayout>
 
 </ScrollView>

@@ -8,7 +8,6 @@ import com.google.android.maps.MapView;
 
 public class MyMapView extends MapView
 {
-
 	public MyMapView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
