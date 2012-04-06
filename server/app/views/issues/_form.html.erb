@@ -36,13 +36,24 @@
   <% end %>
     
   <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
-  <% @issue.issue_instances.each do |issue| %>
-    <%= issue.created_at %>
-    <%= issue.desc %> <br />
+  <% @issue.issue_instances.each do |issue_i| %>
+    <%= issue_i.created_at %>
+    <%= issue_i.desc %> 
+    <%= link_to 'detach', {:action => "detach", :id => issue_i.id}, :remote => true %>
+    <br />    
     <!-- TODO photo & markers -->
   <% end %>
+
+  <br />  
   
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>
+
+<% if !@issue.get_close_issues.empty? %>
+  <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
+    Polacz z <%= select_tag(:other_id, options_from_collection_for_select(@issue.get_close_issues, :id, :id)) %>
+    <%= submit_tag "Wykonaj" %>
+  <% end %>
 <% end %>

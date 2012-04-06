@@ -61,7 +61,8 @@ class Issue < ActiveRecord::Base
       unit = Unit.find_unit_by_point(longitude, latitude)
 
       raise Exceptions::NoUnitForPoint.new if unit.nil?
-
+      
+      #TODO replace with get_close_issues
       p_lat = 0.0001
       p_lng = 0.0001
 
@@ -112,5 +113,28 @@ class Issue < ActiveRecord::Base
     # transakcja ->
 
   end
-
+  
+  # Funkcja przepina IssueInstances z podanego issue do self, usuwajac puste Issue
+  def join_with(other_issue)
+    Issue.transaction do      
+      raise Exceptions::UnknownIssue if other_issue == nil
+      
+      self.issue_instances<< other_issue.issue_instances
+      self.save!
+            
+      other_issue.destroy
+    end
+  end
+  
+  # Zwraca tablice Issue znajdujacych sie blisko tego Issue. Przydatne do join_with
+  def get_close_issues
+    p_lat = 0.0001
+    p_lng = 0.0001
+  
+    issues = Issue.where(:latitude => (latitude - p_lat)..(latitude + p_lat),
+        :longitude => (longitude - p_lng)..(longitude + p_lng)).to_a
+    
+    issues.delete_if { |issue| issue.id == id }
+  end
+  
 end

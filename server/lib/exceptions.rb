@@ -14,4 +14,7 @@ module Exceptions
 
   class NetworkException < StandardError
   end
+  
+  class UnknownIssue < StandardError
+  end
 end

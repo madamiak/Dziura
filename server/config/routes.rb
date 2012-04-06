@@ -3,14 +3,19 @@ Dziura::Application.routes.draw do
 
   match 'issues/by_rect' => 'issues#get_by_rect'
   match 'issues/by_pages' => 'issues#get_by_pages'
-
   match 'issues/map' => 'issues#show_map'
 
   resources :statuses
   resources :categories
   resources :users
   resources :units
-  resources :issues
+  
+  resources :issues do
+    member do
+      get 'detach'
+      get 'join'
+    end  
+  end
 
   match 'admin' => 'main#index'
   match 'login' => 'main#login'

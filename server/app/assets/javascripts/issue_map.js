@@ -112,8 +112,8 @@ function addIssueClickListener(marker)
     var id = marker.getTitle();
 
     $.get('/issues/'+id+'/edit', function(data) {
-			  infowindow = new google.maps.InfoWindow({
-				  content: data
+			infowindow = new google.maps.InfoWindow({
+			  content: data
 		  });
 
 		  infowindow.open(map, marker);

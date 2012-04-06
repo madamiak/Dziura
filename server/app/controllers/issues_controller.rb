@@ -117,5 +117,21 @@ class IssuesController < ApplicationController
       format.html { render :action => "map" }
     end
   end
-
+  
+  # GET /issues/1/detach
+  # 1 is IssueInstance id, not Issue id
+  def detach
+    @issue_instance = IssueInstance.find(params[:id])
+    
+    @issue_instance.detach
+  end
+  
+  # GET /issues/1/join/2
+  def join
+    @issue = Issue.find(params[:id])
+    @other_issue = Issue.find(params[:other_id])
+    
+    @issue.join_with(@other_issue)
+  end
+  
 end
