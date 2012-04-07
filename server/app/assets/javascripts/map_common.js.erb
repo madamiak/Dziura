@@ -1,0 +1,29 @@
+// Wspólne funkcje do obsługi mapy
+
+// Zmienna globalna mapy
+var g_map;
+
+// Funkcja tworząca mapę z domyślnymi ustawieniami
+// extraOptions to opcjonalnie dodatkowe ustawienia mapy
+function createMap(extraOptions)
+{
+  if (!extraOptions)
+    var extraOptions = new Object();
+
+  var myOptions =
+  {
+    center: new google.maps.LatLng(
+      <%= Rails.application.config.maps[:default_lat] %>,
+      <%= Rails.application.config.maps[:default_lng] %>
+    ),
+    zoom: <%= Rails.application.config.maps[:default_zoom] %>,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  for (var k in extraOptions)
+  {
+    myOptions[k] = extraOptions[k];
+  }
+
+  g_map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+}

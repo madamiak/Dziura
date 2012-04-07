@@ -1,40 +1,25 @@
 /* Wyswietlanie issues na mapie */
 
-var map;
-
-function createMap()
-{
-  var myOptions =
-  {
-    center: new google.maps.LatLng(51.1101, 17.0324),
-    zoom: 13,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    disableDoubleClickZoom: true
-  };
-
-  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-}
-
-var issueMarkers = [];
-var updateTimer = null;
-var first = true;
+var g_issueMarkers = [];
+var g_updateTimer = null;
+var g_first = true;
 
 function initialize()
 {
-  createMap();
+  createMap(); // map_common.js
 
-  google.maps.event.addListener(map, 'bounds_changed', function() {
-    if (first)
+  google.maps.event.addListener(g_map, 'bounds_changed', function() {
+    if (g_first)
     {
       updateIssues();
-      first = false;
+      g_first = false;
       return;
     }
 
-    if (updateTimer != null)
-      clearTimeout(updateTimer);
+    if (g_updateTimer != null)
+      clearTimeout(g_updateTimer);
 
-    updateTimer = setTimeout(updateIssues, 1000);
+    g_updateTimer = setTimeout(updateIssues, 1000);
   });
   
   $("select").bind("change", updateIssues);
@@ -70,8 +55,8 @@ function getFilterParams() {
 
 function updateIssues()
 {
-  var ne = map.getBounds().getNorthEast();
-  var sw = map.getBounds().getSouthWest();
+  var ne = g_map.getBounds().getNorthEast();
+  var sw = g_map.getBounds().getSouthWest();
 
   var params = { ne_lat: ne.lat(), ne_lng: ne.lng(),
   sw_lat: sw.lat(), sw_lng: sw.lng() };
@@ -83,11 +68,11 @@ function updateIssues()
 
 function issuesReceived(data)
 {
-  for (var i = 0; i < issueMarkers.length; i++)
+  for (var i = 0; i < g_issueMarkers.length; i++)
   {
-    issueMarkers[i].setVisible(false);
+    g_issueMarkers[i].setVisible(false);
   }
-  issueMarkers = new Array();
+  g_issueMarkers = new Array();
 
   for (var i = 0; i < data.length; i++)
   {
@@ -95,12 +80,12 @@ function issuesReceived(data)
 
     var marker = new google.maps.Marker
       ( {
-        map: map,
+        map: g_map,
         position: latLng,
         title: "" + data[i].id
       } );
     
-    issueMarkers.push(marker);
+    g_issueMarkers.push(marker);
     
     addIssueClickListener(marker);
   }
@@ -116,7 +101,7 @@ function addIssueClickListener(marker)
 			  content: data
 		  });
 
-		  infowindow.open(map, marker);
+		  infowindow.open(g_map, marker);
 
 		  google.maps.event.addListener(infowindow, 'domready', function() {
 			  bindEditIssueForm();

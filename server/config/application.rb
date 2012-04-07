@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -56,5 +57,26 @@ module Dziura
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+
+    # Dodatkowe ustawienia aplikacji
+
+    # Ustawienia Google Maps
+    config.maps = {
+      :api_key => "AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA",
+      :default_lat => "51.1101",
+      :default_lng => "17.0324",
+      :default_zoom => 13
+    }
+
+    # Ustawienia dla zgłoszeń
+    config.issues = {
+      # Odległość scalanych zgłoszeń
+      :merge_distance_lng => "0.0001",
+      :merge_distance_lat => "0.0001"
+    }
+
+    # ...
+
   end
 end

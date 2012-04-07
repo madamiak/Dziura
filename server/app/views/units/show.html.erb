@@ -1,14 +1,13 @@
 <%# encoding: utf-8 %>
+
 <%- content_for(:head_extra) do -%>
-
-<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
-<%= javascript_include_tag "polygons.js" -%>
-<%= stylesheet_link_tag "units.css" %>
-
+  <%= maps_javascript_tag %>
+  <%= javascript_include_tag "map_common.js" %>
+  <%= javascript_include_tag "map_units.js" %>
+  <%= stylesheet_link_tag "units.css" %>
 <%- end -%>
 
-<%- @body_onload = "initializeShow(#{@unit.id})" -%>
-
+<%- @body_onload = "initializeShow(#{@unit.id})" %>
 
 <p>
   <b>Nazwa:</b>

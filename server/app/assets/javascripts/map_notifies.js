@@ -1,28 +1,19 @@
-var map;
-var existing;
-var marker;
-var infowindow;
+var g_existing;
+var g_marker;
+var g_infowindow;
 
 function initialize() {
-	var myLatlng = new google.maps.LatLng(51.110,17.030);
+  createMap(); // map_common.js
 
-	var myOptions = {
-		zoom: 14,
-		center: myLatlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	}
+	g_existing = false;
 
-	existing = false;
-
-	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-	google.maps.event.addListener(map, 'click', function(event, isExisted) {
-		placeMarker(event.latLng, existing);
+	google.maps.event.addListener(g_map, 'click', function(event, isExisted) {
+		placeMarker(event.latLng, g_existing);
 	});
 }
 
 function setExisting(value) {
-	existing = value;
+	g_existing = value;
 }
 
 function getPhotoInBase64() {
@@ -37,8 +28,8 @@ function getPhotoInBase64() {
 
 function bindIssueForm() {
 	$("#issue_form form").bind("submit", function() {
-		$("#issue_form input[name=longitude]").val(marker.getPosition().lng());
-		$("#issue_form input[name=latitude]").val(marker.getPosition().lat());
+		$("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
+		$("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
 		$("#issue_form input[name=photo]").val(getPhotoInBase64 ());
 	});
 
@@ -53,32 +44,32 @@ function bindIssueForm() {
 
 function placeMarker(location, isExisted) {
 	if (isExisted == false) {
-		marker = new google.maps.Marker({
+		g_marker = new google.maps.Marker({
 			position: location,
-			map: map,
+			map: g_map,
 			draggable: true
 		});
 
 		//pobieranie formularza zgloszenia szkody z serwera
 		$.get('res/issue', function(data) {
-			infowindow = new google.maps.InfoWindow({
+			g_infowindow = new google.maps.InfoWindow({
 				content: data
 		  });
 
-		  infowindow.open(map, marker);
+		  g_infowindow.open(g_map, g_marker);
 
-		  google.maps.event.addListener(infowindow, 'domready', function() {
+		  google.maps.event.addListener(g_infowindow, 'domready', function() {
 			  bindIssueForm();
 		  });
     });
     
-    google.maps.event.addListener(marker, 'click', function() {
-		infowindow.open(map, marker);
+    google.maps.event.addListener(g_marker, 'click', function() {
+		g_infowindow.open(g_map, g_marker);
 	});
 
 	setExisting(true);
 	} 
 	else {
-		marker.setPosition(location);
+		g_marker.setPosition(location);
 	}
 }

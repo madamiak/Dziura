@@ -1,15 +1,18 @@
 <%# encoding: utf-8 %>
 
 <%- content_for(:head_extra) do -%>
-  <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA&sensor=true" -%>
-  <%= javascript_include_tag "map.js" -%>
+  <%= maps_javascript_tag %>
+  <%= javascript_include_tag "map_common.js" %>
+  <%= javascript_include_tag "map_notifies.js" %>
   <%= stylesheet_link_tag "notifies.css" %>
 <%- end -%>
 
-<%- @body_onload = "initialize()" -%>
+<%- @body_onload = "initialize()" %>
+
 <div id="notifies">
-	<div id="header">System Zgłaszania Uszkodzeń Jezdni</div>
-<div id="panel">Kliknij w mapę w miejscu, w którym znajduje się uszkodzenie jezdni.</div>
-	<div id="map_canvas" ></div>
+  <div id="header">System Zgłaszania Uszkodzeń Jezdni</div>
+  <div id="panel">Kliknij w mapę w miejscu, w którym znajduje się uszkodzenie jezdni.</div>
+  <div id="map_canvas" ></div>
 </div>
-	<div id="footer_notifies"><a href="#" title="Kontakt">Kontakt</a> | © 2012 by Alpha Team</div>
+
+<div id="footer_notifies"><a href="#" title="Kontakt">Kontakt</a> | © 2012 by Alpha Team</div>
