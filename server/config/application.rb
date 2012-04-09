@@ -61,6 +61,14 @@ module Dziura
 
     # Dodatkowe ustawienia aplikacji
 
+    # URL serwera
+    config.server_url = {
+      :host => "dziura.zapto.org", # do testowania (alias 87.99.29.139)
+      :port => 3000
+    }
+    # E-mail podawany w powiadomieniach
+    config.notification_email = "powiadomienia@" + config.server_url[:host]
+
     # Ustawienia Google Maps
     config.maps = {
       :api_key => "AIzaSyAcWrk6Vv91SXalY8y1mc3akRQI3RmcicA",
@@ -76,7 +84,12 @@ module Dziura
       :merge_distance_lat => "0.0001"
     }
 
-    # ...
+
+    # URL podawane w linkach w e-mailach
+    config.action_mailer.default_url_options = {
+      :host => config.server_url[:host],
+      :port => config.server_url[:port]
+    }
 
   end
 end

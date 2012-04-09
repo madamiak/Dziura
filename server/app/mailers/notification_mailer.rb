@@ -2,7 +2,7 @@
 
 class NotificationMailer < ActionMailer::Base
 
-  default :from => "powiadomienia@dziura.com"
+  default :from => Rails.application.config.notification_email
 
   def issue_added(issue_instance_id)
     @issue_instance = IssueInstance.find(issue_instance_id)
