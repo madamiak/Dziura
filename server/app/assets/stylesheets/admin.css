@@ -348,3 +348,12 @@ th:even {
 	text-align: center;
 	padding-bottom: 10px;
 }
+
+#marker {
+  width: 10px; 
+  height: 10px; 
+  background: #a00;
+  position: relative;
+  -webkit-border-radius: 5em; 
+  -moz-border-radius: 5em;
+}
