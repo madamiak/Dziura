@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+
+# CRUD dla użytkowników
 class UsersController < ApplicationController
   before_filter :require_admin
   

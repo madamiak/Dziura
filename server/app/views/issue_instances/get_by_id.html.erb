@@ -1,10 +1,16 @@
 <%# encoding: utf-8 %>
+
 <div id="header-container">
 	<div id="header" />
 </div>
 <p>
-  <b>Category:</b>
+  <b>Kategoria:</b>
 	<%= @issue_instances.issue.category.name %>
+</p>
+
+<p>
+  <b>Opis:</b>
+  <%= @issue_instances.desc %>
 </p>
 
 <p>
@@ -13,15 +19,18 @@
 </p>
 
 <p>
-  <b>Unit:</b>
+  <b>Jednostka odpowiedzialna:</b>
 	<%= @issue_instances.issue.unit.name %>
 </p>
 
+<% if (@issue_instances.photos.length > 0) %>
 <p>
-  <b>Desc:</b>
-	<%= @issue_instances.desc %>
+  <b>Zdjęcia:</b><br>
+  <% @issue_instances.photos.each do |photo| %>
+    <%= image_tag("/res/photos/" + photo.id.to_s) %><br>
+  <% end %>
 </p>
+<% end %>
 
-<!-- TODO photos -->
 
 

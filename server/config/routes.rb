@@ -9,7 +9,7 @@ Dziura::Application.routes.draw do
   resources :categories
   resources :users
   resources :units
-  
+
   resources :issues do
     member do
       get 'detach'
@@ -24,10 +24,13 @@ Dziura::Application.routes.draw do
   root :to => "notifies#index"
 
   match 'res/categories' => 'services#categories'
+  match 'res/category_icon/:id' => 'services#category_icon'
   match 'res/issue' => 'services#issue', :as => :issue_add
-	match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
-  
+  match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
+
   match 'res/upload' => 'image_converter_service#upload'
+
+  match 'res/photos/:id' => 'photos#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

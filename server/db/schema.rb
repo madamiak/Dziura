@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120322154532) do
+ActiveRecord::Schema.define(:version => 20120412195402) do
 
   create_table "addresses", :force => true do |t|
     t.string   "city"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20120322154532) do
     t.integer  "issue_instance_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "mime_type"
   end
 
   add_index "photos", ["issue_instance_id"], :name => "index_photos_on_issue_instance_id"

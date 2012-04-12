@@ -96,7 +96,8 @@ class Issue < ActiveRecord::Base
       end
 
       if !photo.nil? and photo != ""
-        photo = issue_instance.photos.build :photo => photo
+        # na razie typ na sztywno
+        photo = issue_instance.photos.build :photo => photo, :mime_type => "image/png"
 
         issue_instance.save!
 
