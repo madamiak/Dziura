@@ -1,18 +1,7 @@
 # -*- encoding : utf-8 -*-
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Emanuel', :city => cities.first)
-
-
-# Na razie bez adresu
 unit = Unit.new(:name => "ZDIUM")
-unit.address = Address.create :city => "Wrocław", :street => "Jakas", 
-  :home_number => "1"
+unit.address = Address.create :city => "Wrocław", :street => "Jakas", :home_number => "1"
 unit.save
 
 polygon = Polygon.new(:unit => unit)
@@ -85,10 +74,16 @@ User.create(:login => "test", :password => "test", :role => "admin")
 
 Status.create [ { :name => "Nowy"}, 
                 { :name => "W toku" },
-                { :name => "Rozwiazany" },
-                { :name => "Zamkniety" }] 
-                
-Category.create [ { :name => "Dziura"}, 
-                  { :name => "Śnieg" },
-                  { :name => "Uszkodzony znak drogowy" },
-                  { :name => "Graffity" }] 
+                { :name => "Rozwiązany" },
+                { :name => "Zamknięty" }] 
+
+Category.create [ { :id => 1, :name => "Dziury w jezdni" },
+                  { :id => 2, :name => "Dziury w chodniku" },
+                  { :id => 3, :name => "Uszkodzony znak drogowy" },
+                  { :id => 4, :name => "Graffiti" },
+                  { :id => 5, :name => "Zalegający śnieg" },
+                  { :id => 6, :name => "Oblodzenie" },
+                  { :id => 7, :name => "Zalana ulica" },
+                  { :id => 8, :name => "Dewastacja" },
+                  { :id => 9, :name => "Zaśmiecenie" },
+                  { :id => 10, :name => "Zwierzęta" } ]
