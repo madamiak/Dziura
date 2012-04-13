@@ -17,10 +17,10 @@ class ServicesController < ApplicationController
         if !issue.nil?
           render :json => 'Zgłoszenie zostało przyjęte'
         else
-          render :json => 'Błąd'
+          render :json => 'Błąd', :status => 500
         end
       rescue ActiveRecord::RecordInvalid => e
-        render :json => 'Błąd: ' + e.errors
+        render :json => 'Błąd: ' + e.errors, :status => 500
       rescue Exception => e
         render :json => 'Błąd: ' + e.message, :status => 500
       end
