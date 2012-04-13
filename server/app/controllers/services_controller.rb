@@ -11,19 +11,18 @@ class ServicesController < ApplicationController
   def issue
     if request.post?
       begin
-        issue = Issue.add_issue(params[:desc], params[:notificar_email], 
-          params[:category_id], params[:longitude], params[:latitude], 
-          params[:photo], params[:marker_x], params[:marker_y])
+        issue = Issue.add_issue(params[:category_id], params[:longitude], params[:latitude],
+                                params[:desc], params[:notificar_email], params[:photos])
 
         if !issue.nil?
           render :json => 'Zgłoszenie zostało przyjęte'
         else
-          render :json => 'Error'
+          render :json => 'Błąd'
         end
-      rescue Exceptions::NoUnitForPoint
-        render :json => 'Nie ma jednostki dla takiego punktu', :status => 500
+      rescue ActiveRecord::RecordInvalid => e
+        render :json => 'Błąd: ' + e.errors
       rescue Exception => e
-        render :json => 'Error: ' + e.message, :status => 500
+        render :json => 'Błąd: ' + e.message, :status => 500
       end
     end
   end

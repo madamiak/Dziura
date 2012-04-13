@@ -38,8 +38,7 @@ class IssueTest < ActiveSupport::TestCase
     l = Log.last
 
     assert_equal l.user, @u
-    assert_equal l.message, I18n.t(:status_change_message, 
-      :old => "old", :new => "new" )
+    assert_equal l.message, I18n.t(:status_change_message, :old => "old", :new => "new" )
   end
 
 
@@ -47,15 +46,15 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue nil arguments" do
 
     assert_raise Exceptions::NilArguments do
-      Issue.add_issue("", "", nil, "", "", nil, nil, nil)
+      Issue.add_issue(nil, "", "", "", "", nil)
     end
 
     assert_raise Exceptions::NilArguments do
-      Issue.add_issue("", "", 1, nil, "", nil, nil, nil)
+      Issue.add_issue(1, nil, "", "", "", nil)
     end
 
     assert_raise Exceptions::NilArguments do
-      Issue.add_issue("", "", 1, "", nil, nil, nil, nil)
+      Issue.add_issue(1, "", nil, "", "", nil)
     end
 
   end
@@ -64,7 +63,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue outside unit area" do
 
     assert_raise Exceptions::NoUnitForPoint do
-      Issue.add_issue("bla", "bla@bla.com", 1, "10", "10", nil, nil, nil)
+      Issue.add_issue(1, "10", "10", "bla", "bla@bla.com", nil)
     end
 
   end
@@ -73,7 +72,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue invalid category" do
 
     assert_raise Exceptions::UnknownCategory do
-      Issue.add_issue("bla", "bla@bla.com", -1, "10", "10", nil, nil, nil)
+      Issue.add_issue(-1, "10", "10", "bla", "bla@bla.com", nil)
     end
 
   end
@@ -82,7 +81,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue invalid e-mail" do
 
     assert_raise Exceptions::IncorrectNotificarEmail do
-      Issue.add_issue("bla", "bla", 1, "0", "0", nil, nil, nil)
+      Issue.add_issue(1, "0", "0", "bla", "bla", nil)
     end
 
   end
@@ -91,16 +90,14 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue joining issues" do
 
     # Wszystko OK
-    i_1 = Issue.add_issue("bla", "bla@bla.com",
-                          1, "0.0", "0.0",
-                          nil, nil, nil)
+    i_1 = Issue.add_issue(1, "0.0", "0.0",
+                          "bla", "bla@bla.com", nil)
 
     assert_not_nil(i_1)
 
     # Drugie zgłoszenie w pobliżu
-    i_2 = Issue.add_issue("bla bla", "bla@bla.com",
-                          1, "0.000001", "0.0",
-                          nil, nil, nil)
+    i_2 = Issue.add_issue(1, "0.000001", "0.0",
+                          "bla bla", "bla@bla.com", nil)
 
     assert_not_nil(i_2)
 
@@ -108,16 +105,14 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal(i_1.issue, i_2.issue)
 
     # Zgłoszenie poza obszarem złączania ma osobne issue
-    i_3 = Issue.add_issue("bla", "bla@bla.com",
-                          1, "0.99", "-0.99",
-                          nil, nil, nil)
+    i_3 = Issue.add_issue(1, "0.99", "-0.99",
+                          "bla", "bla@bla.com", nil)
 
     assert_not_equal(i_1.issue, i_3.issue)
 
     # Zgłoszenie w pobliżu, ale w innej kategorii też ma mieć osobne issue
-    i_4 = Issue.add_issue("bla", "bla@bla.com",
-                          2, "0.000001", "0.0",
-                          nil, nil, nil)
+    i_4 = Issue.add_issue(2, "0.000001", "0.0",
+                          "bla", "bla@bla.com", nil)
     assert_not_equal(i_1.issue, i_4.issue)
 
   end

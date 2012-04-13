@@ -28,7 +28,7 @@ class Address < ActiveRecord::Base
 
   # Funkcja używa Geocoding API Google'a
   # Zwraca utworzony adres albo nil jeżeli Google nie zwróciło adresu
-  # Wyjątek NetworkException jeżeli HTTP wyrzuci jakiś błąd
+  # Wyjątek GeocodingException jeżeli HTTP wyrzuci jakiś błąd
   # W additional_info jest jeszcze zwracany pełny adres
   #  na wypadek jakby coś nie wyszło z parsowaniem
   def self.create_by_position(latitude, longitude)
@@ -40,7 +40,7 @@ class Address < ActiveRecord::Base
     response = http_get("maps.googleapis.com", "/maps/api/geocode/json", params)
 
     if response.code != "200"
-      raise Exceptions::NetworkException.new()
+      raise Exceptions::GeocodingException.new()
     end
 
     data = ActiveSupport::JSON.decode(response.body)

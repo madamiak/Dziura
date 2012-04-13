@@ -32,19 +32,19 @@ class Issue < ActiveRecord::Base
 
   # Dodaje zgłoszenie do systemu
   #
-  # photo - string, zdjęcie w base64
-  # category - id category
-  # longitude, latitude - string
+  # category_id - id kategorii zgłoszenia
+  # longitude, latitude - współrzędne (string)
+  # desc - opis (string; może być nil)
+  # notificar_email - e-mail zgłaszającego (string; może być nil)
+  # photo - lista ze zdjęciami w Base64 i znacznikami (może być nil)
   #
-  # Rzuca NilArguments gdy lgn, lat lub category jest nil
+  # Rzuca NilArguments gdy longitude, latitude lub category_id jest nil
   # Rzuca NoUnitForPoint gdy nie odnajdzie pasującej jednostki do punktu
   # Rzuca UnknownCategory gdy nie odnajdzie category
-  # Rzuca IncorrectNotificarEmail gdy notificar email jest nieprawidłowy
+  # Rzuca IncorrectNotificarEmail gdy notificar_email jest nieprawidłowy
   # Rzuca ActiveRecord::RecordInvalid gdy wystąpi inny błąd walidacji
-  def self.add_issue(desc, notificar_email, category, longitude, latitude,
-    photo, marker_x, marker_y)
-
-    raise Exceptions::NilArguments if category.nil? or longitude.nil? or
+  def self.add_issue(category_id, longitude, latitude, desc, notificar_email, photos)
+    raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or
       latitude.nil?
 
     # <- transakcja
@@ -53,7 +53,7 @@ class Issue < ActiveRecord::Base
       latitude = BigDecimal.new(latitude)
 
       begin
-        category = Category.find(category)
+        category = Category.find(category_id)
       rescue ActiveRecord::RecordNotFound
         raise Exceptions::UnknownCategory.new
       end
@@ -61,7 +61,7 @@ class Issue < ActiveRecord::Base
       unit = Unit.find_unit_by_point(longitude, latitude)
 
       raise Exceptions::NoUnitForPoint.new if unit.nil?
-      
+
       #TODO replace with get_close_issues
       p_lat = 0.0001
       p_lng = 0.0001
@@ -77,7 +77,7 @@ class Issue < ActiveRecord::Base
 
         begin
           i.address = Address.create_by_position(latitude, longitude)
-        rescue ActiveRecord::RecordInvalid => e
+        rescue Exception => e
           logger.error "Błąd pobierania adresu: #{e.message}"
         end
 
@@ -91,19 +91,18 @@ class Issue < ActiveRecord::Base
       begin
         i.save!
       rescue ActiveRecord::RecordInvalid => e
-        raise Exceptions::IncorrectNotificarEmail.new if !i.errors.messages[:notificar_email].nil?
+        raise Exceptions::IncorrectNotificarEmail.new if !issue_instance.errors.messages[:notificar_email].nil?
         raise e
       end
 
-      if !photo.nil? and photo != ""
-        # na razie typ na sztywno
-        photo = issue_instance.photos.build :photo => photo, :mime_type => "image/png"
-
-        issue_instance.save!
-
-        if !marker_x.nil? and !marker_y.nil?
-          photo.markers.build :x => marker_x, :y => marker_y
+      if !photos.nil?
+        photos.each do |p|
+          photo = issue_instance.photos.build :photo => p[:image], :mime_type => p[:image_type]
+          p[:markers].each do |m|
+            photo.markers.build :x => m[:x], :y => m[:y], :desc => m[:desc]
+          end
         end
+        issue_instance.save!
       end
 
       Delayed::Job.enqueue(MailIssueAdded.new(issue_instance.id))
@@ -114,7 +113,7 @@ class Issue < ActiveRecord::Base
     # transakcja ->
 
   end
-  
+
   # Funkcja przepina IssueInstances z podanego issue do self, usuwajac puste Issue
   def join_with(other_issue)
     Issue.transaction do      

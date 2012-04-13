@@ -5,6 +5,8 @@
 class PhotosController < ApplicationController
   skip_before_filter :require_login
 
+  layout false
+
   # GET /photos/1
   def show
     photo = Photo.find(params[:id])
