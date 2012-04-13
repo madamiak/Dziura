@@ -1,0 +1,60 @@
+Aktualna specyfikacja interfejsu REST
+
+Tak jest na obecną chwilę. Jak chcecie coś zmienić to najlepiej dać znać i wpisać tu od razu.
+
+*** - pola opcjonalne
+
+1. Dodawanie nowego zgłoszenia.
+
+Metoda: POST
+URL: /res/issue /res/issue.json
+Parametry:
+  w treści zapytania JSON:
+
+{
+ "category_id": (id kategorii zgłoszenia),
+ "latitude": (szer. geogr.),
+ "longitude": (dł. geogr.),
+ *** "desc": (opis),
+ *** "notificar_email": (e-mail zgłaszającego),
+ "photos": (lista zdjęć)
+  [
+   {
+    "image": (zdjęcie w Base64),
+    "image_type": (typ MIME zdjęcia, np. "image/jpeg"),
+    *** "markers": (lista znaczników)
+    [
+     { "x": (poz. x), "y": (poz. y), "desc": (opis) },
+     ...
+    ]
+   },
+   ...
+  ]
+}
+
+Wynik:
+  HTTP 200 + w treści "Zgłoszenie zostało przyjęte"
+  HTTP 500 + w treści "Błąd: ..."
+
+2. Pobieranie listy kategorii.
+
+Metoda: GET
+URL: /res/categories /res/categories.json
+Wynik:
+  HTTP 200 + w treści JSON:
+
+[
+ {
+  "name": (nazwa kategorii),
+  "id": (id)
+ },
+ ...
+]
+
+3. Pobieranie ikon kategorii.
+
+Metoda GET
+URL: /res/category_icon/(id kategorii)
+Wynik:
+  HTTP 200 + w treści zdjęcie już jako obrazek, a nie w Base64
+  HTTP 404
