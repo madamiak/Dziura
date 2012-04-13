@@ -11,7 +11,7 @@ class Photo < ActiveRecord::Base
   has_many :markers
 
   validates :photo, :presence => true,
-                    :length => { :maximum => 640*1024*1024 } # 400 kB max
+                    :length => { :maximum => 1200*1024 } # 1200 kB Base64 ~ 400-600 kB max
 
   validates :mime_type, :presence => true
   validates :mime_type, :format => { :with => /image\/jpeg|image\/png/,
