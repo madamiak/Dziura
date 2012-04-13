@@ -30,7 +30,7 @@ class ServicesController < ApplicationController
   # GET /res/categories
   def categories
     @categories = Category.all
-    render :json => @categories.to_json( :only => [:name, :icon] )
+    render :json => @categories.to_json( :only => [:id, :name] )
   end
 
   # GET /res/category_icon/1
