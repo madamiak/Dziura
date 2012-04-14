@@ -1,0 +1,24 @@
+<h1>Wydruk wybranych zgloszeń</h1>
+
+
+<% @issues.each do |issue| %>
+  <b>ID:</b> <%= issue.id %><br />
+  <b>Kategoria:</b> <%= issue.category.name %><br />
+  <b>Status:</b> <%= issue.status.name %><br />
+  <b>Address:</b> <%= issue.address.street %> <%= issue.address.home_number %><br />
+  <%= issue.address.zip %> <%= issue.address.city %><br />
+  <b>Komentarze i zdjecia</b><br />
+  <ul>
+  <% issue.issue_instances.each do |ii| %>
+    <li><%= ii.desc %> <%= ii.created_at %><br />
+    <% ii.photos.each do |photo| %>  
+      <% photo.markers.each do |m| %>
+        <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+      <% end %>      
+      <img id="uploaded_image" src="data:image/png;base64,<%= photo.photo %>" width="200px"/>
+    <% end %>
+    </li>
+  <% end %>
+  </ul>
+  <hr/>
+<% end %>

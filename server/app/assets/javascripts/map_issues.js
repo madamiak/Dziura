@@ -3,6 +3,7 @@
 var g_issueMarkers = [];
 var g_updateTimer = null;
 var g_first = true;
+var issues = new Array();
 
 function initialize()
 {
@@ -24,6 +25,19 @@ function initialize()
   
   $("select").bind("change", updateIssues);
   $("input[name=street]").bind("keyup", updateIssues);
+  $("#printButton").bind("click", printIssues);
+}
+
+function printIssues() {  
+  var url = '/issues/print?id=';
+  for (var i = 0; i < issues.length; i++) {
+    url = url + issues[i].id + ',';
+  }
+  
+   console.log('drukuje zgloszenia' + url);
+  
+  window.location = url;
+  
 }
 
 function getFilterParams() {
@@ -68,6 +82,8 @@ function updateIssues()
 
 function issuesReceived(data)
 {
+  issues = data;
+  
   for (var i = 0; i < g_issueMarkers.length; i++)
   {
     g_issueMarkers[i].setVisible(false);

@@ -134,4 +134,15 @@ class IssuesController < ApplicationController
     @issue.join_with(@other_issue)
   end
   
+  # GET /issues/print?id=1&id=2
+  def print
+    ids = params[:id].split(',')
+    @issues = Issue.find(ids);
+    
+    respond_to do |format|
+      format.html { render :layout => false }
+      format.json { render :json => @issues }
+    end
+  end
+  
 end

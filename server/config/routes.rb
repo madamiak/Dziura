@@ -4,6 +4,7 @@ Dziura::Application.routes.draw do
   match 'issues/by_rect' => 'issues#get_by_rect'
   match 'issues/by_pages' => 'issues#get_by_pages'
   match 'issues/map' => 'issues#show_map'
+  match 'issues/print' => 'issues#print'
 
   resources :statuses
   resources :categories
