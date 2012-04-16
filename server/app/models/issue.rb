@@ -43,6 +43,9 @@ class Issue < ActiveRecord::Base
   # Rzuca UnknownCategory gdy nie odnajdzie category
   # Rzuca IncorrectNotificarEmail gdy notificar_email jest nieprawidłowy
   # Rzuca ActiveRecord::RecordInvalid gdy wystąpi inny błąd walidacji
+  #
+  # Zwraca obiekt przyjętego zgłoszenia (issue instace)
+  # lub nil jeżeli wystąpił jakiś inny błąd
   def self.add_issue(category_id, longitude, latitude, desc, notificar_email, photos)
     raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or
       latitude.nil?

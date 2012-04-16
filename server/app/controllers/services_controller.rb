@@ -11,18 +11,18 @@ class ServicesController < ApplicationController
   def issue
     if request.post?
       begin
-        issue = Issue.add_issue(params[:category_id], params[:longitude], params[:latitude],
+        instance = Issue.add_issue(params[:category_id], params[:longitude], params[:latitude],
                                 params[:desc], params[:notificar_email], params[:photos])
 
-        if !issue.nil?
-          render :json => 'Zgłoszenie zostało przyjęte'
+        if !instance.nil?
+          render :json => { :message => 'Zgłoszenie zostało przyjęte', :id => instance.id }
         else
-          render :json => 'Błąd', :status => 500
+          render :json => { :message => 'Błąd', :id => nil }, :status => 500
         end
       rescue ActiveRecord::RecordInvalid => e
-        render :json => 'Błąd: ' + e.errors, :status => 500
+        render :json => { :message => 'Błąd: ' + e.errors, :id => nil }, :status => 500
       rescue Exception => e
-        render :json => 'Błąd: ' + e.message, :status => 500
+        render :json => { :message => 'Błąd: ' + e.message, :id => nil }, :status => 500
       end
     end
   end
