@@ -44,23 +44,23 @@ function getFilterParams() {
   var params = {};
   params["search"] = {};
   
-  if( $("select[name=category_id]").val() != 0 ) {
+  if( $("select[name=category_id]").length>0 && $("select[name=category_id]").val() != 0 ) {
     params["search"]["category_id_equals"] = $("select[name=category_id]").val();
   }
   
-  if( $("select[name=status_id]").val() != 0 ) {
+  if( $("select[name=status_id]").length>0 && $("select[name=status_id]").val() != 0 ) {
     params["search"]["status_id_equals"] = $("select[name=status_id]").val();
   }
   
-  if( $("select[name=unit_id]").val() != 0 ) {
+  if( $("select[name=unit_id]").length>0 && $("select[name=unit_id]").val() != 0 ) {
     params["search"]["unit_id_equals"] = $("select[name=unit_id]").val();
   }
   
-  if( $("input[name=street]").val() != "" ) {
+  if( $("input[name=street]").length>0 && $("input[name=street]").val() != "" ) {
     params["search"]["address_street_contains"] = $("input[name=street]").val();
   }
   
-  if( $("select[name=date]").val() != 0 ) {
+  if( $("select[name=date]").length>0 && $("select[name=date]").val() != 0 ) {
     params["search"]["created_at_greater_than"] = $("select[name=date]").val();
   }
   
@@ -84,7 +84,8 @@ function issuesReceived(data)
 {
   issues = data;
   
-  for (var i = 0; i < g_issueMarkers.length; i++)
+  //for (var i = 0; i < g_issueMarkers.length; i++)
+  for(i in g_issueMarkers)
   {
     g_issueMarkers[i].setVisible(false);
   }
@@ -101,9 +102,12 @@ function issuesReceived(data)
         title: "" + data[i].id
       } );
     
-    g_issueMarkers.push(marker);
+    //g_issueMarkers.push(marker);
+    g_issueMarkers[data[i].id] = marker;
     
     addIssueClickListener(marker);
+    addIssueMouseoverListener(marker);
+    addIssueMouseoutListener(marker);
   }
 }
 
@@ -124,4 +128,20 @@ function addIssueClickListener(marker)
 		  });
     });
   });
+}
+
+function addIssueMouseoverListener(marker){
+	google.maps.event.addListener(marker, 'mouseover', function() {
+	    var id = marker.getTitle();
+	    var m = new mapTable;
+		m.setHihglightRow(id, true);
+	   
+	  });
+}
+function addIssueMouseoutListener(marker){
+	google.maps.event.addListener(marker, 'mouseout', function() {
+	    var id = marker.getTitle();
+	    var m = new mapTable;
+		m.setHihglightRow(id, false);
+	  });
 }

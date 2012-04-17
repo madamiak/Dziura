@@ -162,7 +162,13 @@ td:odd {
 }
 
 th:even {
-	
+	background: #f0f0f0;
+}
+tr.hover, tr:HOVER {
+	background: #e7e7e7;
+}
+thead tr:HOVER {
+	background: inherit;	
 }
 /* 4 Widoki */
 /* 4.1 Login */

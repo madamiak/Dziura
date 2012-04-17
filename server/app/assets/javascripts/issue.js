@@ -9,6 +9,10 @@ function bindEditIssueForm() {
 }
 
 $(document).ready(function() {
+	
+	var m = new mapTable;
+	m.aa();
+	
 	$('#example').each(function() {
 		$('#example').dataTable({
 			"bProcessing" : true,
