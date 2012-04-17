@@ -101,8 +101,10 @@ class Issue < ActiveRecord::Base
       if !photos.nil?
         photos.each do |p|
           photo = issue_instance.photos.build :photo => p[:image], :mime_type => p[:image_type]
-          p[:markers].each do |m|
-            photo.markers.build :x => m[:x], :y => m[:y], :desc => m[:desc]
+          if !p[:markers].nil?
+            p[:markers].each do |m|
+              photo.markers.build :x => m[:x], :y => m[:y], :desc => m[:desc]
+            end
           end
         end
         issue_instance.save!
