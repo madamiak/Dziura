@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 
 # Kontroler pojedynczego zgłoszenia
-# Służy jedynie do podglądu statusu zgłoszenia
+#
+# Służy jedynie do podglądu statusu zgłoszenia.
+#
 class IssueInstancesController < ApplicationController
   skip_before_filter :require_login
 

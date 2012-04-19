@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 
 # Kontroler zdjęć
-# Umożliwia pobieranie zdjęć zdekodowanych z formatu Base64
+#
+# Umożliwia pobieranie zdjęć zdekodowanych z formatu Base64.
+#
 class PhotosController < ApplicationController
   skip_before_filter :require_login
 
@@ -11,7 +13,7 @@ class PhotosController < ApplicationController
   def show
     photo = Photo.find(params[:id])
     if !photo.nil? && !photo.photo.nil?
-      send_data Base64.decode64(photo.photo), :type => photo.type, :disposition => 'inline'
+      send_data Base64.decode64(photo.photo), :type => photo.mime_type, :disposition => 'inline'
     end
   end
 

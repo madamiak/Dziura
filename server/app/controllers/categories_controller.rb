@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 
 # CRUD dla kategorii
+#
+# Kod wygenerowany automatycznie przez szablon Rails.
+#
+# Jedyna zmiana to przekodowanie zdjęć do Base64 w POST i PUT.
+#
 class CategoriesController < ApplicationController
   before_filter :require_admin
 

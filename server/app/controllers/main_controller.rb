@@ -1,18 +1,21 @@
 # -*- encoding : utf-8 -*-
 
 # Kontroler głównej strony panelu zarządzania
+#
 class MainController < ApplicationController
   skip_before_filter :require_login, :only => [:login]
-  
+
   layout "admin"
-  
+
+  # GET /admin
   def index
   end
-  
+
+  # Logowanie
   def login
     if request.post?
       user = User.authenticate(params[:login], params[:password])
-      
+
       if user != nil
         session[:current_user_id] = user.id
         flash[:notice] = t(:logged_in)
@@ -22,7 +25,8 @@ class MainController < ApplicationController
       end
     end
   end
-  
+
+  # Po wylogowaniu
   def logout
     @_current_user = session[:current_user_id] = nil
     flash[:notice] = t(:logged_out)

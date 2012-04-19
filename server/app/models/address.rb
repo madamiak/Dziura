@@ -20,7 +20,7 @@ class Address < ActiveRecord::Base
 
   # Zapytanie GET z parametrami
   # Wykorzystywane tylko tutaj, stąd jako prywatna metoda
-  def self.http_get(domain, path, params)
+  def self.http_get(domain, path, params) #:doc:
 
     if params.nil?
       return Net::HTTP.get_response(domain, path)

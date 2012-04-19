@@ -1,11 +1,14 @@
 # -*- encoding : utf-8 -*-
 
 # CRUD dla statusów
+#
+# Kod wygenerowany automatycznie przez szablon Rails
+#
 class StatusesController < ApplicationController
   before_filter :require_admin
-  
+
   layout "admin"
-  
+
   # GET /statuses
   # GET /statuses.json
   def index
@@ -51,7 +54,7 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       if @status.save
-        format.html { redirect_to @status, :notice => 'Status was successfully created.' }
+        format.html { redirect_to @status, :notice => 'Status został utworzony.' }
         format.json { render :json => @status, :status => :created, :location => @status }
       else
         format.html { render :action => "new" }
@@ -67,7 +70,7 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       if @status.update_attributes(params[:status])
-        format.html { redirect_to @status, :notice => 'Status was successfully updated.' }
+        format.html { redirect_to @status, :notice => 'Status został zaktualizowany.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }
