@@ -151,7 +151,10 @@ class Issue < ActiveRecord::Base
     issues = Issue.where(:latitude => (latitude - p_lat)..(latitude + p_lat),
         :longitude => (longitude - p_lng)..(longitude + p_lng)).to_a
 
-    #issues.delete_if { |issue| issue.id == id }
+    issues.delete_if { |issue| issue.id == id }
+
+    return issues
+
   end
 
 end
