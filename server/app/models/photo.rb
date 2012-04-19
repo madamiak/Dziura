@@ -2,15 +2,17 @@
 
 # Klasa zdjęcia
 #
-# Ma pole photo, ktore jest stringiem z danymi obrazka zakodowanymi
-# w formacie Base64
+# === Pola
+# [photo] zdjęcie w formacie JPEG lub PNG, zakodowane w Base64, wymagane,
+#         maks. rozmiar to 1200 kB (zakodowane) = ok. 400-600 kB zdekodowane
+# [mime_type] typ MIME zdjęcia (image/jpeg albo image/png), wymagane
+# [markers] znaczniki na zdjęciu
 #
 class Photo < ActiveRecord::Base
 
   belongs_to :issue_instance
   has_many :markers
 
-  # Maksymalny rozmiar 1200 kB Base64 = ok. 400-600 kB zdekodowane
   validates :photo, :presence => true,
                     :length => { :maximum => 1200*1024 }
 
@@ -23,6 +25,7 @@ class Photo < ActiveRecord::Base
   validate :image_and_markers_must_be_valid
 
   # Walidator
+  #
   # Sprawdza, czy zdjęcie jest faktycznie w podanym formacie i czy znaczniki
   # są w obszarze obrazka
   def image_and_markers_must_be_valid

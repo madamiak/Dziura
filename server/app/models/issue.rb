@@ -3,7 +3,17 @@
 # Klasa zgłoszenia (zbiorczego)
 #
 # Oprócz pól modelu RoR, zawiera najważniejszą metodę w systemie:
-# self.add_issue dodającą nowe zgłoszenie do systemu
+# #self.add_issue dodającą nowe zgłoszenie do systemu
+#
+# === Pola
+# [latitude] szerokość geograficzna, +BigDecimal+
+# [longitude] długość geograficzna, +BigDecimal+
+# [desc] opis, +string+
+# [address] (najbliższy) adres, może być ustalony przez geocoding
+# [issue_instances] podpięte pojedyncze zgłoszenia
+# [status] status zgłoszenia; musi zawsze istnieć
+# [category] kategoria zgłoszenia; musi zawsze istnieć
+# [unit] odpowiedzialna jednostka; musi zawsze istnieć
 #
 class Issue < ActiveRecord::Base
 
@@ -32,20 +42,22 @@ class Issue < ActiveRecord::Base
 
   # Dodaje zgłoszenie do systemu
   #
-  # category_id - id kategorii zgłoszenia
-  # lng, lat - współrzędne (string)
-  # desc - opis (string; może być nil)
-  # notificar_email - e-mail zgłaszającego (string; może być nil)
-  # photo - lista ze zdjęciami w Base64 i znacznikami (może być nil)
+  # ===Argumenty:
+  # * +category_id+ - id kategorii zgłoszenia
+  # * +longitude+, +latitude+ - współrzędne (+string+)
+  # * +desc+ - opis (string; może być +nil+)
+  # * +notificar_email+ - e-mail zgłaszającego (+string+; może być +nil+)
+  # * +photo+ - lista ze zdjęciami w Base64 i znacznikami (może być +nil+)
   #
-  # Rzuca NilArguments gdy longitude, latitude lub category_id jest nil
-  # Rzuca NoUnitForPoint gdy nie odnajdzie pasującej jednostki do punktu
-  # Rzuca UnknownCategory gdy nie odnajdzie category
-  # Rzuca IncorrectNotificarEmail gdy notificar_email jest nieprawidłowy
-  # Rzuca ActiveRecord::RecordInvalid gdy wystąpi inny błąd walidacji
+  # ===Wyjątki:
+  # * Exceptions::NilArguments gdy +longitude+, +latitude+ lub +category_id+ jest +nil+
+  # * Exceptions::NoUnitForPoint gdy nie odnajdzie pasującej jednostki do punktu
+  # * Exceptions::UnknownCategory gdy nie odnajdzie kategorii
+  # * Exceptions::IncorrectNotificarEmail gdy +notificar_email+ jest nieprawidłowy
+  # * ActiveRecord::RecordInvalid gdy wystąpi inny błąd walidacji
   #
-  # Zwraca obiekt przyjętego zgłoszenia (issue instace)
-  # lub nil jeżeli wystąpił jakiś inny błąd
+  # Zwraca obiekt przyjętego zgłoszenia (IssueInstace)
+  # lub +nil+ jeżeli wystąpił jakiś inny błąd
   def self.add_issue(category_id, longitude, latitude, desc, notificar_email, photos)
 
     raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or latitude.nil?
@@ -139,7 +151,7 @@ class Issue < ActiveRecord::Base
     issues = Issue.where(:latitude => (latitude - p_lat)..(latitude + p_lat),
         :longitude => (longitude - p_lng)..(longitude + p_lng)).to_a
 
-    issues.delete_if { |issue| issue.id == id }
+    #issues.delete_if { |issue| issue.id == id }
   end
 
 end

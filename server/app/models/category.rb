@@ -2,15 +2,17 @@
 
 # Klasa kategorii
 #
-# Zawiera jedynie pola z bazy danych: name i icon
-# Ikona zakodowana w formacie Base64
+# Zawiera jedynie pola modelu RoR
+#
+# === Pola
+# [name] nazwa, +string+, wymagane, nie może się powtarzać
+# [icon] ikona, +string+, obrazek JPEG zakodowany w Base64
 #
 class Category < ActiveRecord::Base
 
   # has_many zamiast belongs ze względu na położenie klucza obcego
   has_many :issues
 
-  # Nazwa obowiązkowa i nie może się powtarzać
   validates :name, :presence => true, :uniqueness => true
 
 end

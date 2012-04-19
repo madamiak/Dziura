@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+
+# Kontroler głównej strony panelu zarządzania
 class MainController < ApplicationController
   skip_before_filter :require_login, :only => [:login]
   

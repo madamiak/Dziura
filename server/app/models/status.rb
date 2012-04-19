@@ -2,6 +2,9 @@
 
 # Klasa statusu zgłoszenia
 #
+# === Pola
+# [name] nazwa, +string+, wymagane, nie może się powtarzać
+#
 class Status < ActiveRecord::Base
 
   # nazwa obowiązkowa i nie może się powtarzać

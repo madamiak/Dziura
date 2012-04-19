@@ -2,9 +2,16 @@
 
 # Klasa jednostki
 #
+# === Pola
+# [name] nazwa jednostki
+# [address] adres jednostki, wymagane
+# [polygons] wielokąty opisujące obszar jednostki
+# [issues] zgłoszenia na terenie jednostki
+# [users] użytkownicy przypisani do jednostki
+#
 class Unit < ActiveRecord::Base
 
-  has_many :polygons
+  has_many :polygons, :validate => true
   has_many :issues
   has_many :users
   belongs_to :address

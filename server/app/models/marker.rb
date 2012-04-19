@@ -1,6 +1,12 @@
 # -*- encoding : utf-8 -*-
 
-# Klasa markera na obrazku
+# Klasa znacznika na zdjęciu
+#
+# === Pola
+# [x] pozycja X, +integer+, wymagane, zakres to [1, szer. zdjęcia w px]
+# [y] pozycja Y, +integer+, wymagane, zakres to [1, wys. zdjęcia w px]
+# [desc] opis, +string+
+# [photo] zdjęcie
 #
 class Marker < ActiveRecord::Base
 

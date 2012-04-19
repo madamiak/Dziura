@@ -2,8 +2,15 @@
 
 # Klasa pojedynczego zgłoszenia
 #
-# Posiada dodatkową metodę detach() do odłączania zgłoszenia
+# Posiada dodatkową metodę detach do odłączania zgłoszenia
 # od zgłoszenia zbiorczego (Issue)
+#
+# === Pola
+# [desc] opis szkody, +string+
+# [latitide] szerokość geograficzna
+# [longitude] długość geograficzna
+# [notificar_email] e-mail zgłaszającego, +string+, jeżeli podany, musi być w poprawnym formacie
+# [issue] zgłoszenie zbiorcze, do którego jest podpięte to zgłoszenie; musi zawsze istnieć
 #
 class IssueInstance < ActiveRecord::Base
 

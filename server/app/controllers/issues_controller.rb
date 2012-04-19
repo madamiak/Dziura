@@ -1,8 +1,10 @@
 # -*- encoding : utf-8 -*-
+
+# CRUD dla zgłoszeń (Issues)
 class IssuesController < ApplicationController
   before_filter :require_admin
   layout "admin"
-  
+
   # GET /issues
   # GET /issues.json
   def index

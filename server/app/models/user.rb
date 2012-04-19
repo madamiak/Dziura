@@ -6,11 +6,22 @@ require "digest/sha1"
 #
 # Zawiera dodatkowe funkcje do hashowania hasła (SHA1) i uwierzytelniania użytkowników
 #
+# === Pola
+# [login] login użytkownika, +string+, wymagane, musi być unikalny
+# [password_hash] hash SHA1 hasła
+# [role] rola użytkownika
+# [unit] jednostka, z którą jest związany użytkownik
+#
 class User < ActiveRecord::Base
 
   belongs_to :unit
 
   before_save :hash_password
+
+  # Pole na hasło
+  #
+  # Nie jest zapisywane w bazie, tylko używane do ustawiania hashu hasła
+  # podczas tworzenia/aktualizacji
   attr_accessor :password
 
   validates :login, :presence => true, :uniqueness => true
@@ -38,6 +49,7 @@ class User < ActiveRecord::Base
     self.password_hash = self.class.hash_password(self.password) unless self.password.blank?
   end
 
+  # Zwraca true, jeżeli konieczna jest walidacja hasła
   def perform_password_validation?
     self.new_record? ? true : !self.password.blank?
   end

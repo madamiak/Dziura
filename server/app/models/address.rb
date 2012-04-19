@@ -4,12 +4,18 @@ require 'net/http'
 
 # Klasa adresu
 #
-# Oprócz pól modelu RoR zawiera metodę self.create_by_position, wykorzystującą
+# Oprócz pól modelu RoR zawiera metodę #self.create_by_position, wykorzystującą
 # API geolokacji Google do zamiany współrzędnych geograficznych na adres
+#
+# === Pola
+# [city] miasto, +string+, wymagane
+# [street] ulica, +string+, wymagane
+# [home_number] nr domu, +string+, wymagane
+# [zip] kod pocztowy, +string+
+# [additional_info] dodatkowe informacje, +string+
 #
 class Address < ActiveRecord::Base
 
-  # obowiązkowe pola: miasto, ulica, nr domu
   validates :city, :street, :home_number, :presence => true
 
   # Zapytanie GET z parametrami
@@ -29,12 +35,17 @@ class Address < ActiveRecord::Base
 
   # Tworzy adres z podanych współrzędnych geograficznych
   #
-  # latitude, longitude - para współrzędnych (BigDecimal albo string)
-  # Funkcja używa Geocoding API Google'a
-  # Zwraca utworzony adres albo nil jeżeli Google nie zwróciło adresu
-  # Wyjątek GeocodingException jeżeli HTTP wyrzuci jakiś błąd
-  # W additional_info jest jeszcze zwracany pełny adres
-  #  na wypadek jakby coś nie wyszło z parsowaniem
+  # Funkcja używa Geocoding API Google'a.
+  # Zwraca utworzony adres albo +nil+ jeżeli Google nie zwróciło adresu.
+  # Dodatkowo, w +additional_info+ jest zwracany pełny adres
+  # na wypadek jakby coś nie wyszło z parsowaniem.
+  #
+  # ===Argumenty:
+  # * +latitude+, +longitude+ - para współrzędnych (+BigDecimal+ albo +string+)
+  #
+  # ===Wyjątki:
+  # * Exceptions::GeocodingException jeżeli HTTP wyrzuci jakiś błąd.
+  #
   def self.create_by_position(latitude, longitude)
 
     params = { :latlng => latitude.to_s() + "," + longitude.to_s(),
