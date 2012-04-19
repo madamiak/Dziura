@@ -80,8 +80,8 @@ module Dziura
     # Ustawienia dla zgłoszeń
     config.issues = {
       # Odległość scalanych zgłoszeń
-      :merge_distance_lng => "0.0001",
-      :merge_distance_lat => "0.0001"
+      :merge_distance => { :lng => "0.0001",
+                           :lat => "0.0001" }
     }
 
 

@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 require 'test_helper'
 
 class PolygonTest < ActiveSupport::TestCase
@@ -21,16 +22,13 @@ class PolygonTest < ActiveSupport::TestCase
     end
 
     poly = Polygon.new(:points => polyPoints)
-    poly.print()
 
     # Sprawdzenie punktu w środku
     p = Point.new(:longitude => BigDecimal.new("5"), :latitude => BigDecimal.new("5"))
-    puts "Point inside: #{p.latitude}, #{p.longitude}"
     assert poly.point_inside(p)
 
     # Sprawdzenie punktu na zewnątrz
     p = Point.new(:longitude => BigDecimal.new("-1"), :latitude => BigDecimal.new("-1"))
-    puts "Point outside: #{p.latitude}, #{p.longitude}"
     assert !poly.point_inside(p)
 
   end
@@ -57,7 +55,6 @@ class PolygonTest < ActiveSupport::TestCase
     end
 
     poly = Polygon.new(:points => polyPoints)
-    poly.print()
 
     # Punkty testowe wewnątrz wielokąta
     insideCoords = [ { :lat => "51.11635043747407" , :lng => "17.051883566284232" },
@@ -66,7 +63,6 @@ class PolygonTest < ActiveSupport::TestCase
 
     insideCoords.each do |c|
       p = Point.new(:latitude => BigDecimal.new(c[:lat]), :longitude => BigDecimal.new(c[:lng]))
-      puts "Point inside: (#{p.latitude}, #{p.longitude})"
       assert poly.point_inside(p)
     end
 
@@ -79,7 +75,6 @@ class PolygonTest < ActiveSupport::TestCase
 
     outsideCoords.each do |c|
       p = Point.new(:latitude => BigDecimal.new(c[:lat]), :longitude => BigDecimal.new(c[:lng]))
-      puts "Point outside: #{p.latitude}, #{p.longitude}"
       assert (!poly.point_inside(p))
     end
 

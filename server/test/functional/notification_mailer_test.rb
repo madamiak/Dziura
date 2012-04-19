@@ -1,7 +1,7 @@
+# -*- encoding : utf-8 -*-
+
 require 'test_helper'
 
 class NotificationMailerTest < ActionMailer::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+ # Nie ma praktycznie nic do testowania
 end

@@ -9,6 +9,7 @@ require 'net/http'
 #
 class Address < ActiveRecord::Base
 
+  # obowiązkowe pola: miasto, ulica, nr domu
   validates :city, :street, :home_number, :presence => true
 
   # Zapytanie GET z parametrami
@@ -26,6 +27,9 @@ class Address < ActiveRecord::Base
 
   private_class_method :http_get
 
+  # Tworzy adres z podanych współrzędnych geograficznych
+  #
+  # latitude, longitude - para współrzędnych (BigDecimal albo string)
   # Funkcja używa Geocoding API Google'a
   # Zwraca utworzony adres albo nil jeżeli Google nie zwróciło adresu
   # Wyjątek GeocodingException jeżeli HTTP wyrzuci jakiś błąd
@@ -74,7 +78,7 @@ class Address < ActiveRecord::Base
 
       end
 
-      address.additional_info = r["formatted_address"]
+      address.additional_info = "Google: " + r["formatted_address"]
 
       break
 

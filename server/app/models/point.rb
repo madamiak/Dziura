@@ -14,6 +14,7 @@ class Point < ActiveRecord::Base
   validates_inclusion_of :longitude, :in => -180..180
   validates_inclusion_of :latitude, :in => -90..90
 
+  # Porównanie
   def ==(other)
     return latitude == other.latitude && longitude == other.longitude
   end

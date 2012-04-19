@@ -33,7 +33,7 @@ class Issue < ActiveRecord::Base
   # Dodaje zgłoszenie do systemu
   #
   # category_id - id kategorii zgłoszenia
-  # longitude, latitude - współrzędne (string)
+  # lng, lat - współrzędne (string)
   # desc - opis (string; może być nil)
   # notificar_email - e-mail zgłaszającego (string; może być nil)
   # photo - lista ze zdjęciami w Base64 i znacznikami (może być nil)
@@ -47,8 +47,8 @@ class Issue < ActiveRecord::Base
   # Zwraca obiekt przyjętego zgłoszenia (issue instace)
   # lub nil jeżeli wystąpił jakiś inny błąd
   def self.add_issue(category_id, longitude, latitude, desc, notificar_email, photos)
-    raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or
-      latitude.nil?
+
+    raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or latitude.nil?
 
     # <- transakcja
     Issue.transaction do
@@ -65,9 +65,8 @@ class Issue < ActiveRecord::Base
 
       raise Exceptions::NoUnitForPoint.new if unit.nil?
 
-      #TODO replace with get_close_issues
-      p_lat = 0.0001
-      p_lng = 0.0001
+      p_lat = BigDecimal.new(Rails.application.config.issues[:merge_distance][:lat])
+      p_lng = BigDecimal.new(Rails.application.config.issues[:merge_distance][:lng])
 
       i = Issue.where(:category_id => category.id,
         :latitude => (latitude - p_lat)..(latitude + p_lat),
@@ -119,27 +118,28 @@ class Issue < ActiveRecord::Base
 
   end
 
-  # Funkcja przepina IssueInstances z podanego issue do self, usuwajac puste Issue
+  # Funkcja przepina wszystkie IssueInstances z podanego issue do self,
+  # usuwając następnie puste Issue
   def join_with(other_issue)
-    Issue.transaction do      
+    Issue.transaction do
       raise Exceptions::UnknownIssue if other_issue == nil
-      
-      self.issue_instances<< other_issue.issue_instances
+
+      self.issue_instances << other_issue.issue_instances
       self.save!
-            
+
       other_issue.destroy
     end
   end
-  
-  # Zwraca tablice Issue znajdujacych sie blisko tego Issue. Przydatne do join_with
+
+  # Zwraca tablicę Issue znajdujacych sie blisko tego Issue. Przydatne do join_with
   def get_close_issues
-    p_lat = 0.0001
-    p_lng = 0.0001
-  
+    p_lat = BigDecimal.new(Rails.application.config.issues[:merge_distance][:lat])
+    p_lng = BigDecimal.new(Rails.application.config.issues[:merge_distance][:lng])
+
     issues = Issue.where(:latitude => (latitude - p_lat)..(latitude + p_lat),
         :longitude => (longitude - p_lng)..(longitude + p_lng)).to_a
-    
+
     issues.delete_if { |issue| issue.id == id }
   end
-  
+
 end
