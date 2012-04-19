@@ -3,9 +3,9 @@
 # CRUD dla kategorii
 class CategoriesController < ApplicationController
   before_filter :require_admin
-  
+
   layout "admin"
-    
+
   # GET /categories
   # GET /categories.json
   def index
@@ -47,7 +47,13 @@ class CategoriesController < ApplicationController
   # POST /categories
   # POST /categories.json
   def create
-    @category = Category.new(params[:category])
+
+    icon = nil
+    if !params[:category][:icon].nil?
+      icon = Base64.encode64(params[:category][:icon].read)
+    end
+
+    @category = Category.new(:name => params[:category][:name], :icon => icon)
 
     respond_to do |format|
       if @category.save
@@ -63,10 +69,16 @@ class CategoriesController < ApplicationController
   # PUT /categories/1
   # PUT /categories/1.json
   def update
+
+    icon = nil
+    if !params[:category][:icon].nil?
+      icon = Base64.encode64(params[:category][:icon].read)
+    end
+
     @category = Category.find(params[:id])
 
     respond_to do |format|
-      if @category.update_attributes(params[:category])
+      if @category.update_attributes(:name => params[:category][:name], :icon => icon)
         format.html { redirect_to @category, :notice => 'Category was successfully updated.' }
         format.json { head :no_content }
       else

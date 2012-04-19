@@ -3,6 +3,7 @@
 # Klasa kategorii
 #
 # Zawiera jedynie pola z bazy danych: name i icon
+# Ikona zakodowana w formacie Base64
 #
 class Category < ActiveRecord::Base
 

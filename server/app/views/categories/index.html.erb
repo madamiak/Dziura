@@ -1,5 +1,6 @@
 <%# encoding: utf-8 %>
-<h1>Listing categories</h1>
+
+<h1>Kategorie</h1>
 
 <%= link_to 'Nowa Kategoria', new_category_path, :class => 'btn'  %>
 
@@ -16,7 +17,13 @@
 <% @categories.each do |category| %>
   <tr>
     <td><%= category.name %></td>
-    <td><%= category.icon %></td>
+    <td>
+      <% if (category.icon.nil?) %>
+        (brak)
+      <% else %>
+        <%= image_tag("/res/category_icon/#{category.id}") %>
+      <% end %>
+    </td>
     <td><%= link_to 'Pokaż', category %></td>
     <td><%= link_to 'Edytuj', edit_category_path(category) %></td>
     <td><%= link_to 'Usuń', category, :confirm => 'Jesteś pewien?', :method => :delete %></td>
