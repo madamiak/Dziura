@@ -19,6 +19,8 @@ function setjQueryUI (){
     $('thead tr').addClass('ui-widget-header');
     
     //ustawianie styli forms
+    $('fieldset').addClass('ui-widget ui-widget-content');
+    $('fieldset legend').addClass('ui-widget-header ui-corner-all');
     $("input:submit, button, a.btn").button();
     $("#submit_asynchro").unbind('click').click(function(){
         commitForm(this);

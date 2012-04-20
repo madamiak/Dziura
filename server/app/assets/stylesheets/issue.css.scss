@@ -4,4 +4,19 @@
 
 #map_canvas { width: 800px; height: 600px; }
 
-
+#search_issue {
+    height: 40px;
+    margin: 1%;
+    padding: 1%;
+    width: 96%;
+}
+#search_issue label {
+    display: inline;
+    margin-left: 70px;
+}
+#search_issue label:first-child {
+    margin-left: 0;
+}
+#search_issue input[type=text] {
+    width: 200px;
+}
