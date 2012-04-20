@@ -2,12 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/* Mapa */
 div.issue_map { 
-    width: 50%;
-    height: 600px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    margin: 1%;
+    float: left;
+    width: 48%;
+    height: 300px;
 }
 
 /* Tabela ze zgloszeniami */
+.dataTables_wrapper {
+    width: 48%;
+    margin: 1%;
+    float: right;
+}
 table.dataTable {
     margin: 0;
     width: 100%;

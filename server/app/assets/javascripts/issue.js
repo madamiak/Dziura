@@ -31,9 +31,11 @@ $(document).ready(function() {
 				"mDataProp" : "unit_id"
 			}, {
 				"mDataProp" : "created_at"
-			}, {
-				"mDataProp" : "updated_at"
-			} ]
+			}
+//                        , {
+//				"mDataProp" : "updated_at"
+//			} 
+                    ]
 		});
 	});
 });
