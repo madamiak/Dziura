@@ -64,9 +64,6 @@ table td, table th {
 tbody tr:nth-child(even) {
     background: #f5f5f5;
 }
-tbody tr:nth-child(odd) {
-
-}
 /* 4 Views */
 /* 4.1 Login */
 #auth {
