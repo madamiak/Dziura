@@ -4,15 +4,16 @@ var g_infowindow;
 
 $(function() {
 
-	var notificar_email = $("#notificar_email"),
+	var category_id = $(" #category_id"), 
+		notificar_email = $("#notificar_email"),
 		desc = $("#desc"),
 		allFields = $([]).add(notificar_email).add(desc),
 		tips = $("#validateTips");		
 	
 	$( "#dialog").dialog({ 
-		width: 600, 
-		maxWidth: 600, 
-		minWidth: 600,
+		width: 550, 
+		maxWidth: 550, 
+		minWidth: 550,
 		autoOpen: false,
 		modal: true,
 		open: function(event, ui) { bindIssueForm(); },
@@ -31,12 +32,9 @@ $(function() {
 		stop: function() {
 			result = $( "#select-result" ).empty();
 			$( ".ui-selected", this ).each(function() {
-				var index = $( "#selectable li" ).index( this );
-				$.get('/res/categories.json', function(data) {
-					var tmp =  eval( "(" + data + ")" );
-					result.append( tmp[index].name );
-					category_id = tmp[index].id;
-				});
+				index = $( "#selectable li" ).index( this );
+				category_id = index + 1;
+				result.append( category_id );
 			});
 		}
 	});
@@ -99,6 +97,7 @@ function bindIssueForm() {
 		$("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
 		$("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
 		$("#issue_form input[name=photo]").val(getPhotoInBase64 ());
+		$("#issue_form input[name=category_id]").val(index + 1);
 	});
 
 	$("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
