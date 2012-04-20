@@ -16,10 +16,24 @@
 		<div id="issue_message"></div>
   			<%= form_tag issue_add_path, :remote => true do %>
 				<div style="float: left;">
+					<span>You've selected:</span> <span id="select-result">none</span>.
 					<!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
 					<%= label_tag(:category_id, "Kategoria") %>
-					<%= select_tag(:category_id, 
-					options_from_collection_for_select(Category.all, :id, :name), :class => "ui-widget-content ui-corner-all") %>
+					<!--<%= select_tag(:category_id, 
+					options_from_collection_for_select(Category.all, :id, :name), :class => "ui-widget-content ui-corner-all") %>-->
+					<ol id="selectable">
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li><br/><br/><br/>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+						<li class="ui-state-default"></li>
+					</ol>
+					<br/><br/><br/>
 					 
 					<%= label_tag(:desc, "Opis") %>
 					<%= text_area_tag(:desc, "", :class => "text ui-widget-content ui-corner-all", :cols => "20") %>
@@ -33,6 +47,7 @@
 					<%= hidden_field_tag(:marker_x, "") %>
 					<%= hidden_field_tag(:marker_y, "") %>
 					<%= hidden_field_tag(:photo, "") %>
+					<%= hidden_field_tag(:category_id, "") %>
     			</div>
     			<div style="float:right;">
 					<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
