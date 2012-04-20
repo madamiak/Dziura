@@ -1,8 +1,14 @@
 # -*- encoding : utf-8 -*-
+
+# CRUD dla zgłoszeń (Issues)
+#
+# Kod wygenerowany automatycznie przez szablon Rails i uzupełniony
+# o dodatkowe funkcje.
+#
 class IssuesController < ApplicationController
   before_filter :require_admin
   layout "admin"
-  
+
   # GET /issues
   # GET /issues.json
   def index
@@ -46,7 +52,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       if @issue.save
-        format.html { redirect_to @issue, :notice => 'Issue was successfully created.' }
+        format.html { redirect_to @issue, :notice => 'Zgłoszenie zostało utworzone.' }
         format.json { render :json => @issue, :status => :created, :location => @issue }
       else
         format.html { render :action => "new" }
@@ -62,7 +68,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       if @issue.update_attributes(params[:issue])
-        format.html { redirect_to edit_issue_path(@issue), :notice => 'Issue was successfully updated.' }
+        format.html { redirect_to edit_issue_path(@issue), :notice => 'Zgłoszenie zostało zaktualizowane.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }
@@ -81,23 +87,23 @@ class IssuesController < ApplicationController
       format.html { redirect_to issues_url }
       format.json { head :no_content }
     end
-  end  
+  end
 
   # GET /issues/by_rect.json
-  def get_by_rect   
+  def get_by_rect
     params[:search] = {} if params[:search].nil?
-    
+
     params[:search][:latitude_greater_than] = BigDecimal.new(params[:sw_lat])
     params[:search][:latitude_less_than] = BigDecimal.new(params[:ne_lat])
     params[:search][:longitude_greater_than] = BigDecimal.new(params[:sw_lng])
     params[:search][:longitude_less_than] = BigDecimal.new(params[:ne_lng])
-    
+
     @issues = Issue.search(params[:search])
 
     respond_to do |format|
-      format.json { render :json => 
-        @issues.all.to_json(:include => { 
-          :category =>  { :only => [:name, :id] }, 
+      format.json { render :json =>
+        @issues.all.to_json(:include => {
+          :category =>  { :only => [:name, :id] },
           :status => { :only => [:name, :id] } }) }
     end
   end
@@ -110,39 +116,40 @@ class IssuesController < ApplicationController
       format.json { render :json => @issues }
     end
   end
-  
+
   # GET /issues/map
   def show_map
     respond_to do |format|
       format.html { render :action => "map" }
     end
   end
-  
+
   # GET /issues/1/detach
-  # 1 is IssueInstance id, not Issue id
+  #
+  # 1 to id IssueInstance, a nie Issue
   def detach
     @issue_instance = IssueInstance.find(params[:id])
-    
+
     @issue_instance.detach
   end
-  
+
   # GET /issues/1/join/2
   def join
     @issue = Issue.find(params[:id])
     @other_issue = Issue.find(params[:other_id])
-    
+
     @issue.join_with(@other_issue)
   end
-  
-  # GET /issues/print?id=1&id=2
+
+  # GET /issues/print?id=1&id=2&...
   def print
     ids = params[:id].split(',')
-    @issues = Issue.find(ids);
-    
+    @issues = Issue.find(ids)
+
     respond_to do |format|
       format.html { render :layout => false }
       format.json { render :json => @issues }
     end
   end
-  
+
 end

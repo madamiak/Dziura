@@ -1,8 +1,7 @@
 # -*- encoding : utf-8 -*-
+
 require 'test_helper'
 
 class UnitTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  # Testy w polygon_test.rb i issue_test.rb wystarczają
 end

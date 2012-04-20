@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 
 # CRUD dla jednostek
+#
+# Kod wygenerowany automatycznie przez szablon Rails.
+#
+# Jedyna zmiana to możliwość ustawienia wielokątów w formacie JSON.
+#
 class UnitsController < ApplicationController
   before_filter :require_admin
 

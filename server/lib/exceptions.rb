@@ -5,6 +5,7 @@ module Exceptions
 
   # Brak jednostki (dodawanie nowego zgłoszenia)
   class NoUnitForPoint < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Nie ma jednostki dla takiego punktu")
     end
@@ -12,6 +13,7 @@ module Exceptions
 
   # Nie podano wymaganego argumentu(ów) (dodawanie nowego zgłoszenia)
   class NilArguments < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Nie podano wymaganego argumentu/argumentów")
     end
@@ -19,6 +21,7 @@ module Exceptions
 
   # Nieznana kategoria (dodawanie nowego zgłoszenia)
   class UnknownCategory < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Nie ma takiej kategorii")
     end
@@ -26,6 +29,7 @@ module Exceptions
 
   # Nieprawidłowy adres e-mail (dodawanie nowego zgłoszenia)
   class IncorrectNotificarEmail < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Niepoprawny adres e-mail")
     end
@@ -33,6 +37,7 @@ module Exceptions
 
   # Bład geokodowania adresu (dodawanie nowego zgłoszenia)
   class GeocodingException < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Błąd przy ustalaniu adresu na podstawie współrzędnych")
     end
@@ -40,6 +45,7 @@ module Exceptions
 
   # Nieznane zgłoszenie (złączanie zgłoszeń)
   class UnknownIssue < StandardError
+    # Tworzy nowy wyjątek i ustawia odpowiedni komunikat
     def initialize
       super("Nieznane zgłoszenie")
     end

@@ -1,6 +1,14 @@
 # -*- encoding : utf-8 -*-
 
-# Klasa wielokątu (obszaru jednostki)
+# Klasa wielokątu
+#
+# Opisuje obszar jednostki
+#
+# Zawiera dodatkową funkcję point_inside do badania czy punkt leży wewnątrz obszaru
+#
+# === Pola
+# [points] punkty wielokąta, wymagane, muszą opisywać poprawny wielokąt
+# [unit] jednostka
 #
 class Polygon < ActiveRecord::Base
 
@@ -37,19 +45,8 @@ class Polygon < ActiveRecord::Base
     end
   end
 
-  # Wyświetla postać wielokąta
-  # Wykorzystywane w testach
-  def print
-    myPoints = self.points.sort_by(&:number)
-
-    puts "Polygon:"
-    for i in 0..myPoints.length-1
-      puts "P#{myPoints[i].number} : #{myPoints[i].latitude}, #{myPoints[i].longitude}"
-    end
-  end
-
-  # Zwraca true, jeżeli dany punkt należy do wielokąta
-  # point to obiekt klasy Point
+  # Zwraca +true+, jeżeli dany punkt należy do wielokąta
+  # +point+ to obiekt klasy Point
   def point_inside(point)
 
     myPoints = self.points.sort_by(&:number)

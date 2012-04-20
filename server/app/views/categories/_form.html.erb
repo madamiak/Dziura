@@ -1,8 +1,9 @@
 <%# encoding: utf-8 %>
+
 <%= form_for(@category) do |f| %>
   <% if @category.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+      <h2><%= pluralize(@category.errors.count, "błąd") %> nie pozwolił na zapisanie kategorii:</h2>
 
       <ul>
       <% @category.errors.full_messages.each do |msg| %>
@@ -18,7 +19,7 @@
   </div>
   <div class="field">
     <%= f.label :icon %><br />
-    <%= f.text_field :icon, :class => "text ui-widget-content ui-corner-all" %>
+    <%= f.file_field :icon, :accept => 'text/jpeg' %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 
 # Kontroler wystawiający usługi dla klienta mobilnego
-# Inne kontrolery to typowy CRUD od strony administracyjnej, do których dostęp jest chroniony
+#
+# Umożliwia zgłoszenie uszkodzenia i pobieranie aktualnych danych kategorii.
+#
 class ServicesController < ApplicationController
   skip_before_filter :require_login
 

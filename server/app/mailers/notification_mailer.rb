@@ -1,9 +1,12 @@
 # -*- encoding : utf-8 -*-
 
+# Klasa mailera wysyłającego maile do użytkowników
+#
 class NotificationMailer < ActionMailer::Base
 
   default :from => Rails.application.config.notification_email
 
+  # E-mail po dodaniu zgłoszenia
   def issue_added(issue_instance_id)
     @issue_instance = IssueInstance.find(issue_instance_id)
     if (@issue_instance.notificar_email != nil)
@@ -15,6 +18,7 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
+  # E-mail po zmianie statusu zgłoszenia
   def issue_status_changed(issue_id, old_status)
     @old_status = old_status
     issue = Issue.find(issue_id)

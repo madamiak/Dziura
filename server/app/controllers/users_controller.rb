@@ -1,11 +1,14 @@
 # -*- encoding : utf-8 -*-
 
 # CRUD dla użytkowników
+#
+# Kod wygenerowany automatycznie przez szablon Rails.
+#
 class UsersController < ApplicationController
   before_filter :require_admin
-  
+
   layout "admin"
-  
+
   # GET /users
   # GET /users.json
   def index
@@ -51,7 +54,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, :notice => 'User was successfully created.' }
+        format.html { redirect_to @user, :notice => 'Użytkownik został utworzony.' }
         format.json { render :json => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -67,7 +70,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, :notice => 'User was successfully updated.' }
+        format.html { redirect_to @user, :notice => 'Użytkownik został zaktualizowany.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }

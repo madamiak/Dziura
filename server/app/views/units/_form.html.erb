@@ -20,10 +20,7 @@
     <%= f.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= label_tag('polygons', "Obszar") %>
-    <%= text_area_tag('polygons', "{ \"polygons\": [] }", :size => "50x15") %>
-  </div>
+  <%= hidden_field_tag('polygons', "{ \"polygons\": [] }") %>
 
   <%= f.fields_for(:address, @unit.address) do |builder| %>
     <%= render 'address', :f => builder %>

@@ -1,13 +1,16 @@
 # -*- encoding : utf-8 -*-
 
-# Klasa markera na obrazku
+# Klasa znacznika na zdjęciu
+#
+# === Pola
+# [x] pozycja X, +integer+, wymagane, zakres to [1, szer. zdjęcia w px]
+# [y] pozycja Y, +integer+, wymagane, zakres to [1, wys. zdjęcia w px]
+# [desc] opis, +string+
+# [photo] zdjęcie
 #
 class Marker < ActiveRecord::Base
 
   belongs_to :photo
-
-  # TODO walidator, ktory sprawdza czy x,y nie sa wieksze od rozmiarow
-  # obrazka
 
   validates :x, :y, :presence => true
 

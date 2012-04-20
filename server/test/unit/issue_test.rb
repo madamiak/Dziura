@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
+
 require 'test_helper'
 
 class IssueTest < ActiveSupport::TestCase
+
   def setup
     @s_old = Status.new :name => "old"
     @s_old.save

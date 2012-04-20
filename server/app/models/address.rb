@@ -4,8 +4,15 @@ require 'net/http'
 
 # Klasa adresu
 #
-# Oprócz pól modelu RoR zawiera metodę self.create_by_position, wykorzystującą
+# Oprócz pól modelu RoR zawiera metodę #self.create_by_position, wykorzystującą
 # API geolokacji Google do zamiany współrzędnych geograficznych na adres
+#
+# === Pola
+# [city] miasto, +string+, wymagane
+# [street] ulica, +string+, wymagane
+# [home_number] nr domu, +string+, wymagane
+# [zip] kod pocztowy, +string+
+# [additional_info] dodatkowe informacje, +string+
 #
 class Address < ActiveRecord::Base
 
@@ -13,7 +20,7 @@ class Address < ActiveRecord::Base
 
   # Zapytanie GET z parametrami
   # Wykorzystywane tylko tutaj, stąd jako prywatna metoda
-  def self.http_get(domain, path, params)
+  def self.http_get(domain, path, params) #:doc:
 
     if params.nil?
       return Net::HTTP.get_response(domain, path)
@@ -26,11 +33,19 @@ class Address < ActiveRecord::Base
 
   private_class_method :http_get
 
-  # Funkcja używa Geocoding API Google'a
-  # Zwraca utworzony adres albo nil jeżeli Google nie zwróciło adresu
-  # Wyjątek GeocodingException jeżeli HTTP wyrzuci jakiś błąd
-  # W additional_info jest jeszcze zwracany pełny adres
-  #  na wypadek jakby coś nie wyszło z parsowaniem
+  # Tworzy adres z podanych współrzędnych geograficznych
+  #
+  # Funkcja używa Geocoding API Google'a.
+  # Zwraca utworzony adres albo +nil+ jeżeli Google nie zwróciło adresu.
+  # Dodatkowo, w +additional_info+ jest zwracany pełny adres
+  # na wypadek jakby coś nie wyszło z parsowaniem.
+  #
+  # ===Argumenty:
+  # * +latitude+, +longitude+ - para współrzędnych (+BigDecimal+ albo +string+)
+  #
+  # ===Wyjątki:
+  # * Exceptions::GeocodingException jeżeli HTTP wyrzuci jakiś błąd.
+  #
   def self.create_by_position(latitude, longitude)
 
     params = { :latlng => latitude.to_s() + "," + longitude.to_s(),
@@ -74,7 +89,7 @@ class Address < ActiveRecord::Base
 
       end
 
-      address.additional_info = r["formatted_address"]
+      address.additional_info = "Google: " + r["formatted_address"]
 
       break
 

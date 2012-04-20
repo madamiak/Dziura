@@ -1,16 +1,21 @@
 <%# encoding: utf-8 %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Nazwa:</b>
   <%= @category.name %>
 </p>
 
 <p>
-  <b>Icon:</b>
-  <%= @category.icon %>
+  <b>Ikona:</b><br>
+  <% if (@category.icon.nil?) %>
+    (brak)
+  <% else %>
+    <%= image_tag("/res/category_icon/#{@category.id}") %>
+  <% end %>
 </p>
 
 
-<%= link_to 'Edit', edit_category_path(@category) %> |
-<%= link_to 'Back', categories_path %>
+<%= link_to 'Edytuj', edit_category_path(@category) %> |
+<%= link_to 'Wstecz', categories_path %>
