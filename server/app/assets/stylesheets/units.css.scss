@@ -2,6 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0 }
-#map_canvas { width: 800px; height: 600px; }
+#map_canvas {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    float: left;
+    margin: 10px;
+    height: 320px;
+    width: 66%;
+}
+form.new_unit, form.edit_unit, #show_unit {
+    float: right;
+    margin: 10px;
+    min-height: 320px;
+    width: 30%;
+}
+#show_unit a.btn {
+    float: right;
+}

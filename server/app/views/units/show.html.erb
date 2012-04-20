@@ -9,7 +9,7 @@
 
 <%- @body_onload = "initializeShow(#{@unit.id})" %>
 
-<p>
+<div id="show_unit">
   <b>Nazwa:</b>
   <%= @unit.name %>
 
@@ -21,11 +21,9 @@
   <%= display_address(@unit.address) %>
   </div>
 
-  <br>
+  <%= link_to 'Edytuj', edit_unit_path(@unit), :class => 'btn' %>
+</div>
 
-  <b>Obszar:</b>
-  <div id="map_canvas"></div>
-</p>
+<div id="map_canvas"></div>
 
-<%= link_to 'Edytuj', edit_unit_path(@unit) %> |
-<%= link_to 'Wstecz', units_path %>
+<%= link_to 'Wstecz', units_path, :class => 'btn' %>
