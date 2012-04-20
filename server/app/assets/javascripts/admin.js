@@ -67,5 +67,8 @@ function setContentDialogWindow(dialog_window, url){
             title = dialog_window.find('h1').html();
             dialog_window.find('h1').empty();
             dialog_window.dialog( "option", "title", title );
+            
+            // ustawianie styli i akcji elementów na zgodne z jQuery UI
+            setjQueryUI();
         });
 }
