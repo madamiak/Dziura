@@ -1,29 +1,31 @@
 <%# encoding: utf-8 %>
 <h1>Listing users</h1>
 
-<%= link_to 'Nowy użytkownik', new_user_path, :class => 'btn' %>
+<%= link_to 'Nowy użytkownik', new_user_path, :class => 'btn_dialog' %>
 
 <table>
  <thead>
   <tr>
+    <th>Id</th>
     <th>Login</th>
     <th>Hasło</th>
     <th>Rola</th>
     <th>Jednostka</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Utworzono</th>
+    <th>Edycja</th>
+    <th>Usuwanie</th>
   </tr>
 </thead>
 <% @users.each do |user| %>
   <tr>
+    <td><%= user.id %></td>
     <td><%= user.login %></td>
     <td><%= user.password %></td>
     <td><%= user.role %></td>
     <td><%= user.unit %></td>
-    <td><%= link_to 'Pokaż', user %></td>
-    <td><%= link_to 'Edytuj', edit_user_path(user) %></td>
-    <td><%= link_to 'Usuń', user, :confirm => 'Jesteś pewien?', :method => :delete %></td>
+    <td><%= user.created_at %></td>
+    <td><%= link_to 'Edytuj', edit_user_path(user), :class => 'btn_dialog' %></td>
+    <td><%= link_to 'Usuń', user, :confirm => 'Jesteś pewien?', :method => :delete, :class => 'btn' %></td>
   </tr>
 <% end %>
 </table>

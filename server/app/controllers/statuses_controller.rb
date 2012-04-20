@@ -42,6 +42,7 @@ class StatusesController < ApplicationController
   # GET /statuses/1/edit
   def edit
     @status = Status.find(params[:id])
+    render :layout => false
   end
 
   # POST /statuses

@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
     @category = Category.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => false }
       format.json { render :json => @category }
     end
   end
@@ -42,6 +42,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1/edit
   def edit
     @category = Category.find(params[:id])
+    render :layout => false
   end
 
   # POST /categories

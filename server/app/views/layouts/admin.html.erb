@@ -5,11 +5,38 @@
   <title>Dziura</title>
   <%= stylesheet_link_tag    "admin.css" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery-ui-1.8.19.custom.min.js" %>
+  <%= stylesheet_link_tag "jquery-ui-1.8.19.custom.css" %>
+  <%= javascript_include_tag "admin" %>
   <%= include_controller_assets %>
   <%= yield(:head_extra) %>
   <%= csrf_meta_tags %>
 </head>
 <body <%= " onload='#{@body_onload}'"%> >
+
+<% if flash[:error] %>
+<div class="notice ui-widget">
+    <div class="ui-state-error ui-corner-all">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong>
+            <%= flash[:error] %>
+        </p>
+    </div>
+</div>
+<% end %>
+
+<% if flash[:notice] %>
+<div class="notice ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong>
+            <%= flash[:notice] %>
+        </p>
+    </div>
+</div>
+<% end %>
 
 <% if logged_in? %>
 <div id="wrapper">
@@ -37,8 +64,7 @@
 <%= yield %>
 <% end %>
 
-<%= flash[:notice] %>
-<%= flash[:error] %>
+<div id="dialog-form"></div>
 
 </body>
 </html>

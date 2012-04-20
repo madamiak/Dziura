@@ -134,7 +134,7 @@ function addIssueMouseoverListener(marker){
 	google.maps.event.addListener(marker, 'mouseover', function() {
 	    var id = marker.getTitle();
 	    var m = new mapTable;
-		m.setHihglightRow(id, true);
+		m.setHihglightRow(id);
 	   
 	  });
 }
@@ -142,6 +142,6 @@ function addIssueMouseoutListener(marker){
 	google.maps.event.addListener(marker, 'mouseout', function() {
 	    var id = marker.getTitle();
 	    var m = new mapTable;
-		m.setHihglightRow(id, false);
+		m.setHihglightRow(id);
 	  });
 }

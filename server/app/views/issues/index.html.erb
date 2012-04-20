@@ -12,33 +12,9 @@
 
 <h1>Listing issues</h1>
 
-<%= link_to 'Nowa zgłoszenie', new_issue_path, :class => 'btn'  %>
-<%= link_to 'Mapka', "/issues/map", :class => 'btn' %>
+<%= link_to 'Nowa zgłoszenie', new_issue_path, :class => 'btn_dialog'  %>
+<%= link_to 'Mapka-do-usuniecia', "/issues/map", :class => 'btn' %>
 
-<!-- <table>
-	<thead>
-		<tr>
-		  <th>Category</th>
-		  <th>IssueInstances</th>
-		  <th></th>
-		  <th></th>
-		</tr>
-	</thead>
-
-	<tbody>
-	<% @issues.each do |issue| %>
-		<tr>
-		  <td><%= issue.category.name %></td>
-		  <td><%= issue.issue_instances.count %></td>
-		  <td><%= link_to 'Edit', edit_issue_path(issue) %></td>
-		  <td><%= link_to 'Destroy', issue, :confirm => 'Are you sure?', :method => :delete %></td>
-		</tr>
-	<% end %>
-	</tbody>
-</table> -->
-<p><br /></p>
-
-<br />
 <div id="map_canvas"></div>
 <table id="example">
 <thead>

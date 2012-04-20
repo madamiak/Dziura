@@ -2,24 +2,30 @@
 
 <h1>Jednostki</h1>
 
-<%= link_to 'Nowa jednostka', new_unit_path, :class => 'btn'  %>
+<%= link_to 'Nowa jednostka', new_unit_path, :class => 'btn_dialog'  %>
 
 <table>
  <thead>
   <tr>
+    <th>Id</th>
     <th>Nazwa</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Utworzono</th>
+    <th>Szczegóły</th>
+    <th>Edycja</th>
+    <th>Usuwanie</th>
   </tr>
  </thead>
+ <tbody>
 <% @units.each do |unit| %>
   <tr>
+    <td><%= unit.id %></td>
     <td><%= unit.name %></td>
-    <td><%= link_to 'Pokaż', unit %></td>
-    <td><%= link_to 'Edytuj', edit_unit_path(unit) %></td>
-    <td><%= link_to 'Usuń', unit, :confirm => 'Jesteś pewien?', :method => :delete %></td>
+    <td><%= unit.created_at %></td>
+    <td><%= link_to 'Pokaż', unit, :class => 'btn' %></td>
+    <td><%= link_to 'Edytuj', edit_unit_path(unit), :class => 'btn_dialog' %></td>
+    <td><%= link_to 'Usuń', unit, :confirm => 'Jesteś pewien?', :method => :delete, :class => 'btn' %></td>
   </tr>
 <% end %>
+</tbody>
 </table>
 
