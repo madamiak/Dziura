@@ -2,6 +2,74 @@ var g_existing;
 var g_marker;
 var g_infowindow;
 
+$(function() {
+
+	var notificar_email = $("#notificar_email"),
+		desc = $("#desc"),
+		allFields = $([]).add(notificar_email).add(desc),
+		tips = $("#validateTips");		
+	
+	$( "#dialog").dialog({ 
+		width: 600, 
+		maxWidth: 600, 
+		minWidth: 600,
+		autoOpen: false,
+		modal: true,
+		open: function(event, ui) { bindIssueForm(); },
+		buttons: {
+			'Zglos': function() {
+				$(this).dialog('close');
+			},
+			'Zamknij': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+			
+
+	$( "#selectable" ).selectable({
+		stop: function() {
+			result = $( "#select-result" ).empty();
+			$( ".ui-selected", this ).each(function() {
+				var index = $( "#selectable li" ).index( this );
+				$.get('/res/categories.json', function(data) {
+					var tmp =  eval( "(" + data + ")" );
+					result.append( tmp[index].name );
+					category_id = tmp[index].id;
+				});
+			});
+		}
+	});
+	
+	function updateTips(t) {
+		tips.text(t).effect("highlight",{},1500);
+	}
+
+	function checkLength(o,n,min,max) {
+
+		if ( o.val().length > max || o.val().length < min ) {
+			o.addClass('ui-state-error');
+			updateTips("Length of " + n + " must be between "+min+" and "+max+".");
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
+	function checkRegexp(o,regexp,n) {
+
+		if ( !( regexp.test( o.val() ) ) ) {
+			o.addClass('ui-state-error');
+			updateTips(n);
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+});
+
 function initialize() {
   createMap(); // map_common.js
 
@@ -27,7 +95,7 @@ function getPhotoInBase64() {
 }
 
 function bindIssueForm() {
-	$("#issue_form form").bind("submit", function() {
+	$("#issue_form form ").bind("submit", function() {
 		$("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
 		$("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
 		$("#issue_form input[name=photo]").val(getPhotoInBase64 ());
@@ -49,22 +117,26 @@ function placeMarker(location, isExisted) {
 			map: g_map,
 			draggable: true
 		});
-
+		
+		$('#dialog').dialog('open');
+		
 		//pobieranie formularza zgloszenia szkody z serwera
-		$.get('res/issue', function(data) {
-			g_infowindow = new google.maps.InfoWindow({
-				content: data
-		  });
+		//$.get('res/issue', function(data) {
+			//console.log(data);
+			//g_infowindow = new google.maps.InfoWindow({
+				//content: data
+		  //});
 
-		  g_infowindow.open(g_map, g_marker);
+		  //g_infowindow.open(g_map, g_marker);
 
-		  google.maps.event.addListener(g_infowindow, 'domready', function() {
-			  bindIssueForm();
-		  });
-    });
+		  //google.maps.event.addListener(g_infowindow, 'domready', function() {
+			  //bindIssueForm();
+		  //});
+    //});
     
     google.maps.event.addListener(g_marker, 'click', function() {
-		g_infowindow.open(g_map, g_marker);
+    	$('#dialog').dialog('open');
+		//g_infowindow.open(g_map, g_marker);
 	});
 
 	setExisting(true);

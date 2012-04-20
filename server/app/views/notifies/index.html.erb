@@ -4,10 +4,46 @@
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
   <%= javascript_include_tag "map_notifies.js" %>
+  <%= javascript_include_tag "jquery-ui-1.8.19.custom.min.js" %>
   <%= stylesheet_link_tag "notifies.css" %>
+  <%= stylesheet_link_tag "ui.all.css" %>
 <%- end -%>
 
 <%- @body_onload = "initialize()" %>
+
+<div id="dialog" title="Formularz zgloszeniowy">	   
+	<div id="issue_form">
+		<div id="issue_message"></div>
+  			<%= form_tag issue_add_path, :remote => true do %>
+				<div style="float: left;">
+					<!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
+					<%= label_tag(:category_id, "Kategoria") %>
+					<%= select_tag(:category_id, 
+					options_from_collection_for_select(Category.all, :id, :name), :class => "ui-widget-content ui-corner-all") %>
+					 
+					<%= label_tag(:desc, "Opis") %>
+					<%= text_area_tag(:desc, "", :class => "text ui-widget-content ui-corner-all", :cols => "20") %>
+					 
+					<%= label_tag(:notificar_email, "E-mail") %>
+					<%= text_field(:notificar_email, "", :size => "24", :class => "ui-widget-content ui-corner-all") %>
+					 
+					<!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
+					<%= hidden_field_tag(:longitude, "") %>
+					<%= hidden_field_tag(:latitude, "") %>
+					<%= hidden_field_tag(:marker_x, "") %>
+					<%= hidden_field_tag(:marker_y, "") %>
+					<%= hidden_field_tag(:photo, "") %>
+    			</div>
+    			<div style="float:right;">
+					<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
+					<iframe id="upload_iframe" src="/res/upload" width="320px" scrolling="no" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
+	
+					<%= submit_tag("Zgłoś", :class => "submit") %>
+    			</div>
+  			<% end %>
+		</div> 
+	</div>
+</div>
 
 <div id="notifies">
   <div id="header">System Zgłaszania Uszkodzeń Jezdni</div>
