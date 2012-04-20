@@ -1,6 +1,16 @@
 <%# encoding: utf-8 %>
 
-<p id="notice"><%= notice %></p>
+<% if notice %>
+<div class="notice ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong>
+            <%= notice %>
+        </p>
+    </div>
+</div>
+<% end %>
 
 <p>
   <b>Nazwa:</b>
@@ -15,7 +25,3 @@
     <%= image_tag("/res/category_icon/#{@category.id}") %>
   <% end %>
 </p>
-
-
-<%= link_to 'Edytuj', edit_category_path(@category) %> |
-<%= link_to 'Wstecz', categories_path %>

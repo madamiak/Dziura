@@ -2,26 +2,31 @@
 
 <%= form_for(@category) do |f| %>
   <% if @category.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@category.errors.count, "błąd") %> nie pozwolił na zapisanie kategorii:</h2>
-
-      <ul>
-      <% @category.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="notice ui-widget">
+        <div class="ui-state-error ui-corner-all">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong>
+                <%= pluralize(@category.errors.count, "błąd") %> nie pozwolił na zapisanie kategorii:
+            </p>
+            <ul>
+            <% @category.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+            </ul>
+        </div>
     </div>
   <% end %>
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name, :class => "text ui-widget-content ui-corner-all" %>
+    <%= f.text_field :name %>
   </div>
   <div class="field">
     <%= f.label :icon %><br />
     <%= f.file_field :icon, :accept => 'text/jpeg' %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :id => 'submit_asynchro' %>
   </div>
 <% end %>

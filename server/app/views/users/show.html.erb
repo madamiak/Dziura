@@ -1,5 +1,16 @@
 <%# encoding: utf-8 %>
-<p id="notice"><%= notice %></p>
+
+<% if notice %>
+<div class="notice ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong>
+            <%= notice %>
+        </p>
+    </div>
+</div>
+<% end %>
 
 <p>
   <b>Login:</b>
@@ -20,7 +31,3 @@
   <b>Unit:</b>
   <%= @user.unit %>
 </p>
-
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

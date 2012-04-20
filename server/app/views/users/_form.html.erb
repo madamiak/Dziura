@@ -1,28 +1,34 @@
 <%# encoding: utf-8 %>
+
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="notice ui-widget">
+        <div class="ui-state-error ui-corner-all">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong>
+                <%= pluralize(@user.errors.count, "błąd") %> nie pozwolił na zapisanie useru:
+            </p>
+            <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+            </ul>
+        </div>
     </div>
   <% end %>
 
   <div class="field">
     <%= f.label :login %><br />
-    <%= f.text_field :login, :class => 'text' %>
+    <%= f.text_field :login %>
   </div>
   <div class="field">
     <%= f.label :password %><br />
-    <%= f.text_field :password, :class => 'text' %>
+    <%= f.text_field :password %>
   </div>
   <div class="field">
     <%= f.label :role %><br />
-    <%= f.text_field :role, :class => 'text' %>
+    <%= f.text_field :role %>
   </div>
   
   <!--
@@ -33,6 +39,6 @@
   -->
   
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :id => 'submit_asynchro' %>
   </div>
 <% end %>

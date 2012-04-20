@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout => false }
       format.json { render :json => @user }
     end
   end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, :notice => 'Użytkownik został utworzony.' }
         format.json { render :json => @user, :status => :created, :location => @user }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => false }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end

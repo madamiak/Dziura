@@ -1,20 +1,21 @@
 <%# encoding: utf-8 %>
+
 <%= form_for(@status) do |f| %>
   <% if @status.errors.any? %>
-<div class="notice ui-widget">
-    <div class="ui-state-error ui-corner-all">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-            <strong>Alert:</strong>
-            <%= pluralize(@status.errors.count, "error") %> prohibited this status from being saved: </p>
-      <ul>
-      <% @status.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-
+    <div class="notice ui-widget">
+        <div class="ui-state-error ui-corner-all">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong>
+                <%= pluralize(@status.errors.count, "błąd") %> nie pozwolił na zapisanie statusu:
+            </p>
+            <ul>
+            <% @status.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+            </ul>
+        </div>
     </div>
-</div>
   <% end %>
 
   <div class="field">

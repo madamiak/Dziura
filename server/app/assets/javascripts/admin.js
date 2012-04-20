@@ -3,6 +3,7 @@ $(function() {
 });
 
 var idOfDialogForm = "dialog-form";
+var microtimeToHideNotice = 5000;
 
 /* funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI */
 function setjQueryUI (){
@@ -34,7 +35,7 @@ function setjQueryUI (){
     });
         
     //ukrywanie komunikatów
-    if($('div.notice')) $('div.notice').delay(4000).slideUp();
+    if($('div.notice')) $('div.notice').delay(microtimeToHideNotice).slideUp();
 }
     
 /* funckja tworzaca okno dialogowe */
@@ -45,7 +46,7 @@ function createDialogWindow(){
     //tworzenie okien dialogowych
     dialog.dialog({
         autoOpen: false,
-        height: 300,
+        height: 310,
         width: 400,
         modal: true,
         buttons: {
