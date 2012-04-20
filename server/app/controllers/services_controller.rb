@@ -22,7 +22,9 @@ class ServicesController < ApplicationController
           render :json => { :message => 'Błąd', :id => nil }, :status => 500
         end
       rescue ActiveRecord::RecordInvalid => e
-        render :json => { :message => 'Błąd: ' + e.errors, :id => nil }, :status => 500
+        msg = ""
+        e.record.errors.each { |attr,err| msg += "#{attr} - #{err}\n" }
+        render :json => { :message => 'Błąd: ' + msg, :id => nil }, :status => 500
       rescue Exception => e
         render :json => { :message => 'Błąd: ' + e.message, :id => nil }, :status => 500
       end
