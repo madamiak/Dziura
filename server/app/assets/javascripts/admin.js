@@ -4,7 +4,7 @@ $(function() {
 
 var idOfDialogForm = "dialog-form";
 
-// funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI
+/* funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI */
 function setjQueryUI (){
     //ustawianie styli globalnych
     $('#container').addClass('ui-widget');
@@ -19,11 +19,12 @@ function setjQueryUI (){
     
     //ustawianie styli forms
     $("input:submit, button, a.btn").button();
-    $("#submit_asynchro").click(function(){
+    $("#submit_asynchro").unbind('click').click(function(){
         commitForm(this);
     });
     $( "a.btn_dialog")
     .button()
+    .unbind('click')
     .click(function() {
         var url = $(this).attr('href');
         var dialog_window =  createDialogWindow();
@@ -36,7 +37,7 @@ function setjQueryUI (){
     if($('div.notice')) $('div.notice').delay(4000).slideUp();
 }
     
-// funckja tworzaca okno dialogowe
+/* funckja tworzaca okno dialogowe */
 function createDialogWindow(){
     //tworzenie elementu html
     var dialog = $('<div id="'+idOfDialogForm+'">').appendTo('body');
@@ -60,7 +61,7 @@ function createDialogWindow(){
     return dialog;
 }
     
-// funkcja ustawiajaca zawartosc zadanego okna dialogowego z zadanego URL
+/* funkcja ustawiajaca zawartosc zadanego okna dialogowego z danego URL */
 function setContentDialogWindowFromUrl(dialog_window, url){
     $.get(url,
         function(data){
@@ -68,8 +69,9 @@ function setContentDialogWindowFromUrl(dialog_window, url){
         });
 }
 
-// funkcja ustawiajaca zawartosc zadanego okna dialogowego
+/* funkcja ustawiajaca zawartosc zadanego okna dialogowego */
 function setContentDialogWindow(dialog_window, data){
+    /* czyszczenie i ustawianie zawartości */
     dialog_window.empty().html(data);
             
     // pobieranie i ustawianie tytuly okna
@@ -81,28 +83,32 @@ function setContentDialogWindow(dialog_window, data){
     setjQueryUI();
 }
 
-// funkcja do asynchronicznej obsługi formularzy
+/* funkcja do asynchronicznej obsługi formularzy */
 function commitForm(submit){
     var form = $(submit).parents('form:first');
     
-    /* attach a submit handler to the form */
+    /* uchwyt formularza */
     form.submit(function(event) {
 
         /* stop form from submitting normally */
         event.preventDefault(); 
         
         /* get some values from elements on the page: */
-        var $form = $( this ),
-        term = $form.find( 'input[name="status[name]"]' ).val(),
-        url = $form.attr( 'action' );
+        var $form = $( this );
+        var url = $form.attr( 'action' );
+        var $inputs = $form.find('input:text, input:file, input:password, input:hidden');
 
-        /* Send the data using post and put the results in a div */
-        $.post( url, {
-                "status[name]": term
-            },
-            function( data ) {
-                setContentDialogWindow($('#dialog-form'), data)
-            }
+        /* set up all inputs elements */
+        var values = {};
+        $inputs.each(function() {
+            values[this.name] = $(this).val();
+        });
+
+        /* Send the data using post and put the results in a dialog-form */
+        $.post( url, values,
+        function( data ) {
+            setContentDialogWindow($('#'+idOfDialogForm), data)
+        }
         );
     });
 
