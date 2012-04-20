@@ -2,6 +2,8 @@ $(function() {
     setjQueryUI();
 });
 
+var idOfDialogForm = "dialog-form";
+
 // funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI
 function setjQueryUI (){
     //ustawianie styli globalnych
@@ -17,6 +19,9 @@ function setjQueryUI (){
     
     //ustawianie styli forms
     $("input:submit, button, a.btn").button();
+    $("#submit_asynchro").click(function(){
+        commitForm(this);
+    });
     $( "a.btn_dialog")
     .button()
     .click(function() {
@@ -34,9 +39,7 @@ function setjQueryUI (){
 // funckja tworzaca okno dialogowe
 function createDialogWindow(){
     //tworzenie elementu html
-    var rand = Math.floor((Math.random()*100)+1);
-    //var dialog = $('body').append($('<div id="dialog-form'+rand+'"></div>'));
-    var dialog = $('<div id="dialog-form'+rand+'">').appendTo('body');
+    var dialog = $('<div id="'+idOfDialogForm+'">').appendTo('body');
         
     //tworzenie okien dialogowych
     dialog.dialog({
@@ -71,4 +74,48 @@ function setContentDialogWindow(dialog_window, url){
             // ustawianie styli i akcji elementów na zgodne z jQuery UI
             setjQueryUI();
         });
+}
+
+// funkcja do asynchronicznej obsługi formularzy
+function commitForm(submit){
+    var form = $(submit).parents('form:first');
+    
+    //    form.attr('target', 'formiframe');
+    //    
+    //    iframe.load(function(){
+    //        //$('#dialog-form').html(iframe.html());
+    //        console.log($('iframe').html());
+    //    })
+    //    
+    //    setTimeout(function(){
+    //        console.log($('iframe').html());
+    //    }, 100);
+    //    
+    //iframe.remove();
+    
+    
+    /* attach a submit handler to the form */
+    form.submit(function(event) {
+
+        /* stop form from submitting normally */
+        event.preventDefault(); 
+        
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+        term = $form.find( 'input[name="status[name]"]' ).val(),
+        url = $form.attr( 'action' );
+
+        /* Send the data using post and put the results in a div */
+        $.post( url, {
+            "status[name]": term
+        },
+        function( data ) {
+            var content = $( data );
+            $('#dialog-form').empty().append( content );
+        }
+        );
+    });
+
+
+
 }

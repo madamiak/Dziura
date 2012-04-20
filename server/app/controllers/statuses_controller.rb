@@ -26,7 +26,7 @@ class StatusesController < ApplicationController
     @status = Status.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout => false }
       format.json { render :json => @status }
     end
   end
@@ -58,7 +58,7 @@ class StatusesController < ApplicationController
         format.html { redirect_to @status, :notice => 'Status został utworzony.' }
         format.json { render :json => @status, :status => :created, :location => @status }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => false }
         format.json { render :json => @status.errors, :status => :unprocessable_entity }
       end
     end
