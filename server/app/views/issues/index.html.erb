@@ -1,7 +1,6 @@
 <%# encoding: utf-8 %>
 
 <%- content_for(:head_extra) do -%>
-  <%= javascript_include_tag "mapTable.js" %>
   <%= javascript_include_tag "issue.js" %>
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
@@ -43,7 +42,7 @@
     <legend>Filtrowanie zgłoszeń:</legend>
 </fieldset>
 
-<div id="map_canvas"></div>
+<div id="map_canvas" class="issue_map"></div>
 
 <table id="example">
 <thead>

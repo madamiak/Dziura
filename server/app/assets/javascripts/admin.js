@@ -12,11 +12,11 @@ function setjQueryUI (){
     $('#auth').addClass('ui-widget');
     
     //ustawianie styli tabel
-    $('tbody tr').hover(function() {
-        $(this).toggleClass('ui-state-hover');
-    });
-    $('table').addClass('ui-widget ui-widget-content');
-    $('thead tr').addClass('ui-widget-header');
+//    $('tbody tr').hover(function() {
+//        $(this).toggleClass('ui-state-hover');
+//    });
+//    $('table').addClass('ui-widget ui-widget-content');
+//    $('thead tr').addClass('ui-widget-header');
     
     //ustawianie styli forms
     $('fieldset').addClass('ui-widget ui-widget-content');

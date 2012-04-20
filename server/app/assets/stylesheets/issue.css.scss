@@ -2,8 +2,58 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#map_canvas { width: 800px; height: 600px; }
+div.issue_map { 
+    width: 50%;
+    height: 600px;
+}
 
+/* Tabela ze zgloszeniami */
+table.dataTable {
+    margin: 0;
+    width: 100%;
+}
+table.dataTable thead th {
+    cursor: pointer;
+}
+.fg-toolbar {
+    font-size: 1.2em;
+    padding: 5px;
+}
+.dataTables_info {
+    float: left;
+    width: 40%;
+}
+.dataTables_paginate{
+    float: right;
+    width: 40%;
+    text-align: right;
+}
+.dataTables_processing {
+    background-color: white;
+    border: 1px solid #DDDDDD;
+    color: #999999;
+    font-size: 14px;
+    height: 30px;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -15px;
+    padding: 14px 0 2px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 250px;
+}
+table.dataTable thead th div.DataTables_sort_wrapper {
+    padding-right: 20px;
+    position: relative;
+}
+table.dataTable thead th div.DataTables_sort_wrapper span {
+    margin-top: -8px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+/* Filtrowanie zgloszen */
 #search_issue {
     height: 40px;
     margin: 1%;
