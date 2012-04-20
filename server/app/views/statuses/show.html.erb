@@ -1,5 +1,16 @@
 <%# encoding: utf-8 %>
-<div id="notice"><%= notice %></div>
+
+<% if notice %>
+<div class="notice ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong>
+            <%= notice %>
+        </p>
+    </div>
+</div>
+<% end %>
 
 <p>
   <b>Name:</b>

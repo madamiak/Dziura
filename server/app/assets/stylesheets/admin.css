@@ -26,7 +26,7 @@ img {
 }
 /* 2 Forms */
 /* 2.1 Text Inputs, textareas */
-input[type=text], textarea {
+input[type=text], input[type=password], textarea {
     margin-bottom:12px; 
     width:85%; 
     padding: .4em;
@@ -37,7 +37,7 @@ label {
 }
 /* 2.3 Notice */
 div.notice {
-    position: absolute;
+    position: fixed;
     top: 50px;
     left: 50%;
     margin-left: -180px;

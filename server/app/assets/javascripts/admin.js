@@ -27,7 +27,7 @@ function setjQueryUI (){
     .click(function() {
         var url = $(this).attr('href');
         var dialog_window =  createDialogWindow();
-        setContentDialogWindow(dialog_window, url)
+        setContentDialogWindowFromUrl(dialog_window, url)
         dialog_window.dialog( "open" );
         return false;
     });
@@ -45,7 +45,7 @@ function createDialogWindow(){
     dialog.dialog({
         autoOpen: false,
         height: 300,
-        width: 350,
+        width: 400,
         modal: true,
         buttons: {
             Cancel: function() {
@@ -60,39 +60,30 @@ function createDialogWindow(){
     return dialog;
 }
     
-// funkcja ustawiajaca zawartosc zadanego okna dialogowego
-function setContentDialogWindow(dialog_window, url){
+// funkcja ustawiajaca zawartosc zadanego okna dialogowego z zadanego URL
+function setContentDialogWindowFromUrl(dialog_window, url){
     $.get(url,
         function(data){
-            dialog_window.html(data);
-            
-            // pobieranie i ustawianie tytuly okna
-            title = dialog_window.find('h1').html();
-            dialog_window.find('h1').empty();
-            dialog_window.dialog( "option", "title", title );
-            
-            // ustawianie styli i akcji elementów na zgodne z jQuery UI
-            setjQueryUI();
+            setContentDialogWindow(dialog_window, data)
         });
+}
+
+// funkcja ustawiajaca zawartosc zadanego okna dialogowego
+function setContentDialogWindow(dialog_window, data){
+    dialog_window.empty().html(data);
+            
+    // pobieranie i ustawianie tytuly okna
+    title = dialog_window.find('h1').html();
+    dialog_window.find('h1').empty();
+    dialog_window.dialog( "option", "title", title );
+            
+    // ustawianie styli i akcji elementów na zgodne z jQuery UI
+    setjQueryUI();
 }
 
 // funkcja do asynchronicznej obsługi formularzy
 function commitForm(submit){
     var form = $(submit).parents('form:first');
-    
-    //    form.attr('target', 'formiframe');
-    //    
-    //    iframe.load(function(){
-    //        //$('#dialog-form').html(iframe.html());
-    //        console.log($('iframe').html());
-    //    })
-    //    
-    //    setTimeout(function(){
-    //        console.log($('iframe').html());
-    //    }, 100);
-    //    
-    //iframe.remove();
-    
     
     /* attach a submit handler to the form */
     form.submit(function(event) {
@@ -107,12 +98,11 @@ function commitForm(submit){
 
         /* Send the data using post and put the results in a div */
         $.post( url, {
-            "status[name]": term
-        },
-        function( data ) {
-            var content = $( data );
-            $('#dialog-form').empty().append( content );
-        }
+                "status[name]": term
+            },
+            function( data ) {
+                setContentDialogWindow($('#dialog-form'), data)
+            }
         );
     });
 
