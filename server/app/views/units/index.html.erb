@@ -2,7 +2,7 @@
 
 <h1>Jednostki</h1>
 
-<%= link_to 'Nowa jednostka', new_unit_path, :class => 'btn_dialog'  %>
+<%= link_to 'Nowa jednostka', new_unit_path, :class => 'btn'  %>
 
 <table>
  <thead>
@@ -22,7 +22,7 @@
     <td><%= unit.name %></td>
     <td><%= unit.created_at %></td>
     <td><%= link_to 'Pokaż', unit, :class => 'btn' %></td>
-    <td><%= link_to 'Edytuj', edit_unit_path(unit), :class => 'btn_dialog' %></td>
+    <td><%= link_to 'Edytuj', edit_unit_path(unit), :class => 'btn' %></td>
     <td><%= link_to 'Usuń', unit, :confirm => 'Jesteś pewien?', :method => :delete, :class => 'btn' %></td>
   </tr>
 <% end %>
