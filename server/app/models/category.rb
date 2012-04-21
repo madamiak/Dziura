@@ -13,6 +13,7 @@ class Category < ActiveRecord::Base
   # has_many zamiast belongs ze względu na położenie klucza obcego
   has_many :issues
 
-  validates :name, :presence => true, :uniqueness => true
+  validates_presence_of :name, :message => 'Nazwa - pole obowiązkowe'
+  validates_uniqueness_of :name, :message => 'Nazwy nie mogą się powtarzać'
 
 end

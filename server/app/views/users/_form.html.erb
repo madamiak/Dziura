@@ -7,11 +7,11 @@
             <p>
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
                 <strong>Alert:</strong>
-                <%= pluralize(@user.errors.count, "błąd") %> nie pozwolił na zapisanie użytkownika:
+                Użytkownik nie został zapisany z powodu następujących błędów:
             </p>
             <ul>
-            <% @user.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
+            <% @user.errors.messages.each do |message| %>
+             <li><%= message.last.last.html_safe %></li>
             <% end %>
             </ul>
         </div>

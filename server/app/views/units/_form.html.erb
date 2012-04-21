@@ -4,19 +4,24 @@
 
 <%= form_for(@unit) do |f| %>
   <% if @unit.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@unit.errors.count, "błąd") %> nie pozwolił na zapisanie jednostki:</h2>
-
-      <ul>
-      <% @unit.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="notice ui-widget">
+        <div class="ui-state-error ui-corner-all">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong>
+                Jednostka nie została zapisana z powodu następujących błędów:
+            </p>
+            <ul>
+            <% @unit.errors.messages.each do |message| %>
+              <li><%= message.last.last.html_safe %></li>
+            <% end %>
+            </ul>
+        </div>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.label :name, "Nazwa" %>
+    <b><%= f.label :name, "Nazwa" %>
     <%= f.text_field :name %>
   </div>
 

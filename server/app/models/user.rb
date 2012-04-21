@@ -24,8 +24,10 @@ class User < ActiveRecord::Base
   # podczas tworzenia/aktualizacji
   attr_accessor :password
 
-  validates :login, :presence => true, :uniqueness => true
-  validates :password, :presence => true, :if => :perform_password_validation?
+  validates_presence_of :login, :message => 'Login - pole obowiązkowe'
+  validates_uniqueness_of :login, :message => 'Loginy użytkowników nie mogą się powtarzać'
+
+  validates_presence_of :password, :message => 'Hasło - pole obowiązkowe', :if => :perform_password_validation?
 
   # Sprawdza, czy podano poprawne dane logowania
   def self.authenticate(login, password)

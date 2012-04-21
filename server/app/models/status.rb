@@ -7,8 +7,8 @@
 #
 class Status < ActiveRecord::Base
 
-  # nazwa obowiązkowa i nie może się powtarzać
-  validates :name, :presence => true, :uniqueness => true
+  validates_presence_of :name, :message => 'Nazwa - pole obowiązkowe'
+  validates_uniqueness_of :name, :message => 'Nazwy nie mogą się powtarzać'
 
   has_many :issues
 

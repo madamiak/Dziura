@@ -16,8 +16,10 @@ class Unit < ActiveRecord::Base
   has_many :users
   belongs_to :address
 
+  validates_presence_of :name, :message => 'Nazwa - pole obowiązkowe'
+  validates_presence_of :address, :message => 'Adres - pole obowiązkowe'
+
   accepts_nested_attributes_for :address
-  validates :name, :address, :presence => true
 
   # Ustawia wielokąty z danych w formacie JSON
   def set_polygons_json(json_data)

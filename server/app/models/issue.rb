@@ -28,9 +28,9 @@ class Issue < ActiveRecord::Base
 
   accepts_nested_attributes_for :address
 
-  validates :status, :presence => true
-  validates :unit, :presence => true
-  validates :category, :presence => true
+  validates :status, :presence => { :message => 'Status - pole obowiązkowe' }
+  validates :unit, :presence => { :message => 'Jednostka - pole obowiązkowe' }
+  validates :category, :presence => { :message => 'Kategoria - pole obowiązkowe' }
 
   # Należy wykonać to przy edycji z kontrolera, gdyz tutaj nie ma
   # dostępu do sesji.

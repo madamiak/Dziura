@@ -16,7 +16,9 @@ require 'net/http'
 #
 class Address < ActiveRecord::Base
 
-  validates :city, :street, :home_number, :presence => true
+  validates_presence_of :city, :message => 'Miasto - pole obowiązkowe'
+  validates_presence_of :street, :message => 'Ulica - pole obowiązkowe'
+  validates_presence_of :home_number, :message => 'Nr domu - pole obowiązkowe'
 
   # Zapytanie GET z parametrami
   # Wykorzystywane tylko tutaj, stąd jako prywatna metoda

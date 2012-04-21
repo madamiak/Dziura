@@ -7,11 +7,11 @@
             <p>
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
                 <strong>Alert:</strong>
-                <%= pluralize(@status.errors.count, "błąd") %> nie pozwolił na zapisanie statusu:
+                Status nie został zapisany z powodu następujących błędów:
             </p>
             <ul>
-            <% @status.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
+            <% @status.errors.messages.each do |message| %>
+             <li><%= message.last.last.html_safe %></li>
             <% end %>
             </ul>
         </div>

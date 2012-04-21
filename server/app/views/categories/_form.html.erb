@@ -7,11 +7,11 @@
             <p>
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
                 <strong>Alert:</strong>
-                <%= pluralize(@category.errors.count, "błąd") %> nie pozwolił na zapisanie kategorii:
+                Kategoria nie została zapisana z powodu następujących błędów:
             </p>
             <ul>
-            <% @category.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
+            <% @category.errors.messages.each do |message| %>
+              <li><%= message.last.last.html_safe %></li>
             <% end %>
             </ul>
         </div>

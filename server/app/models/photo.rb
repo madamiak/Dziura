@@ -16,7 +16,7 @@ class Photo < ActiveRecord::Base
   has_many :markers
 
   validates :photo, :presence => true,
-                    :length => { :maximum => 1200*1024 }
+                    :length => { :maximum => 1200*1024, :message => 'Przekroczony max. rozmiar zdjęcia' }
 
   validates :mime_type, :presence => true
   validates :mime_type, :format => { :with => /image\/jpeg|image\/png/,
