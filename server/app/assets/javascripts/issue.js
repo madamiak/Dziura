@@ -28,7 +28,9 @@ $(document).ready(function() {
 			}, {
 				"mDataProp" : "unit.name"
 			}, {
-				"mDataProp" : "address.street"
+				"mDataProp" : function ( source, type, val ) {
+                                    return source.address.street+" "+source.address.home_number+", "+source.address.city;
+                                }
 			}
                         , {
 				"mDataProp" : "created_at"

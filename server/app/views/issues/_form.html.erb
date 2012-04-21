@@ -51,6 +51,7 @@
   </div>
 <% end %>
 
+<--! tu cos nie dziala!! -->
 <% if !@issue.get_close_issues.empty? %>
   <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
     Polacz z <%= select_tag(:other_id, options_from_collection_for_select(@issue.get_close_issues, :id, :id)) %>

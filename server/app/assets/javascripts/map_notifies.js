@@ -146,6 +146,7 @@ function makeDialog(){
 }
 
 function makeSelectable(){
+    bindIssueForm();
     $('#selectable').selectable({
         stop: function() {
             result = $( "#select-result" ).empty();
