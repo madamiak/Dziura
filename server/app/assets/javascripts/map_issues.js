@@ -108,6 +108,11 @@ function issuesReceived(data)
     addIssueClickListener(marker);
     addIssueMouseoverListener(marker);
     addIssueMouseoutListener(marker);
+    
+    
+    console.log(data);
+    $('#example').dataTable().fnClearTable();
+    $('#example').dataTable().fnAddData(data);
   }
 }
 

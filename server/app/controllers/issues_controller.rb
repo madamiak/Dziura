@@ -104,7 +104,8 @@ class IssuesController < ApplicationController
       format.json { render :json =>
         @issues.all.to_json(:include => {
           :category =>  { :only => [:name, :id] },
-          :status => { :only => [:name, :id] } }) }
+          :status => { :only => [:name, :id] },
+          :unit => { :only => [:name, :id] } }) }
     end
   end
 

@@ -19,22 +19,22 @@ $(document).ready(function() {
 			"bRetrieve" : true,
                         "bFilter": false,
                         "bJQueryUI": true,
-			"sAjaxSource" : "/issues/by_pages.json",
+			//"sAjaxSource" : "/issues/by_pages.json",
 			"sAjaxDataProp" : "",
 			"aoColumns" : [ {
 				"mDataProp" : "id"
 			}, {
-				"mDataProp" : "category_id"
+				"mDataProp" : "category.name"
 			}, {
-				"mDataProp" : "status_id"
+				"mDataProp" : "status.name"
 			}, {
-				"mDataProp" : "unit_id"
+				"mDataProp" : "unit.name"
 			}, {
 				"mDataProp" : "created_at"
 			}
-//                        , {
-//				"mDataProp" : "updated_at"
-//			} 
+                        , {
+				"mDataProp" : "updated_at"
+			} 
                     ]
 		});
 	});

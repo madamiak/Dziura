@@ -15,7 +15,6 @@
 
 <%= link_to 'Nowa zgłoszenie', new_issue_path, :class => 'btn_dialog'  %>
 <a href="#" id="printButton" class="btn" >Drukuj widoczne zgłoszenia</a>
-<%= link_to 'Mapka-do-usuniecia', "/issues/map", :class => 'btn' %>
 
 <fieldset id="search_issue">
     <%= label_tag "Kategoria" %>
@@ -47,12 +46,12 @@
 <table id="example">
 <thead>
 		<tr>
-			<th>Id zgłoszenia</th>
-			<th>Id kategorii</th>
-			<th>Id statusu</th>
-			<th>Id jednostki</th>
+			<th>Id</th>
+			<th>Kategoria</th>
+			<th>Status</th>
+			<th>Jednostka</th>
 			<th>Data utworzenia</th>
-			<!--<th>Data aktualizacji</th>-->
+			<th>Data aktualizacji</th>
 		</tr>
 	</thead>
     <tbody>
