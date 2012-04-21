@@ -2,13 +2,13 @@
 <div id="issue_form">
 	<div id="issue_message"></div>
   			<%= form_tag issue_add_path, :remote => true do %>
-			<div style="float: left;">
+			<div style="width: 100%">
 				<span>You've selected:</span> <span id="select-result">none</span>.
 				<!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
 				<%= label_tag(:category_id, "Kategoria") %>
 				<!--<%= select_tag(:category_id, 
 				options_from_collection_for_select(Category.all, :id, :name), :class => "ui-widget-content ui-corner-all") %>-->
-				<ol id="selectable">
+				<ol id="selectable" style="float: left; width: 100%">
 					<li style="background: #000000" class="ui-state-default"></li>
 					<li style="background: #111111" class="ui-state-default"></li>
 					<li style="background: #222222" class="ui-state-default"></li>
@@ -35,12 +35,10 @@
 				<%= hidden_field_tag(:photo, "") %>
 				<%= hidden_field_tag(:category_id, "") %>
  			</div>
- 			<div style="float:right;">
 				<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
 				<iframe id="upload_iframe" src="/res/upload" width="320px" scrolling="no" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
 
 				<%= submit_tag("Zgłoś", :class => "btn") %>
- 			</div>
   			<% end %>
 	</div> 
 </div>
