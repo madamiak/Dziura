@@ -11,30 +11,7 @@ $(function() {
     notificar_email = $("#notificar_email"),
     desc = $("#desc"),
     allFields = $([]).add(notificar_email).add(desc),
-    tips = $("#validateTips");
-    
-	
-//    $( "#dialog").dialog({ 
-//        width: 550, 
-//        maxWidth: 550, 
-//        minWidth: 550,
-//        autoOpen: false,
-//        modal: true,
-//        open: function(event, ui) {
-//            bindIssueForm();
-//        },
-//        buttons: {
-//            'Zglos': function() {
-//                $(this).dialog('close');
-//            },
-//            'Zamknij': function() {
-//                $(this).dialog('close');
-//            }
-//        }
-//    });
-			
-
-	
+    tips = $("#validateTips");	
 	
     function updateTips(t) {
         tips.text(t).effect("highlight",{},1500);
@@ -94,7 +71,7 @@ function bindIssueForm() {
         $("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
         $("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
         $("#issue_form input[name=photo]").val(getPhotoInBase64 ());
-        $("#issue_form input[name=category_id]").val(index + 1);
+        $("#issue_form input[name=category_id]").val(index);
     });
 
     $("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
@@ -115,20 +92,6 @@ function placeMarker(location, isExisted) {
         });
 		
         makeDialog();
-		
-        //pobieranie formularza zgloszenia szkody z serwera
-        //$.get('res/issue', function(data) {
-        //console.log(data);
-        //g_infowindow = new google.maps.InfoWindow({
-        //content: data
-        //});
-
-        //g_infowindow.open(g_map, g_marker);
-
-        //google.maps.event.addListener(g_infowindow, 'domready', function() {
-        //bindIssueForm();
-        //});
-        //});
     
         google.maps.event.addListener(g_marker, 'click', function() {
             makeDialog();
@@ -152,8 +115,10 @@ function makeSelectable(){
             result = $( "#select-result" ).empty();
             $( ".ui-selected", this ).each(function() {
                 index = $( "#selectable li" ).index( this );
-                category_id = index + 1;
-                result.append( category_id );
+                index = index + 1;
+                jQuery.getJSON("/categories/" + index + ".json", function(data) {
+                	result.append( data.name );
+			       });
             });
         }
     });

@@ -1,23 +1,37 @@
+<%= stylesheet_link_tag "jquery-ui-1.8.19.custom.css" %>
+
 <h1>Wydruk wybranych zgłoszeń</h1>
 
 <% @issues.each do |issue| %>
-  <b>ID:</b> <%= issue.id %><br />
-  <b>Kategoria:</b> <%= issue.category.name %><br />
-  <b>Status:</b> <%= issue.status.name %><br />
-  <b>Adres:</b><br />
-   <%= render issue.address %>
-  <b>Komentarze i zdjęcia</b><br />
-  <ul>
-  <% issue.issue_instances.each do |ii| %>
-    <li><%= ii.desc %> <%= ii.created_at %><br />
-    <% ii.photos.each do |photo| %>  
-      <% photo.markers.each do |m| %>
-        <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
-      <% end %>
-      <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
-    <% end %>
-    </li>
-  <% end %>
-  </ul>
-  <hr/>
+	<div style="float left; width: 50%; margin-left: 20px;">
+	<div class="ui-widget ui-widget-container ui-corner-all">
+	
+		<div class="ui-widget-header"><b>ID:</b></div>
+		<%= issue.id %>
+			
+		<div class="ui-widget-header"><b>Kategoria:</b></div> 
+		<%= issue.category.name %>
+			
+		<div class="ui-widget-header"><b>Status:</b></div> 
+		<%= issue.status.name %>
+			
+		<div class="ui-widget-header"><b>Adres:</b></div>
+		<%= render issue.address %>
+			
+		<div class="ui-widget-header"><b>Komentarze i zdjęcia</b></div>
+		<ul>
+			<% issue.issue_instances.each do |ii| %>
+				<li><%= ii.desc %> <%= ii.created_at %><br />
+					<% ii.photos.each do |photo| %>  
+						<% photo.markers.each do |m| %>
+							<div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+						<% end %>
+						<%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
+		<hr/>
+	</div>
+	</div>
 <% end %>

@@ -118,21 +118,16 @@ function issuesReceived(data)
 
 function addIssueClickListener(marker)
 {
-  google.maps.event.addListener(marker, 'click', function() {
-    var id = marker.getTitle();
-
-    $.get('/issues/'+id+'/edit', function(data) {
-			infowindow = new google.maps.InfoWindow({
-			  content: data
-		  });
-
-		  infowindow.open(g_map, marker);
-
-		  google.maps.event.addListener(infowindow, 'domready', function() {
-			  bindEditIssueForm();
-		  });
-    });
+	google.maps.event.addListener(marker, 'click', function() {
+		var id = marker.getTitle();
+		editIssueUrl = "/issues/" + id + "/edit";
+	
+		makeDialog();
   });
+}
+
+function makeDialog(){
+    var dialog = initDialogWindow(editIssueUrl);
 }
 
 function addIssueMouseoverListener(marker){
