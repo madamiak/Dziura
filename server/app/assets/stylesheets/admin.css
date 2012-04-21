@@ -2,7 +2,7 @@
 
 /* 1 Main styles */
 html,body {
-    background: url("/images/bg.png") repeat scroll 0 0 #191919;
+    background: url("/assets/bg.png") repeat scroll 0 0 #191919;
     color: #222222;
     font-family: Verdana,Arial,sans-serif;
     font-size: 9px;
