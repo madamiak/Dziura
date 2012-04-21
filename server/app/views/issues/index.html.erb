@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag "issue.css" %>
 <%- end -%>
 
-<%- @body_onload = "initialize()" %>
+<%- @body_onload = "initializeIssues()" %>
 
 <h1>Zgłoszenia</h1>
 
@@ -43,7 +43,7 @@
 
 <div id="map_canvas" class="issue_map"></div>
 
-<table id="example">
+<table id="issues_table">
 <thead>
 		<tr>
 			<th>Id</th>

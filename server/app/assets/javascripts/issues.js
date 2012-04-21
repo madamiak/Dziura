@@ -2,114 +2,117 @@
  * issues.js - obsługa mapy i tabelki z wyświetlanymi zdarzeniami w panelu admina
  */
 
+var g_issueMarkers = [];
+var g_updateTimer = null;
+var g_first = true;
+var g_issues = new Array();
 
-function bindEditIssueForm() {
-  $("#issue_edit").live("ajax:success", function(event, data, status, xhr) {
-    $("#issue_edit").html(data.responseText);
-  });
+// Inicjalizacja - wywoływane przy ładowaniu strony
+function initializeIssues()
+{
+  createMap(); // map_common.js
 
-  $("#issue_edit").live("ajax:error", function(event, data, status, xhr) {
-    $("#issue_edit").html(data.responseText);
-  });
-}
+  // Aktualizacja zgłoszeń po zmianie widoku mapki
+  google.maps.event.addListener(g_map, 'bounds_changed',
+    function()
+    {
+      if (g_first)
+      {
+        updateIssues();
+        g_first = false;
+        return;
+      }
 
-$(document).ready(function() {
+      if (g_updateTimer != null)
+        clearTimeout(g_updateTimer);
 
-  var m = new mapTable;
-  m.aa();
+      g_updateTimer = setTimeout(updateIssues, 1000);
+    }
+  );
 
-  $('#example').each(function() {
-    $('#example').dataTable({
+  // Ustawienie tabelki
+  $('#issues_table').dataTable(
+    {
       "bProcessing" : true,
       "bRetrieve" : true,
       "bFilter": false,
       "bJQueryUI": true,
-      "aoColumns" : [ {
-        "mDataProp" : "id"
-      }, {
-        "mDataProp" : "category.name"
-      }, {
-        "mDataProp" : "status.name"
-      }, {
-        "mDataProp" : "unit.name"
-      }, {
-        "mDataProp" : function ( source, type, val ) {
-          if (! ('address' in source))
-            return "";
-          else
-            return source.address.street+" "+source.address.home_number+", "+source.address.city;
+      "aoColumns" :
+      [
+        { "mDataProp" : "id" },
+        { "mDataProp" : "category.name" },
+        { "mDataProp" : "status.name" },
+        { "mDataProp" : "unit.name" },
+        { "mDataProp" :
+          function ( source, type, val )
+          {
+            if (! ('address' in source))
+              return "";
+            else
+              return source.address.street+" "+source.address.home_number+", "+source.address.city;
+          }
+        } ,
+        { "mDataProp" : "created_at" }
+      ],
+      "oLanguage":
+      {
+        "sProcessing":   "Proszę czekać...",
+        "sLengthMenu":   "Pokaż _MENU_ pozycji",
+        "sZeroRecords":  "Nie znaleziono żadnych pasujących indeksów",
+        "sInfo":         "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+        "sInfoEmpty":    "Pozycji 0 z 0 dostępnych",
+        "sInfoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+        "sInfoPostFix":  "",
+        "sSearch":       "Szukaj:",
+        "sUrl":          "",
+        "oPaginate": {
+          "sFirst":    "Pierwsza",
+          "sPrevious": "Poprzednia",
+          "sNext":     "Następna",
+          "sLast":     "Ostatnia"
         }
       }
-      , {
-        "mDataProp" : "created_at"
-      }
-      ]
-    });
-  });
-});
-
-function mapTable() {
-  this.aa = function(){
-    initialize();
-    $('#example tbody tr ').live( 'click', function () {
-
-      var id = $(this).html();
-      id = id.substr(id.indexOf(">")+1);
-      id = id.substr(0,id.indexOf("<"));
-
-    } );
-  }
-
-  this.setHihglightRow = function (issue_id){
-    $('#example tbody tr ').each(function() {
-      var id = $(this).html();
-      id = id.substr(id.indexOf(">")+1);
-      id = id.substr(0,id.indexOf("<"));
-      if (id==issue_id) {
-        $(this).toggleClass('ui-state-hover');
-      }
-    });
-  }
-}
-
-var g_issueMarkers = [];
-var g_updateTimer = null;
-var g_first = true;
-var issues = new Array();
-
-function initialize()
-{
-  createMap(); // map_common.js
-
-  google.maps.event.addListener(g_map, 'bounds_changed', function() {
-    if (g_first)
-    {
-      updateIssues();
-      g_first = false;
-      return;
     }
+  );
 
-    if (g_updateTimer != null)
-      clearTimeout(g_updateTimer);
-
-    g_updateTimer = setTimeout(updateIssues, 1000);
-  });
-
+  // Aktualizacja po zmianie select boxa albo adresu
   $("select").bind("change", updateIssues);
   $("input[name=street]").bind("keyup", updateIssues);
+
+  // Drukowanie zgłoszeń
   $("#printButton").bind("click", printIssues);
 }
 
-function printIssues() {
+// Podświetla wiersz w tabelce
+function setHihglightRow(issue_id)
+{
+  $('#issues_table tbody tr ').each(
+    function()
+    {
+      var id = $(this).html();
+      id = id.substr(id.indexOf(">")+1);
+      id = id.substr(0,id.indexOf("<"));
+      if (id==issue_id)
+        $(this).toggleClass('ui-state-hover');
+    }
+  );
+}
+
+// Przechodzi do strony z wydrukiem zgłoszeń
+function printIssues()
+{
   var url = '/issues/print?id=';
-  for (var i = 0; i < issues.length; i++) {
-    url = url + issues[i].id + ',';
+  for (var i = 0; i < g_issues.length; i++)
+  {
+    url = url + g_issues[i].id + ',';
   }
 
   window.location = url;
 }
 
-function getFilterParams() {
+// Zwraca parametry filtrowania
+function getFilterParams()
+{
   var params = {};
   params["search"] = {};
 
@@ -136,6 +139,7 @@ function getFilterParams() {
   return params;
 }
 
+// Pobiera zgłoszenia
 function updateIssues()
 {
   var ne = g_map.getBounds().getNorthEast();
@@ -149,9 +153,10 @@ function updateIssues()
   jQuery.getJSON("/issues/by_rect.json?" + urlParams + "&" + filterParams, issuesReceived);
 }
 
+// Przetworzenie pobranych danych
 function issuesReceived(data)
 {
-  issues = data;
+  g_issues = data;
 
   for (i in g_issueMarkers)
   {
@@ -175,39 +180,35 @@ function issuesReceived(data)
     addIssueClickListener(marker);
     addIssueMouseoverListener(marker);
     addIssueMouseoutListener(marker);
-
-
-    $('#example').dataTable().fnClearTable();
-    $('#example').dataTable().fnAddData(data);
   }
+
+  $('#issues_table').dataTable().fnClearTable();
+  $('#issues_table').dataTable().fnAddData(data);
 }
+
+// Funkcje dodające zdarzenia do markerów na mapce
 
 function addIssueClickListener(marker)
 {
-	google.maps.event.addListener(marker, 'click', function() {
-		var id = marker.getTitle();
-		editIssueUrl = "/issues/" + id + "/edit";
+  google.maps.event.addListener(marker, 'click', function() {
+    var id = marker.getTitle();
+    editIssueUrl = "/issues/" + id + "/edit";
 
-		makeDialog();
+    // dialog z edycją zgłoszenia
+    var dialog = initDialogWindow(editIssueUrl);
   });
 }
 
-function makeDialog(){
-    var dialog = initDialogWindow(editIssueUrl);
+function addIssueMouseoverListener(marker)
+{
+  google.maps.event.addListener(marker, 'mouseover', function() {
+    setHihglightRow(marker.getTitle());
+  });
 }
 
-function addIssueMouseoverListener(marker){
-	google.maps.event.addListener(marker, 'mouseover', function() {
-	    var id = marker.getTitle();
-	    var m = new mapTable;
-		m.setHihglightRow(id);
-
-	  });
-}
-function addIssueMouseoutListener(marker){
-	google.maps.event.addListener(marker, 'mouseout', function() {
-	    var id = marker.getTitle();
-	    var m = new mapTable;
-		m.setHihglightRow(id);
-	  });
+function addIssueMouseoutListener(marker)
+{
+  google.maps.event.addListener(marker, 'mouseout', function() {
+    setHihglightRow(marker.getTitle());
+  });
 }

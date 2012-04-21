@@ -34,7 +34,7 @@ class IssuesController < ApplicationController
     @issue = Issue.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => false } # new.html.erb
       format.json { render :json => @issue }
     end
   end
@@ -42,7 +42,7 @@ class IssuesController < ApplicationController
   # GET /issues/1/edit
   def edit
     @issue = Issue.find(params[:id])
-    render :layout => false
+    render :layout => false # edit.html.erb
   end
 
   # POST /issues

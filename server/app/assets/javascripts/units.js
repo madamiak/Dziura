@@ -4,7 +4,8 @@
 
 /* Część dotycząca wyświetlania wielokątów jednostki */
 
-function initializeShow(unit_id)
+// Inicjalizacja - wywoływane po załadowaniu strony
+function initializeUnitShow(unit_id)
 {
   var extraOptions = { disableDoubleClickZoom: true };
   createMap(extraOptions); // map_common.js
@@ -45,8 +46,8 @@ var g_polygonMarkers = [];
 var g_polygons = [];
 var g_closePolygonListener;
 
-
-function initializeNew()
+// Inicjalizacja - wywoływane po załadowaniu strony
+function initializeUnitNew()
 {
   var extraOptions = { disableDoubleClickZoom: true };
   createMap(extraOptions); // map_common.js
@@ -54,7 +55,8 @@ function initializeNew()
   google.maps.event.addListener(g_map, 'click', mapClicked);
 }
 
-function initializeEdit(unit_id)
+// Inicjalizacja - wywoływane po załadowaniu strony
+function initializeUnitEdit(unit_id)
 {
   var extraOptions = { disableDoubleClickZoom: true };
   createMap(extraOptions); // map_common.js
@@ -88,6 +90,7 @@ function initializeEdit(unit_id)
   );
 }
 
+// Po kliknięciu na mapę
 function mapClicked(event)
 {
   var pointNum = g_polygonMarkers.length + 1;
@@ -108,6 +111,7 @@ function mapClicked(event)
   }
 }
 
+// Zamyka wielokąt z zaznaczonych punktów
 function closePolygon(event)
 {
   if (g_polygonMarkers.length < 3)
@@ -133,6 +137,7 @@ function closePolygon(event)
   updatePolygonsJSON();
 }
 
+// Tworzy wielokąt na mapie z danych punktów
 function createEditablePolygon(points)
 {
   google.maps.event.addListener(points, 'insert_at', function(a) { updatePolygonsJSON() });
@@ -151,6 +156,7 @@ function createEditablePolygon(points)
   addPolygonDeleteListener(polygon);
 }
 
+// Dodaje listener do usuwania wielokąta po dwukliku
 function addPolygonDeleteListener(polygon)
 {
   google.maps.event.addListener(polygon, 'dblclick', function() {
@@ -166,6 +172,7 @@ function addPolygonDeleteListener(polygon)
   });
 }
 
+// Aktualizuje ukryte pole z JSON'em wielokąta
 function updatePolygonsJSON()
 {
   var polygonsField = document.getElementById("polygons");
