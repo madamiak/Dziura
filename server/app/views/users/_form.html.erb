@@ -7,7 +7,7 @@
             <p>
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
                 <strong>Alert:</strong>
-                <%= pluralize(@user.errors.count, "błąd") %> nie pozwolił na zapisanie useru:
+                <%= pluralize(@user.errors.count, "błąd") %> nie pozwolił na zapisanie użytkownika:
             </p>
             <ul>
             <% @user.errors.full_messages.each do |msg| %>
@@ -19,26 +19,24 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :login %><br />
+    <%= f.label :login, "Login:" %><br />
     <%= f.text_field :login %>
   </div>
   <div class="field">
-    <%= f.label :password %><br />
+    <%= f.label :password, "Hasło:" %><br />
     <%= f.text_field :password %>
   </div>
   <div class="field">
-    <%= f.label :role %><br />
+    <%= f.label :role, "Rola:" %><br />
     <%= f.text_field :role %>
   </div>
-  
-  <!--
+
   <div class="field">
-    <%= f.label :unit %><br />
-    <%= f.text_field :unit %>
+    <%= f.label :unit, "Jednostka:" %><br />
+    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
   </div>
-  -->
-  
+
   <div class="actions">
-    <%= f.submit :id => 'submit_asynchro' %>
+    <%= f.submit "Zapisz", :id => 'submit_asynchro' %>
   </div>
 <% end %>

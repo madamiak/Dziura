@@ -19,14 +19,14 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, "Nazwa:" %><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :icon %><br />
+    <%= f.label :icon, "Ikona:" %><br />
     <%= f.file_field :icon, :accept => 'text/jpeg' %>
   </div>
   <div class="actions">
-    <%= f.submit :id => 'submit_asynchro' %>
+    <%= f.submit "Zapisz", :id => 'submit_asynchro' %>
   </div>
 <% end %>

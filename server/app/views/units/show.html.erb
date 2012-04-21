@@ -18,7 +18,7 @@
   <b>Adres:</b>
   <br>
   <div style='margin-left: 3em'>
-  <%= display_address(@unit.address) %>
+  <%= render @unit.address %>
   </div>
 
   <%= link_to 'Edytuj', edit_unit_path(@unit), :class => 'btn' %>

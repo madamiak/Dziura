@@ -23,7 +23,7 @@
   <%= hidden_field_tag('polygons', "{ \"polygons\": [] }") %>
 
   <%= f.fields_for(:address, @unit.address) do |builder| %>
-    <%= render 'address', :f => builder %>
+    <%= render 'addresses/address_form', :f => builder %>
   <% end %>
 
   <div class="actions">

@@ -27,14 +27,14 @@
 <%= select_tag(:unit_id, options_for_select(units, "")) %>
 
 <%= label_tag "Dodane" %>
-<%= select_tag(:date, options_for_select([['all',0], ['dzis', Date.today], 
-  ['w tym tygodniu', 7.days.ago], ['w tym miesiacu', 1.month.ago]] )) %>
-  
+<%= select_tag(:date, options_for_select([['all',0], ['dziś', Date.today], 
+  ['w tym tygodniu', 7.days.ago], ['w tym miesiącu', 1.month.ago]] )) %>
+
 <%= label_tag "ulica" %>
 <%= text_field_tag :street %>
-  
+
 <div id="map_canvas"></div>
 
-<a href="#" id="printButton">Drukuj wybrane zgloszenia</a>
+<a href="#" id="printButton">Drukuj wybrane zgłoszenia</a>
 
 <%= link_to 'Lista', issues_path %>

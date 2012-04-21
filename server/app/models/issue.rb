@@ -20,12 +20,13 @@ class Issue < ActiveRecord::Base
   belongs_to :status
   belongs_to :category
   belongs_to :unit
-
   belongs_to :status
-
   belongs_to :address
+
   has_many :logs, :as => :loggable
   has_many :issue_instances, :validate => true
+
+  accepts_nested_attributes_for :address
 
   validates :status, :presence => true
   validates :unit, :presence => true

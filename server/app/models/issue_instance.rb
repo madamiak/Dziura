@@ -14,11 +14,13 @@
 #
 class IssueInstance < ActiveRecord::Base
 
-  # has_many zamiast belongs ze względu na położenie klucza obcego
+  # belongs_to zamiast has_one, has_many ze względu na położenie klucza obcego
   belongs_to :address
   belongs_to :issue
 
   has_many :photos
+
+  accepts_nested_attributes_for :address
 
   # Nie może istnieć samodzielne IssueInstance
   validates :issue, :presence => true

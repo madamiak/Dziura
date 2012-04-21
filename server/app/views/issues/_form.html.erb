@@ -1,8 +1,9 @@
 <%# encoding: utf-8 %>
+
 <%= form_for(@issue, :remote => true) do |f| %>
   <% if @issue.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@issue.errors.count, "error") %> prohibited this category from being saved:</h2>
+      <h2><%= pluralize(@issue.errors.count, "błąd") %> nie pozwolił na zapisanie zgłoszenia:</h2>
 
       <ul>
       <% @issue.errors.full_messages.each do |msg| %>
@@ -13,48 +14,50 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :category %><br />
+    <%= f.label :category, "Kategoria:" %><br />
     <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
   </div>
+
   <div class="field">
-    <%= f.label :status %><br />
+    <%= f.label :status, "Status:" %><br />
     <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
   </div>
-  
+
   <div class="field">
-    <%= f.label :unit %><br />
+    <%= f.label :unit, "Jednostka:" %><br />
     <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
   </div>
-  
+
   <div class="field">
-    <%= f.label :desc %><br />
+    <%= f.label :desc, "Opis:" %><br />
     <%= f.text_area :desc, :size => "60x12" %>
-  </div>  
-  
-  <% if !@issue.address.nil? %>
-  <%= render @issue.address %>
+  </div>
+
+  <% addr = @issue.address %>
+  <% addr = Address.new if addr.nil? %>
+  <%= f.fields_for(:address, addr) do |builder| %>
+    <%= render 'addresses/address_form', :f => builder %>
   <% end %>
-    
+
   <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
   <% @issue.issue_instances.each do |issue_i| %>
     <%= issue_i.created_at %>
     <%= issue_i.desc %> 
     <%= link_to 'detach', {:action => "detach", :id => issue_i.id}, :remote => true %>
-    <br />    
+    <br />
     <!-- TODO photo & markers -->
   <% end %>
 
-  <br />  
-  
+  <br />
+
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
 
-<--! tu cos nie dziala!! -->
 <% if !@issue.get_close_issues.empty? %>
   <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
-    Polacz z <%= select_tag(:other_id, options_from_collection_for_select(@issue.get_close_issues, :id, :id)) %>
+    Połącz z <%= select_tag(:other_id, options_from_collection_for_select(@issue.get_close_issues, :id, :id)) %>
     <%= submit_tag "Wykonaj" %>
   <% end %>
 <% end %>
