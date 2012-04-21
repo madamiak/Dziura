@@ -134,8 +134,10 @@ function placeMarker(location, isExisted) {
     //});
     
     google.maps.event.addListener(g_marker, 'click', function() {
-    	$('#dialog').dialog('open');
-		//g_infowindow.open(g_map, g_marker);
+    	 var url = "/res/issue/";
+        var dialog_window =  createDialogWindow();
+        setContentDialogWindowFromUrl(dialog_window, url)
+        dialog_window.dialog( "open" );
 	});
 
 	setExisting(true);
