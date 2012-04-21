@@ -142,12 +142,10 @@ function placeMarker(location, isExisted) {
 }
 
 function makeDialog(){
-    initDialogWindow(newIssueUrl);
-    makeSelectable();
+    var dialog = initDialogWindow(newIssueUrl);
 }
 
 function makeSelectable(){
-    
     $('#selectable').selectable({
         stop: function() {
             result = $( "#select-result" ).empty();
