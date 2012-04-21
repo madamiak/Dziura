@@ -19,8 +19,6 @@ $(document).ready(function() {
 			"bRetrieve" : true,
                         "bFilter": false,
                         "bJQueryUI": true,
-			//"sAjaxSource" : "/issues/by_pages.json",
-			"sAjaxDataProp" : "",
 			"aoColumns" : [ {
 				"mDataProp" : "id"
 			}, {
@@ -30,10 +28,10 @@ $(document).ready(function() {
 			}, {
 				"mDataProp" : "unit.name"
 			}, {
-				"mDataProp" : "created_at"
+				"mDataProp" : "address.street"
 			}
                         , {
-				"mDataProp" : "updated_at"
+				"mDataProp" : "created_at"
 			} 
                     ]
 		});

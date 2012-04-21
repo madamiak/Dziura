@@ -103,6 +103,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.json { render :json =>
         @issues.all.to_json(:include => {
+          :address => { :only => [:city, :street, :home_number, :id] },
           :category =>  { :only => [:name, :id] },
           :status => { :only => [:name, :id] },
           :unit => { :only => [:name, :id] } }) }

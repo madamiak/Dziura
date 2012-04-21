@@ -11,6 +11,9 @@ function setjQueryUI (){
     $('#container').addClass('ui-widget');
     $('#auth').addClass('ui-widget');
     
+    //ustawanie selectable
+    
+    
     //ustawianie styli tabel
     $('tbody tr').hover(function() {
         $(this).toggleClass('ui-state-hover');
@@ -30,14 +33,18 @@ function setjQueryUI (){
     .unbind('click')
     .click(function() {
         var url = $(this).attr('href');
-        var dialog_window =  createDialogWindow();
-        setContentDialogWindowFromUrl(dialog_window, url)
-        dialog_window.dialog( "open" );
+        initDialogWindow(url);
         return false;
     });
         
     //ukrywanie komunikatów
     if($('div.notice')) $('div.notice').delay(microtimeToHideNotice).slideUp();
+}
+
+function initDialogWindow(url){
+    var dialog_window =  createDialogWindow();
+    setContentDialogWindowFromUrl(dialog_window, url)
+    dialog_window.dialog( "open" );
 }
     
 /* funckja tworzaca okno dialogowe */
@@ -109,10 +116,10 @@ function commitForm(submit){
 
         /* Send the data using post and put the results in a dialog-form */
         $.post( url, values,
-        function( data ) {
-            setContentDialogWindow($('#'+idOfDialogForm), data)
-        }
-        );
+            function( data ) {
+                setContentDialogWindow($('#'+idOfDialogForm), data)
+            }
+            );
     });
 
 
