@@ -18,7 +18,7 @@ Dziura::Application.routes.draw do
     end  
   end
 
-  match 'admin' => 'main#index'
+  match 'admin' => 'issues#index'
   match 'login' => 'main#login'
   match 'logout' => 'main#logout'
 

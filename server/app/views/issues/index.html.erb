@@ -11,7 +11,7 @@
 
 <%- @body_onload = "initialize()" %>
 
-<h1>Listing issues</h1>
+<h1>Zgłoszenia</h1>
 
 <%= link_to 'Nowe zgłoszenie', new_issue_path, :class => 'btn_dialog'  %>
 <a href="#" id="printButton" class="btn" >Drukuj widoczne zgłoszenia</a>
@@ -19,21 +19,21 @@
 <fieldset id="search_issue">
     <%= label_tag "Kategoria" %>
     <% categories = Category.all.map { |category| [category.name, category.id] } %>
-    <% categories.insert(0, ["all",0]) %>
+    <% categories.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:category_id, options_for_select(categories, "")) %>
 
     <%= label_tag "Status" %>
     <% statuses = Status.all.map { |status| [status.name, status.id] } %>
-    <% statuses.insert(0, ["all",0]) %>
+    <% statuses.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:status_id, options_for_select(statuses, "")) %>
 
     <%= label_tag "Jednostka" %>
     <% units = Unit.all.map { |unit| [unit.name, unit.id] } %>
-    <% units.insert(0, ["all",0]) %>
+    <% units.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:unit_id, options_for_select(units, "")) %>
 
     <%= label_tag "Dodane" %>
-    <%= select_tag(:date, options_for_select([['all',0], ['dzis', Date.today], 
+    <%= select_tag(:date, options_for_select([['kiedykolwiek',0], ['dziś', Date.today], 
     ['w tym tygodniu', 7.days.ago], ['w tym miesiacu', 1.month.ago]] )) %>
 
     <%= label_tag "ulica" %>

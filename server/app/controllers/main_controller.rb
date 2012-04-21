@@ -1,15 +1,11 @@
 # -*- encoding : utf-8 -*-
 
-# Kontroler głównej strony panelu zarządzania
+# Kontroler logowania/wylogowywania panelu zarządzania
 #
 class MainController < ApplicationController
   skip_before_filter :require_login, :only => [:login]
 
   layout "admin"
-
-  # GET /admin
-  def index
-  end
 
   # Logowanie
   def login
