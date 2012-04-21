@@ -1,36 +1,26 @@
 <%# encoding: utf-8 %>
+<%= stylesheet_link_tag "admin" %>
 
-<div id="header-container">
-	<div id="header" />
+<div id="auth">
+<div class="header">
+<h1>Podgląd stanu zgłoszenia</h1>
 </div>
-<p>
-  <b>Kategoria:</b>
-	<%= @issue_instances.issue.category.name %>
-</p>
+	<div class="field"><b>Kategoria:</b>
+	<%= @issue_instances.issue.category.name %></div>
+	
+	<div class="field"><b>Opis:</b>
+	<%= @issue_instances.desc %></div>
 
-<p>
-  <b>Opis:</b>
-  <%= @issue_instances.desc %>
-</p>
+	<div class="field"><b>Status:</b>
+	<%= @issue_instances.issue.status.name %></div>
 
-<p>
-  <b>Status:</b>
-	<%= @issue_instances.issue.status.name %>
-</p>
+	<div class="field"><b>Jednostka odpowiedzialna:</b>
+	<%= @issue_instances.issue.unit.name %></div>
 
-<p>
-  <b>Jednostka odpowiedzialna:</b>
-	<%= @issue_instances.issue.unit.name %>
-</p>
-
-<% if (@issue_instances.photos.length > 0) %>
-<p>
-  <b>Zdjęcia:</b><br>
-  <% @issue_instances.photos.each do |photo| %>
-    <%= image_tag("/res/photos/" + photo.id.to_s) %><br>
-  <% end %>
-</p>
-<% end %>
-
-
-
+	<% if (@issue_instances.photos.length > 0) %>
+		<div class="field"><b>Zdjęcia:</b>
+		<% @issue_instances.photos.each do |photo| %>
+			<%= image_tag("/res/photos/" + photo.id.to_s) %><br>
+		<% end %></div>
+	<% end %>
+</div>

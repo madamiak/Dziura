@@ -2,42 +2,39 @@
 <div id="issue_form">
 	<div id="issue_message"></div>
   			<%= form_tag issue_add_path, :remote => true do %>
-			<div style="width: 100%">
-				<span>You've selected:</span> <span id="select-result">none</span>.
-				<!-- TODO to maja byc kiedys ikonki, na ktore mozna klikac i zmienic kategorie -->
-				<%= label_tag(:category_id, "Kategoria") %>
-				<!--<%= select_tag(:category_id, 
-				options_from_collection_for_select(Category.all, :id, :name), :class => "ui-widget-content ui-corner-all") %>-->
-				<ol id="selectable" style="float: left; width: 100%">
-					<li style="background: #000000" class="ui-state-default"></li>
-					<li style="background: #111111" class="ui-state-default"></li>
-					<li style="background: #222222" class="ui-state-default"></li>
-					<li style="background: #333333" class="ui-state-default"></li>
-					<li style="background: #444444" class="ui-state-default"></li>
-					<li style="background: #555555" class="ui-state-default"></li>
-					<li style="background: #666666" class="ui-state-default"></li>
-					<li style="background: #777777" class="ui-state-default"></li>
-					<li style="background: #888888" class="ui-state-default"></li>
-					<li style="background: #999999" class="ui-state-default"></li>
-				</ol>
-				 
-				<%= label_tag(:desc, "Opis") %>
-				<%= text_area_tag(:desc, "", :class => "text ui-widget-content ui-corner-all", :cols => "20") %>
-				 
-				<%= label_tag(:notificar_email, "E-mail") %>
-				<%= text_field(:notificar_email, "", :size => "24", :class => "ui-widget-content ui-corner-all") %>
-				 
-				<!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
-				<%= hidden_field_tag(:longitude, "") %>
-				<%= hidden_field_tag(:latitude, "") %>
-				<%= hidden_field_tag(:marker_x, "") %>
-				<%= hidden_field_tag(:marker_y, "") %>
-				<%= hidden_field_tag(:photo, "") %>
-				<%= hidden_field_tag(:category_id, "") %>
- 			</div>
-				<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
-				<iframe id="upload_iframe" src="/res/upload" width="320px" scrolling="no" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
-
+				<div style="width: 100%">
+					<span>Wybrałeś kategorię: </span> <span id="select-result">[wybierz]</span>.
+					<%= label_tag(:category_id, "Kategoria") %>
+					<ol id="selectable" style="float: left; width: 100%">
+						<li style="background: #000000" class="ui-state-default"></li>
+						<li style="background: #111111" class="ui-state-default"></li>
+						<li style="background: #222222" class="ui-state-default"></li>
+						<li style="background: #333333" class="ui-state-default"></li>
+						<li style="background: #444444" class="ui-state-default"></li>
+						<li style="background: #555555" class="ui-state-default"></li>
+						<li style="background: #666666" class="ui-state-default"></li>
+						<li style="background: #777777" class="ui-state-default"></li>
+						<li style="background: #888888" class="ui-state-default"></li>
+						<li style="background: #999999" class="ui-state-default"></li>
+					</ol>
+					 
+					<%= label_tag(:desc, "Opis") %>
+					<%= text_area_tag(:desc, "", :class => "text ui-widget-content ui-corner-all", :cols => "20") %>
+					
+					<%= label_tag(:notificar_email, "E-mail") %>
+					<%= text_field_tag(:notificar_email, "", :size => "24", :class => "ui-widget-content ui-corner-all") %>
+					 
+					<!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
+					<%= hidden_field_tag(:longitude, "") %>
+					<%= hidden_field_tag(:latitude, "") %>
+					<%= hidden_field_tag(:marker_x, "") %>
+					<%= hidden_field_tag(:marker_y, "") %>
+					<%= hidden_field_tag(:photo, "") %>
+					<%= hidden_field_tag(:category_id, "") %>
+					
+					<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
+					<iframe id="upload_iframe" src="/res/upload" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
+				</div>
 				<%= submit_tag("Zgłoś", :class => "btn") %>
   			<% end %>
 	</div> 
