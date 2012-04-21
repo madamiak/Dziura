@@ -1,3 +1,7 @@
+/**
+ * admin.js - funkcje do obsługi UI panelu admina
+ */
+
 $(function() {
     setjQueryUI();
 });
@@ -5,19 +9,20 @@ $(function() {
 var idOfDialogForm = "dialog-form";
 var microtimeToHideNotice = 5000;
 
-/* funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI */
-function setjQueryUI (){
+/* Funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI */
+function setjQueryUI ()
+{
     //ustawianie styli globalnych
     $('#container').addClass('ui-widget');
     $('#auth').addClass('ui-widget');
-    
+
     //ustawianie styli tabel
     $('tbody tr').hover(function() {
         $(this).toggleClass('ui-state-hover');
     });
     $('table').addClass('ui-widget ui-widget-content');
     $('thead tr').addClass('ui-widget-header');
-    
+
     //ustawianie styli forms
     $('fieldset').addClass('ui-widget ui-widget-content');
     $('fieldset legend').addClass('ui-widget-header ui-corner-all');
@@ -33,31 +38,36 @@ function setjQueryUI (){
         initDialogWindow(url);
         return false;
     });
-        
+
     //ukrywanie komunikatów
     if($('div.notice')) $('div.notice').delay(microtimeToHideNotice).slideUp();
 }
 
-function initDialogWindow(url){
+function initDialogWindow(url)
+{
     var dialog_window =  createDialogWindow();
     setContentDialogWindowFromUrl(dialog_window, url)
     dialog_window.dialog( "open" );
     return dialog_window;
 }
-    
+
 /* funckja tworzaca okno dialogowe */
-function createDialogWindow(){
+function createDialogWindow()
+{
     //tworzenie elementu html
     var dialog = $('<div id="'+idOfDialogForm+'">').appendTo('body');
-        
+
     //tworzenie okien dialogowych
     dialog.dialog({
         autoOpen: false,
+        minHeight: 200,
+        minWidth: 200,
         height: 310,
         width: 400,
+        resizable: true,
         modal: true,
         buttons: {
-            Cancel: function() {
+            "Anuluj" : function() {
                 $( this ).dialog( "close" );
             }
         },
@@ -65,12 +75,13 @@ function createDialogWindow(){
             dialog.remove();
         }
     });
-        
+
     return dialog;
 }
-    
+
 /* funkcja ustawiajaca zawartosc zadanego okna dialogowego z danego URL */
-function setContentDialogWindowFromUrl(dialog_window, url){
+function setContentDialogWindowFromUrl(dialog_window, url)
+{
     $.get(url,
         function(data){
             setContentDialogWindow(dialog_window, data)
@@ -78,32 +89,34 @@ function setContentDialogWindowFromUrl(dialog_window, url){
 }
 
 /* funkcja ustawiajaca zawartosc zadanego okna dialogowego */
-function setContentDialogWindow(dialog_window, data){
+function setContentDialogWindow(dialog_window, data)
+{
     /* czyszczenie i ustawianie zawartości */
     dialog_window.empty().html(data);
-            
+
     // pobieranie i ustawianie tytuly okna
     title = dialog_window.find('h1').html();
     dialog_window.find('h1').empty();
     dialog_window.dialog( "option", "title", title );
-            
+
     // ustawianie styli i akcji elementów na zgodne z jQuery UI
     setjQueryUI();
-    
+
     // ustawianie selectable dla kategorii przy formularzu nowego zgłoszenia;
     makeSelectable();
 }
 
 /* funkcja do asynchronicznej obsługi formularzy */
-function commitForm(submit){
+function commitForm(submit)
+{
     var form = $(submit).parents('form:first');
-    
+
     /* uchwyt formularza */
     form.submit(function(event) {
 
         /* stop form from submitting normally */
-        event.preventDefault(); 
-        
+        event.preventDefault();
+
         /* get some values from elements on the page: */
         var $form = $( this );
         var url = $form.attr( 'action' );
@@ -120,9 +133,7 @@ function commitForm(submit){
             function( data ) {
                 setContentDialogWindow($('#'+idOfDialogForm), data)
             }
-            );
+        );
     });
-
-
 
 }

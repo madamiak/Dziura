@@ -43,7 +43,7 @@
   <% @issue.issue_instances.each do |issue_i| %>
     <%= issue_i.created_at %>
     <%= issue_i.desc %> 
-    <%= link_to 'detach', {:action => "detach", :id => issue_i.id}, :remote => true %>
+    <%= link_to 'Odłącz', {:action => "detach", :id => issue_i.id}, :remote => true %>
     <br />
     <!-- TODO photo & markers -->
   <% end %>
@@ -51,13 +51,16 @@
   <br />
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Zapisz' %>
   </div>
 <% end %>
 
-<% if !@issue.get_close_issues.empty? %>
-  <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
-    Połącz z <%= select_tag(:other_id, options_from_collection_for_select(@issue.get_close_issues, :id, :id)) %>
-    <%= submit_tag "Wykonaj" %>
+<% if !@issue.new_record? %>
+  <% close_issues = @issue.get_close_issues %>
+  <% if !close_issues.empty? %>
+    <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
+      Połącz z <%= select_tag(:other_id, options_from_collection_for_select(close_issues, :id, :id)) %>
+      <%= submit_tag 'Wykonaj' %>
+    <% end %>
   <% end %>
 <% end %>

@@ -1,11 +1,13 @@
 <%# encoding: utf-8 %>
 
 <%- content_for(:head_extra) do -%>
+  <%= javascript_include_tag "jquery_ui.js" %>
+  <%= stylesheet_link_tag "jquery_ui.css" %>
+
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
-  <%= javascript_include_tag "map_notifies.js" %>
-  <%= javascript_include_tag "jquery-ui-1.8.19.custom.min.js" %>
-  <%= stylesheet_link_tag "jquery-ui-1.8.19.custom.css" %>
+  <%= javascript_include_tag "notifies.js" %>
+
   <%= stylesheet_link_tag "notifies.css" %>
 <%- end -%>
 

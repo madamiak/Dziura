@@ -20,13 +20,11 @@ class StatusesController < ApplicationController
     end
   end
 
-  # GET /statuses/1
   # GET /statuses/1.json
   def show
     @status = Status.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => false }
       format.json { render :json => @status }
     end
   end

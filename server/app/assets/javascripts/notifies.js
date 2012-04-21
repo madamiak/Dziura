@@ -1,18 +1,22 @@
+/**
+ * notifies.js - obsługa mapy w interfejsie dla zgłaszającego
+ */
+
 var g_existing;
 var g_marker;
 var g_infowindow;
 
 var idOfSelectableElement = "selectable";
 var newIssueUrl = "/res/issue/";
-    
+
 $(function() {
 
-    var category_id = $(" #category_id"), 
+    var category_id = $(" #category_id"),
     notificar_email = $("#notificar_email"),
     desc = $("#desc"),
     allFields = $([]).add(notificar_email).add(desc),
-    tips = $("#validateTips");	
-	
+    tips = $("#validateTips");
+
     function updateTips(t) {
         tips.text(t).effect("highlight",{},1500);
     }
@@ -62,8 +66,8 @@ function getPhotoInBase64() {
     if( img != undefined ) {
         return img.split(',')[1];
     }
-  
-    return ''; 
+
+    return '';
 }
 
 function bindIssueForm() {
@@ -90,15 +94,15 @@ function placeMarker(location, isExisted) {
             map: g_map,
             draggable: true
         });
-		
+
         makeDialog();
-    
+
         google.maps.event.addListener(g_marker, 'click', function() {
             makeDialog();
         });
 
         setExisting(true);
-    } 
+    }
     else {
         g_marker.setPosition(location);
     }

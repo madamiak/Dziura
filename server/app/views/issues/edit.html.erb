@@ -4,8 +4,6 @@
 
   <%= render 'form' %>
 
-  <%= render @issue.address %>
-
   <% @issue.issue_instances.each do |ii| %>
     <% ii.photos.each do |photo| %>
       <% photo.markers.each do |m| %>

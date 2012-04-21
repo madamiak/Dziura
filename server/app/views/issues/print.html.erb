@@ -16,7 +16,11 @@
 		<%= issue.status.name %>
 			
 		<div class="ui-widget-header"><b>Adres:</b></div>
-		<%= render issue.address %>
+		<% if issue.address.nil? %>
+			(brak)
+		<% else %>
+			<%= render issue.address %>
+		<% end %>
 			
 		<div class="ui-widget-header"><b>Komentarze i zdjęcia</b></div>
 		<ul>

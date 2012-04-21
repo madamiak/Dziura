@@ -3,13 +3,19 @@
 <html>
 <head>
   <title>Dziura</title>
-  <%= stylesheet_link_tag    "admin.css" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "jquery-ui-1.8.19.custom.min.js" %>
-  <%= stylesheet_link_tag "jquery-ui-1.8.19.custom.css" %>
-  <%= javascript_include_tag "admin" %>
+
+  <%= javascript_include_tag "jquery_dataTables.js" %>
+  <%= javascript_include_tag "jquery_ui.js" %>
+  <%= javascript_include_tag "admin.js" %>
+
+  <%= stylesheet_link_tag "admin.css" %>
+  <%= stylesheet_link_tag "jquery_ui.css" %>
+
   <%= include_controller_assets %>
+
   <%= yield(:head_extra) %>
+
   <%= csrf_meta_tags %>
 </head>
 <body <%= " onload='#{@body_onload}'"%> >

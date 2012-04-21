@@ -1,5 +1,5 @@
-<%= stylesheet_link_tag "admin" %>
-<%= javascript_include_tag "login" %>
+<%= stylesheet_link_tag "admin.css" %>
+<%= javascript_include_tag "login.js" %>
 
 <div id="auth">
 <div class="header">
@@ -14,9 +14,9 @@
   <%= label_tag :password, "Hasło" %>
   <%= password_field_tag :password, nil, :class => "text medium" %>
   </div>
-<div class="actions">
-	<%= submit_tag "Zaloguj", :class => 'btn action' %>        
-</div>
+  <div class="actions">
+  <%= submit_tag "Zaloguj", :class => 'btn action' %>
+  </div>
 <% end %>
 
 </div>

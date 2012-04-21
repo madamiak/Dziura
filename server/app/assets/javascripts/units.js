@@ -1,4 +1,6 @@
-/* Obsługa wielokątów na mapie przy zarządzaniu jednostkami */
+/**
+ * units.js - obsługa wielokątów na mapie przy zarządzaniu jednostkami
+ */
 
 /* Część dotycząca wyświetlania wielokątów jednostki */
 

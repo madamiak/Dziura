@@ -20,13 +20,11 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => false }
       format.json { render :json => @user }
     end
   end
@@ -45,7 +43,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    render :layout => false 
+    render :layout => false
   end
 
   # POST /users
