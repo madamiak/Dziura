@@ -79,11 +79,11 @@ function bindIssueForm() {
     });
 
     $("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
-        $("#issue_message").html(data.responseText);
+        $("#issue_success_msg").html(data.responseText);
     });
 
     $("#issue_form form").live("ajax:error", function(event, data, status, xhr) {
-        $("#issue_message").html(data.responseText);
+        $("#issue_error_msg").html(data.responseText);
     });
 }
 
@@ -116,9 +116,9 @@ function makeSelectable(){
     bindIssueForm();
     $('#selectable').selectable({
         stop: function() {
-            result = $( "#select-result" ).empty();
+            var result = $( "#select-result" ).empty();
             $( ".ui-selected", this ).each(function() {
-                index = $( "#selectable li" ).index( this );
+                var index = $( "#selectable li" ).index( this );
                 index = index + 1;
                 jQuery.getJSON("/categories/" + index + ".json", function(data) {
                 	result.append( data.name );

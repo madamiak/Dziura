@@ -1,6 +1,7 @@
 <h1>Formularz zgłaszania szkody</h1>
 <div id="issue_form">
-	<div id="issue_message"></div>
+	<div id="issue_error_msg"></div>
+	<div id="issue_success_msg"></div>
   			<%= form_tag issue_add_path, :remote => true do %>
 				<div style="width: 100%">
 					<span>Wybrałeś kategorię: </span> <span id="select-result">[wybierz]</span>.
