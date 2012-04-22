@@ -70,6 +70,71 @@ img {
     text-shadow: 0 1px #000000;
 }
 
+#notifies #issue_data {
+	font-family: Verdana,Arial,sans-serif; 
+	font-size: 1.1em;
+	display: block;
+}
+
+#notifies #issue_data #not_header {
+	background: #dfdfdf;
+	background: -moz-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dfdfdf),
+		color-stop(100%, #999a9f) );
+	background: -webkit-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -o-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -ms-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	border-radius: 3px 3px 0 0;
+	box-shadow: 0 1px #FFFFFF inset;
+	color: #000000;
+	font-size: 10px;
+	padding: 10px;
+	overflow: hidden;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+}
+
+#notifies #issue_data #not_field {
+	margin: 10px;
+	padding: 1px;
+}
+
+#notifies fieldset {
+	color: #222222;
+	font-family: Arial;
+	margin: 0px;
+	min-width: 1000px;
+	padding: 0px;
+}
+
+#notifies fieldset #get_data_button {
+	margin: 10px;
+	padding: 10px;
+}
+
+#notifies fieldset #id {
+	margin: 10px;
+	width: 40%;
+}
+
+#notifies fieldset label {
+	background: #dfdfdf;
+	background: -moz-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dfdfdf),
+		color-stop(100%, #999a9f) );
+	background: -webkit-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -o-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: -ms-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	background: linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
+	border-radius: 3px 3px 0 0;
+	box-shadow: 0 1px #FFFFFF inset;
+	color: #000000;
+	font-size: 10px;
+	padding: 10px;
+	overflow: hidden;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+}
+
 #footer_notifies {
 	color: #FFFFFF;
 	font-size: 11px;

@@ -1,25 +1,31 @@
 <%# encoding: utf-8 %>
 
-<div>
-<div class="header">
-<h1>Podgląd stanu zgłoszenia</h1>
+<div id="not_header">Podgląd stanu zgłoszenia</div>
+<div id="not_field">
+	<b>Kategoria:</b>
+	<%= @issue_instances.issue.category.name %>
 </div>
-	<div class="field"><b>Kategoria:</b>
-	<%= @issue_instances.issue.category.name %></div>
-	
-	<div class="field"><b>Opis:</b>
-	<%= @issue_instances.desc %></div>
 
-	<div class="field"><b>Status:</b>
-	<%= @issue_instances.issue.status.name %></div>
+<div id="not_field">
+	<b>Opis:</b>
+	<%= @issue_instances.desc %>
+</div>
 
-	<div class="field"><b>Jednostka odpowiedzialna:</b>
-	<%= @issue_instances.issue.unit.name %></div>
+<div id="not_field">
+	<b>Status:</b>
+	<%= @issue_instances.issue.status.name %>
+</div>
 
+<div id="not_field">
+	<b>Jednostka odpowiedzialna:</b>
+	<%= @issue_instances.issue.unit.name %>
+</div>
+
+<div id="not_field">
 	<% if (@issue_instances.photos.length > 0) %>
-		<div class="field"><b>Zdjęcia:</b>
+		<b>Zdjęcia:</b>
 		<% @issue_instances.photos.each do |photo| %>
 			<%= image_tag("/res/photos/" + photo.id.to_s) %><br>
-		<% end %></div>
+		<% end %>
 	<% end %>
 </div>
