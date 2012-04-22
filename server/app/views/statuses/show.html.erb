@@ -1,0 +1,13 @@
+<%# encoding: utf-8 %>
+
+<h2><%= notice %></h2>
+<br />
+
+<p>
+  <b>Name:</b>
+  <%= @status.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_status_path(@status) %> |
+<%= link_to 'Back', statuses_path %>

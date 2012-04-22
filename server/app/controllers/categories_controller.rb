@@ -27,6 +27,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
 
     respond_to do |format|
+      format.html { render :layout => false } # show.html.erb
       format.json { render :json => @category }
     end
   end
@@ -61,10 +62,10 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to @category, :notice => 'Category was successfully created.' }
+        format.html { redirect_to @category, :notice => 'Kategoria została utworzona' }
         format.json { render :json => @category, :status => :created, :location => @category }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => false }
         format.json { render :json => @category.errors, :status => :unprocessable_entity }
       end
     end
@@ -83,10 +84,10 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.update_attributes(:name => params[:category][:name], :icon => icon)
-        format.html { redirect_to @category, :notice => 'Category was successfully updated.' }
+        format.html { redirect_to @category, :notice => 'Kategoria została zaktualizowana' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => false }
         format.json { render :json => @category.errors, :status => :unprocessable_entity }
       end
     end

@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
+      format.html { render :layout => false } # show.html.erb
       format.json { render :json => @user }
     end
   end
@@ -72,7 +73,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, :notice => 'Użytkownik został zaktualizowany.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => false }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end

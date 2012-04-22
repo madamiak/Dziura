@@ -1,0 +1,18 @@
+<%# encoding: utf-8 %>
+
+<h2><%= notice %></h2>
+<br />
+
+<p>
+  <b>Nazwa:</b>
+  <%= @category.name %>
+</p>
+
+<p>
+  <b>Ikona:</b><br>
+  <% if (@category.icon.nil?) %>
+    (brak)
+  <% else %>
+    <%= image_tag("/res/category_icon/#{@category.id}") %>
+  <% end %>
+</p>

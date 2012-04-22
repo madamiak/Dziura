@@ -25,6 +25,7 @@ class StatusesController < ApplicationController
     @status = Status.find(params[:id])
 
     respond_to do |format|
+      format.html { render :layout => false } # show.html.erb
       format.json { render :json => @status }
     end
   end
@@ -72,7 +73,7 @@ class StatusesController < ApplicationController
         format.html { redirect_to @status, :notice => 'Status został zaktualizowany.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => false }
         format.json { render :json => @status.errors, :status => :unprocessable_entity }
       end
     end
