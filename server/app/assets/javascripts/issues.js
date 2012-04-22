@@ -172,7 +172,8 @@ function issuesReceived(data)
       ( {
         map: g_map,
         position: latLng,
-        title: "" + data[i].id
+        title: "" + data[i].status_id,
+        icon: '/assets/' + data[i].status_id + '.png'
       } );
 
     g_issueMarkers[data[i].id] = marker;
