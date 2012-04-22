@@ -8,11 +8,9 @@
     <div style="width: 100%">
 
       <span>Kategoria: </span> <span id="category_name_span">[wybierz]</span>
-      <%= label_tag(:category_id, "Kategoria") %>
-
       <ol id="selectable" style="float: left; width: 100%">
         <% Category.all.each do |c| %>
-          <li class="ui-state-default"> <%= image_tag '/res/category_icons/' + c.id.to_s %> </li>
+          <li class="ui-state-default" style="background: url('/res/category_icon/<%= c.id.to_s %>');"> </li>
         <% end %>
       </ol>
 

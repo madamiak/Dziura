@@ -49,7 +49,7 @@ function placeMarker(location)
 // Tworzy dialog z formą do zgłaszania
 function displayDialog()
 {
-  var dialog = initDialogWindow('/res/issue', 400, 500, dialogLoaded);
+  var dialog = initDialogWindow('/res/issue', 450, 500, dialogLoaded);
 }
 
 function dialogLoaded(dialog)
