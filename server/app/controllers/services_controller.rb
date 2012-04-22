@@ -37,6 +37,12 @@ class ServicesController < ApplicationController
     render :json => @categories.to_json( :only => [:id, :name] )
   end
 
+  # GET /res/categories/1
+  def category
+    @category = Category.find(params[:id])
+    render :json => @category.to_json( :only => [:id, :name] )
+  end
+
   # GET /res/category_icon/1
   def category_icon
     category = Category.find(params[:id])

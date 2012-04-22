@@ -196,7 +196,7 @@ function addIssueClickListener(marker)
     editIssueUrl = "/issues/" + id + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrl);
+    var dialog = initDialogWindow(editIssueUrl, 400, 500);
     dialog.dialog('open');
   });
 }
@@ -225,7 +225,7 @@ function addTableClickListener()
     editIssueUrlFromTable = "/issues/" + issueId + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrlFromTable);
+    var dialog = initDialogWindow(editIssueUrlFromTable, 400, 500);
     dialog.dialog('open');
   });
 }

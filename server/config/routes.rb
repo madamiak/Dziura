@@ -43,6 +43,7 @@ Dziura::Application.routes.draw do
   match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
 
   match 'res/categories' => 'services#categories'
+  match 'res/categories/:id' => 'services#category'
   match 'res/category_icon/:id' => 'services#category_icon'
 
   match 'res/upload' => 'image_converter_service#upload'

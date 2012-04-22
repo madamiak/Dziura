@@ -49,51 +49,10 @@ function placeMarker(location)
 // Tworzy dialog z formą do zgłaszania
 function displayDialog()
 {
-  var dialog = initDialogWindow('/res/issue');
-
-  bindIssueForm();
-  makeSelectable();
-
-  dialog.dialog('open');
+  var dialog = initDialogWindow('/res/issue', 400, 500, dialogLoaded);
 }
 
-function makeSelectable()
-{
-  $('#selectable').selectable(
-    {
-      stop:
-      function()
-      {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(
-          function()
-          {
-            var index = $( "#selectable li" ).index( this );
-            index = index + 1;
-            jQuery.getJSON("/categories/" + index + ".json",
-              function(data)
-              {
-                result.append( data.name );
-              }
-            );
-          }
-        );
-      }
-    }
-  );
-}
-
-function getPhotoInBase64()
-{
-  var img = $("#upload_iframe").contents().find("img").attr("src");
-
-  if( img != undefined )
-    return img.split(',')[1];
-
-  return '';
-}
-
-function bindIssueForm()
+function dialogLoaded(dialog)
 {
   $("#issue_form form ").bind("submit",
     function()
@@ -124,6 +83,43 @@ function bindIssueForm()
         result['message'] + '<br>');
     }
   );
+
+  $('#selectable').selectable(
+    {
+      stop:
+      function (event, ui)
+      {
+        var selectedElem = $('#selectable').children('.ui-selected').first();
+        var index = selectedElem.index() + 1;
+        if (index == 0)
+        {
+          $('#category_name_span').text('[wybierz]');
+          $('#category_id').val('');
+          return;
+        }
+
+        jQuery.getJSON('/res/categories/' + index + '.json',
+          function(data)
+          {
+            $('#category_name_span').text(data.name);
+            $('#category_id').val(data.id);
+          }
+        );
+      }
+    }
+  );
+
+  dialog.dialog('open');
+}
+
+function getPhotoInBase64()
+{
+  var img = $("#upload_iframe").contents().find("img").attr("src");
+
+  if( img != undefined )
+    return img.split(',')[1];
+
+  return '';
 }
 
 

@@ -2,6 +2,7 @@
  * admin.js - funkcje do obsługi UI panelu admina
  */
 
+// Ustawienie stylów przy ładowaniu strony
 $(function() {
     setjQueryUI();
 });
@@ -9,7 +10,7 @@ $(function() {
 var idOfDialogForm = "dialog-form";
 var microtimeToHideNotice = 5000;
 
-/* Funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI */
+// Funkcja ustawiająca style i akcje elementów na zgodne z jQuery UI
 function setjQueryUI ()
 {
     //ustawianie styli globalnych
@@ -44,16 +45,21 @@ function setjQueryUI ()
 }
 
 // Tworzy okno dialogowe z zawartością pobraną z danego URL
-function initDialogWindow(url)
+function initDialogWindow(url, w, h, dialogLoaded)
 {
-    var dialog_window =  createDialogWindow();
-    setContentDialogWindowFromUrl(dialog_window, url);
+    var dialog_window = createDialogWindow(w, h);
+    setContentDialogWindowFromUrl(dialog_window, url, dialogLoaded);
     return dialog_window;
 }
 
-/* funckja tworzaca okno dialogowe */
-function createDialogWindow()
+// Funkcja tworząca okno dialogowe
+function createDialogWindow(w, h)
 {
+    if (!w)
+        var w = 400;
+    if (!h)
+        var h = 380;
+
     //tworzenie elementu html
     var dialog = $('<div id="'+idOfDialogForm+'">').appendTo('body');
 
@@ -62,8 +68,8 @@ function createDialogWindow()
         autoOpen: false,
         minHeight: 200,
         minWidth: 200,
-        height: 380,
-        width: 400,
+        height: h,
+        width: w,
         resizable: true,
         modal: true,
         buttons: {
@@ -79,16 +85,18 @@ function createDialogWindow()
     return dialog;
 }
 
-/* funkcja ustawiajaca zawartosc zadanego okna dialogowego z danego URL */
-function setContentDialogWindowFromUrl(dialog_window, url)
+// Funkcja ustawiająca zawartość zadanego okna dialogowego z danego URL
+function setContentDialogWindowFromUrl(dialog_window, url, dialogLoaded)
 {
     $.get(url,
         function(data){
-            setContentDialogWindow(dialog_window, data)
+            setContentDialogWindow(dialog_window, data);
+            if (dialogLoaded !== undefined)
+              dialogLoaded(dialog_window);
         });
 }
 
-/* funkcja ustawiajaca zawartosc zadanego okna dialogowego */
+// Funkcja ustawiająca zawartość zadanego okna dialogowego
 function setContentDialogWindow(dialog_window, data)
 {
     /* czyszczenie i ustawianie zawartości */
@@ -103,7 +111,7 @@ function setContentDialogWindow(dialog_window, data)
     setjQueryUI();
 }
 
-/* funkcja do asynchronicznej obsługi formularzy */
+// Funkcja do asynchronicznej obsługi formularzy
 function commitForm(submit)
 {
     var form = $(submit).parents('form:first');
