@@ -172,7 +172,7 @@ function issuesReceived(data)
       ( {
         map: g_map,
         position: latLng,
-        title: "" + data[i].status_id,
+        title: "" + data[i].id,
         icon: '/assets/' + data[i].status_id + '.png'
       } );
 
