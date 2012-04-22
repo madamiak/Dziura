@@ -24,16 +24,21 @@
       <%= hidden_field_tag(:longitude, "") %>
       <%= hidden_field_tag(:latitude, "") %>
       <%= hidden_field_tag(:category_id, "") %>
-      <%= hidden_field_tag(:photos, "") %>
+      <%= hidden_field_tag('photos[][image]', "", {:id => :photos}) %>
 
-      <%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
-
-      <iframe id="upload_iframe" src="/res/upload" width= "98%" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
+      <%= label_tag(:photo_upload, "Wybierz zdjęcie") %>
 
     </div>
 
     <%= submit_tag("Zgłoś", :class => "btn") %>
   <% end %>
+
+  <div id="photo_upload">
+    <div id="photo_preview"></div>
+    <%= form_tag({:controller => 'image_converter_service', :action => 'upload'}, :multipart => true, :id => 'photo_form') do %>
+      <%= file_field_tag 'photo' %>
+    <% end %>
+  </div>
 
   </div>
 </div>

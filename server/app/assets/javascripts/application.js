@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require jquery_dataTables
 //= require jquery_ui
+//= require jquery_form
 //= require_tree .

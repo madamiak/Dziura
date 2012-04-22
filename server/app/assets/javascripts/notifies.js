@@ -52,6 +52,7 @@ function displayDialog()
   var dialog = initDialogWindow('/res/issue', 450, 500, dialogLoaded);
 }
 
+// Ustawia formę i inne rzeczy w dialogu po załadowaniu
 function dialogLoaded(dialog)
 {
   $("#issue_form form ").bind("submit",
@@ -59,8 +60,7 @@ function dialogLoaded(dialog)
     {
       $("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
       $("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
-      $("#issue_form input[name=photo]").val(getPhotoInBase64());
-      $("#issue_form input[name=category_id]").val(index);
+      $("#issue_form input[id=photos]").val(getPhotosInBase64());
     }
   );
 
@@ -109,15 +109,29 @@ function dialogLoaded(dialog)
     }
   );
 
+  $('#photo').live('change',
+    function()
+    {
+      $('#photo_preview').html('Trwa wczytywanie zdjęcia....');
+      $('#photo_form').ajaxForm(
+        {
+          target: '#photo_preview'
+        }).submit();
+    }
+  );
+
   dialog.dialog('open');
 }
 
-function getPhotoInBase64()
+// Zwraca JSON ze zdjęciami
+function getPhotosInBase64()
 {
-  var img = $("#upload_iframe").contents().find("img").attr("src");
+  var img = $("#uploaded_image").attr("src");
 
   if( img != undefined )
+  {
     return img.split(',')[1];
+  }
 
   return '';
 }

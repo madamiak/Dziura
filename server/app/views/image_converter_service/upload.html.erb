@@ -1,9 +1,5 @@
-<div id="upload">
-  <% if !@picture.nil? %>  
-    <img id="uploaded_image" src="data:image/png;base64,<%= @picture %>" width="200px"/>
-  <% end %>
-
-  <%= form_tag({:action => :upload}, :multipart => true) do %>
-    <%= file_field_tag 'picture' %>
-  <% end %>
-</div>
+<% if !@photo.nil? && @photo.valid? %>
+<img id="uploaded_image" src="data:<%= @photo.mime_type %>;base64,<%= @photo.photo %>" width="200px"/>
+<% else %>
+Zdjęcie w niepoprawnym formacie!
+<% end %>

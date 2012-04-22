@@ -7,7 +7,7 @@ require 'carrierwave/processing/rmagick'
 # === Pola
 # [photo] zdjęcie w formacie JPEG lub PNG, zakodowane w Base64, wymagane,
 #         maks. rozmiar to 1200 kB (zakodowane) = ok. 400-600 kB zdekodowane
-# [mime_type] typ MIME zdjęcia (image/jpeg albo image/png), wymagane
+# [mime_type] typ MIME zdjęcia (image/jpeg albo image/png), ustalane automatycznie
 # [markers] znaczniki na zdjęciu
 #
 class Photo < ActiveRecord::Base
@@ -18,13 +18,11 @@ class Photo < ActiveRecord::Base
   validates :photo, :presence => true,
                     :length => { :maximum => 1200*1024, :message => 'Przekroczony max. rozmiar zdjęcia' }
 
-  validates :mime_type, :presence => true
-  validates :mime_type, :format => { :with => /image\/jpeg|image\/png/,
-                                     :message => "Dozwolone formaty to tylko JPG i PNG" }
-
   validates_associated :markers
 
   validate :image_and_markers_must_be_valid
+
+  before_save :set_mime_type
 
   # Walidator
   #
@@ -35,10 +33,8 @@ class Photo < ActiveRecord::Base
     begin
       img = Magick::Image::read_inline(photo).first
 
-      if mime_type == "image/png" && img.format != "PNG"
-        return errors.add(:photo, "Niezgodny typ zdjęcia")
-      elsif mime_type == "image/jpeg" && img.format != "JPEG"
-        return errors.add(:photo, "Niezgodny typ zdjęcia")
+      if img.format != "PNG" && img.format != "JPEG"
+        return errors.add(:photo, "Nieobsługiwany format zdjęcia!")
       end
 
       markers.each do |m|
@@ -49,6 +45,16 @@ class Photo < ActiveRecord::Base
 
     rescue
       errors.add(:photo, "Niepoprawny format zdjęcia!")
+    end
+  end
+
+  # Ustawia automatycznie typu MIME przed zapisaniem obrazka
+  def set_mime_type
+    img = Magick::Image::read_inline(photo).first
+    if img.format == "PNG"
+      self.mime_type = "image/png"
+    elsif img.format == "JPEG"
+      self.mime_type = "image/jpeg"
     end
   end
 

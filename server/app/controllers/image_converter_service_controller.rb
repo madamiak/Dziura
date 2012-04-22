@@ -7,11 +7,13 @@
 class ImageConverterServiceController < ApplicationController
   skip_before_filter :require_login
 
+  layout false
+
   # POST /res/upload
   def upload
-    if !params[:picture].nil?
-      file = params[:picture]
-      @picture = Base64.encode64(file.read)
+    if !params[:photo].nil?
+      file = params[:photo]
+      @photo = Photo.new(:photo => Base64.encode64(file.read))
     end
   end
 
