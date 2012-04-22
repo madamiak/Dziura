@@ -7,6 +7,8 @@
 class IssueInstancesController < ApplicationController
   skip_before_filter :require_login
 
+  layout false
+
   # GET /res/issue_instances/1
   # GET /res/issue_instances/1.json
   def get_by_id

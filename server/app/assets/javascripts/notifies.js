@@ -1,5 +1,5 @@
 /**
- * notifies.js - obsługa mapy w interfejsie dla zgłaszającego
+ * notifies.js - obsługa mapy i podglądu statusu zgłoszenia w interfejsie dla zgłaszającego
  */
 
 var g_existing;
@@ -126,4 +126,49 @@ function makeSelectable(){
             });
         }
     });
+}
+
+/* Strona z podglądem zgłoszenia */
+
+// Inicjalizacja - wywoływane przy ładowaniu strony
+// param_id to opcjonalne ID przekazane w zapytaniu
+function initializeCheckStatus(param_id)
+{
+  if (param_id)
+  {
+    getIssueData(param_id);
+    $('input[id=id]').val(param_id);
+  }
+
+  $('#get_data_button').bind("click",
+    function()
+    {
+      var id = $('input[id=id]').val();
+      getIssueData(id);
+    }
+  );
+}
+
+// Funkcja pobierająca dane zgłoszenia
+function getIssueData(id)
+{
+  $.ajax(
+    {
+      'type': 'GET',
+      'url': '/res/issue_instances/' + id,
+      'error':
+        function(xhr)
+        {
+          if (xhr.status == 404)
+            $('#issue_data').html('Zgłoszenie o podanym ID nie istnieje!');
+          else
+            $('#issue_data').html('Przepraszamy, wystąpił błąd serwera');
+        },
+      'success':
+        function(data)
+        {
+          $('#issue_data').html(data);
+        }
+     }
+  );
 }

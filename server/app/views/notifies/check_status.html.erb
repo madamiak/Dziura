@@ -1,0 +1,26 @@
+<%# encoding: utf-8 %>
+
+<% content_for(:head_extra) do %>
+  <%= javascript_include_tag "jquery_ui.js" %>
+  <%= stylesheet_link_tag "jquery_ui.css" %>
+
+  <%= javascript_include_tag "notifies.js" %>
+
+  <%= stylesheet_link_tag "notifies.css" %>
+<% end %>
+
+<% @body_onload = "initializeCheckStatus(#{ @id if !@id.nil? })" %>
+
+<div id="notifies">
+  <div id="header">System Zgłaszania Uszkodzeń Jezdni</div>
+  <div id="issue_id_form">
+  <fieldset>
+    <%= label_tag :id, 'ID zgłoszenia:' %>
+    <%= text_field_tag :id %>
+    <button id="get_data_button">Pobierz dane</button>
+  </fieldset>
+  </div>
+  <div id="issue_data">Podaj ID swojego zgłoszenia i wciśnij przycisk, aby pobrać jego dane.</div>
+</div>
+
+<div id="footer_notifies"><a href="#" title="Kontakt">Kontakt</a> | <a href="/login" title="Logowanie">Logowanie</a> | © 2012 by Alpha Team</div>

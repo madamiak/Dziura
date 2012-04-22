@@ -1,5 +1,22 @@
 # -*- encoding : utf-8 -*-
+
+# Konfiguracja ścieżek dostępu do zasobów
+#
 Dziura::Application.routes.draw do
+
+  ### Interfejs zgłaszającego
+
+  root :to => 'notifies#index'
+
+  match 'check_status' => 'notifies#check_status'
+  match 'check_status/:id' => 'notifies#check_status'
+
+
+  ### Panel admina
+
+  match 'admin' => 'issues#index'
+  match 'login' => 'main#login'
+  match 'logout' => 'main#logout'
 
   match 'issues/by_rect' => 'issues#get_by_rect'
   match 'issues/by_pages' => 'issues#get_by_pages'
@@ -15,78 +32,21 @@ Dziura::Application.routes.draw do
     member do
       get 'detach'
       get 'join'
-    end  
+    end
   end
 
-  match 'admin' => 'issues#index'
-  match 'login' => 'main#login'
-  match 'logout' => 'main#logout'
 
-  root :to => "notifies#index"
+  ### Interfejs do wysyłania zgłoszeń + wspólne zasoby np. zdjęcia
+
+  match 'res/issue' => 'services#issue', :as => :issue_add
+
+  match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
 
   match 'res/categories' => 'services#categories'
   match 'res/category_icon/:id' => 'services#category_icon'
-  match 'res/issue' => 'services#issue', :as => :issue_add
-  match 'res/issue_instances/:id' => 'issue_instances#get_by_id'
 
   match 'res/upload' => 'image_converter_service#upload'
 
   match 'res/photos/:id' => 'photos#show'
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
 end

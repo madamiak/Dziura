@@ -11,8 +11,10 @@
       Nowy status: <b><%= @issue_instance.issue.status.name %></b>.<br/>
     </p>
     <p>
-      Status Twojego zgłoszenia możesz w każdej chwili sprawdzić na stronie:
-<%= url_for :controller => 'notifies', :action => 'check_status', :only_path => false %>.<br>
+      Status Twojego zgłoszenia możesz w każdej chwili sprawdzić na stronie:<br>
+      <% check_url = url_for :controller => 'notifies', :action => 'check_status',
+         :id => @issue_instance.id, :only_path => false %>
+      <%= link_to check_url, check_url %>.<br>
       O każdej kolejnej zmianie statusu, zostaniesz również poinformowany(a) kolejną wiadomością e-mail.<br>
     </p>
     <p><small>Ten e-mail został wysłany automatycznie. Prosimy nie odpowiadać na niego.</small></p>
