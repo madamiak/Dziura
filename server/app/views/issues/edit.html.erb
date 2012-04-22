@@ -4,14 +4,5 @@
 
   <%= render 'form' %>
 
-  <% @issue.issue_instances.each do |ii| %>
-    <% ii.photos.each do |photo| %>
-      <% photo.markers.each do |m| %>
-        <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
-      <% end %>
-      <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
-    <% end %>
-  <% end %>
-
 </div>
 

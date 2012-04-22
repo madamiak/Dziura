@@ -6,6 +6,8 @@ var g_issueMarkers = [];
 var g_updateTimer = null;
 var g_first = true;
 var g_issues = new Array();
+var g_mapClickListener = null;
+var g_newIssueMarker = null;
 
 // Inicjalizacja - wywoływane przy ładowaniu strony
 function initializeIssues()
@@ -79,6 +81,9 @@ function initializeIssues()
   $("select").bind("change", updateIssues);
   $("input[name=street]").bind("keyup", updateIssues);
 
+  // Nowe zgłoszenie
+  $("#newIssueButton").bind("click", newIssue);
+
   // Drukowanie zgłoszeń
   $("#printButton").bind("click", printIssues);
 }
@@ -96,6 +101,39 @@ function setHihglightRow(issue_id)
         $(this).toggleClass('ui-state-hover');
     }
   );
+}
+
+// Wyświetla informację, jak dodać nowe zgłoszenie i dodaje listener do mapy
+function newIssue()
+{
+  alert('Kliknij na mapę w miejscu, gdzie chcesz dodać nowe zgłoszenie');
+
+  g_mapClickListener = google.maps.event.addListener(g_map, 'click',
+    function(event)
+    {
+      g_newIssueMarker = new google.maps.Marker
+       ( {
+          map: g_map,
+          position: event.latLng
+        } );
+      initDialogWindow('/issues/new', 500, 600, initNewIssueDialog);
+    }
+  );
+}
+
+// Ustawia lat i lng w załadowanej formie zgłoszenia
+function initNewIssueDialog(dialog)
+{
+  asynchronousSubmit('#issue_submit');
+  asynchronousSubmit('#attach_submit');
+  asynchronousSubmit('#detach_submit');
+
+  $('#issue_latitude').val(g_newIssueMarker.getPosition().lat());
+  $('#issue_longitude').val(g_newIssueMarker.getPosition().lng());
+  dialog.dialog('open');
+
+  g_newIssueMarker.setMap(null);
+  google.maps.event.removeListener(g_mapClickListener);
 }
 
 // Przechodzi do strony z wydrukiem zgłoszeń
@@ -197,8 +235,7 @@ function addIssueClickListener(marker)
     editIssueUrl = "/issues/" + id + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrl, 400, 500);
-    dialog.dialog('open');
+    var dialog = initDialogWindow(editIssueUrl, 500, 600, initEditIssueDialog);
   });
 }
 
@@ -222,11 +259,19 @@ function addTableClickListener()
   var editIssueUrlFromTable;
   $('#issues_table tbody tr').click(function() {
     issueId = $(this).find("td").eq(0).text();
-   
+
     editIssueUrlFromTable = "/issues/" + issueId + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrlFromTable, 400, 500);
-    dialog.dialog('open');
+    var dialog = initDialogWindow(editIssueUrlFromTable, 500, 600, initEditIssueDialog);
   });
+}
+
+function initEditIssueDialog(dialog)
+{
+  asynchronousSubmit('#issue_submit');
+  asynchronousSubmit('#attach_submit');
+  asynchronousSubmit('#detach_submit');
+
+  dialog.dialog('open');
 }

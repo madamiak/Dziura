@@ -25,7 +25,10 @@ class IssuesController < ApplicationController
   def show
     @issue = Issue.find(params[:id])
 
-    format.json { render :json => @issue }
+    respond_to do |format|
+      format.html { render :layout => false } # show.html.erb
+      format.json { render :json => @issue }
+    end
   end
 
   # GET /issues/new
@@ -48,14 +51,14 @@ class IssuesController < ApplicationController
   # POST /issues
   # POST /issues.json
   def create
-    @issue = Issue.new(params[:Issue])
+    @issue = Issue.new(params[:issue])
 
     respond_to do |format|
       if @issue.save
         format.html { redirect_to @issue, :notice => 'Zgłoszenie zostało utworzone.' }
         format.json { render :json => @issue, :status => :created, :location => @issue }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => false }
         format.json { render :json => @issue.errors, :status => :unprocessable_entity }
       end
     end
@@ -78,10 +81,10 @@ class IssuesController < ApplicationController
           @issue.log_status_change(@_current_user, old_status)
         end
 
-        format.html { redirect_to edit_issue_path(@issue), :notice => 'Zgłoszenie zostało zaktualizowane.' }
+        format.html { redirect_to @issue, :notice => 'Zgłoszenie zostało zaktualizowane.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => false }
         format.json { render :json => @issue.errors, :status => :unprocessable_entity }
       end
     end
@@ -126,13 +129,6 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.json { render :json => @issues }
-    end
-  end
-
-  # GET /issues/map
-  def show_map
-    respond_to do |format|
-      format.html { render :action => "map" }
     end
   end
 

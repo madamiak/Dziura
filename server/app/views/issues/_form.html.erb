@@ -1,30 +1,36 @@
 <%# encoding: utf-8 %>
 
 <%= form_for(@issue, :remote => true) do |f| %>
-  <% if @issue.errors.any? %>
-    <div id="error_explanation">
-      Zgłoszenie nie zostało zapisane z powodu następujących błędów:
 
-      <ul>
-      <% @issue.errors.messages.each do |message| %>
-        <li><%= message.last.last.html_safe %></li>
-      <% end %>
-      </ul>
+  <% if @issue.errors.any? %>
+    <div id="error_notices" class="notice ui-widget">
+        <div class="ui-state-error ui-corner-all">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong>
+                Zgłoszenie nie została zapisana z powodu następujących błędów:
+            </p>
+            <ul>
+            <% @issue.errors.messages.each do |message| %>
+              <li><%= message.last.last.html_safe %></li>
+            <% end %>
+            </ul>
+        </div>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.label :category, "Kategoria:" %>
+    <%= f.label :category_id, "Kategoria:" %>
     <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= f.label :status, "Status:" %>
+    <%= f.label :status_id, "Status:" %>
     <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= f.label :unit, "Jednostka:" %>
+    <%= f.label :unit_id, "Jednostka:" %>
     <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
   </div>
 
@@ -39,19 +45,40 @@
     <%= render 'addresses/address_form', :f => builder %>
   <% end %>
 
+  <div class="field">
+    <%= f.label :latitude, "Szer. geogr.:" %>
+     <%= f.text_field :latitude %>
+  </div>
+
+  <div class="field">
+    <%= f.label :longitude, "Dł. geogr.:" %>
+     <%= f.text_field :longitude %>
+  </div>
+
   <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
   <% @issue.issue_instances.each do |issue_i| %>
     <%= issue_i.created_at %>
-    <%= issue_i.desc %> 
-    <%= link_to 'Odłącz', {:action => "detach", :id => issue_i.id}, :remote => true %>
+    <%= issue_i.desc %>
+    <%= link_to 'Odłącz', {:action => "detach", :id => issue_i.id}, :remote => true,
+         :class => 'btn', :id => 'detach_submit' %>
     <br />
-    <!-- TODO photo & markers -->
+
+    <% if (issue_i.photos.length > 0) %>
+      <b>Zdjęcia:</b><br/>
+      <% issue_i.photos.each do |photo| %>
+        <% photo.markers.each do |m| %>
+          <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+        <% end %>
+        <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
+      <% end %>
+    <% end %>
+
   <% end %>
 
   <br />
 
   <div class="actions">
-    <%= f.submit 'Zapisz' %>
+    <%= f.submit 'Zapisz', :id => 'issue_submit' %>
   </div>
 <% end %>
 
@@ -60,7 +87,7 @@
   <% if !close_issues.empty? %>
     <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
       Połącz z <%= select_tag(:other_id, options_from_collection_for_select(close_issues, :id, :id)) %>
-      <%= submit_tag 'Wykonaj' %>
+      <%= submit_tag 'Wykonaj', :id => 'attach_submit' %>
     <% end %>
   <% end %>
 <% end %>

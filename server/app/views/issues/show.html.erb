@@ -1,16 +1,5 @@
 <%# encoding: utf-8 %>
-<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Category:</b>
-  <%= @issue.category.name %>
-</p>
+<h2><%= notice %></h2>
+<br />
 
-<p>
-  <b>IssueInstances:</b>
-  <%= @issue.issue_instances.count %>
-</p>
-
-
-<%= link_to 'Edit', edit_issue_path(@issue) %> |
-<%= link_to 'Back', issues_path %>

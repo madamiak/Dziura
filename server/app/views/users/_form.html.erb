@@ -32,8 +32,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :unit, "Jednostka:" %><br />
-    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
+    <%= f.label :unit_id, "Jednostka:" %><br />
+    <%= collection_select(:user, :unit_id, Unit.all, :id, :name) %>
   </div>
 
   <div class="actions">

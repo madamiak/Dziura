@@ -29,38 +29,7 @@ function setjQueryUI ()
     $('fieldset legend').addClass('ui-widget-header ui-corner-all');
     $("input:submit, button, a.btn").button();
 
-    $("#res_submit_asynchro").unbind('click').click(
-      function()
-      {
-        $(this).parents('form:first').ajaxForm(
-          {
-            success: function(responseText)
-            {
-              var dialog = $('#'+idOfDialogForm);
-              setContentDialogWindow(dialog, responseText);
-
-              // jeżeli nie było błędów
-              if ($("#error_notices").length == 0)
-              {
-                var options = {
-                  buttons: {
-                    "Zamknij": function () {
-                      $(this).dialog('close');
-                      window.location.reload();
-                    }
-                  }
-                };
-
-                dialog.dialog('option', options);
-              }
-            },
-            error: function()
-            {
-              setContentDialogWindow($('#'+idOfDialogForm), 'Wystąpił błąd podczas przetwarzania');
-            }
-          }
-        );
-      });
+    asynchronousSubmit("#res_submit_asynchro");
 
     $( "a.btn_dialog")
     .button()
@@ -74,6 +43,38 @@ function setjQueryUI ()
 
     //ukrywanie komunikatów
     if($('div.notice')) $('div.notice').delay(microtimeToHideNotice).slideUp();
+}
+
+// Podpina asynchroniczny submit formularza pod dany element
+function asynchronousSubmit(elementId)
+{
+  $(elementId).parents('form:first').ajaxForm(
+    {
+      success: function(responseText)
+      {
+        var dialog = $('#'+idOfDialogForm);
+        setContentDialogWindow(dialog, responseText);
+
+        // jeżeli nie było błędów
+        if ($("#error_notices").length == 0)
+        {
+          var options = {
+            buttons: {
+              "Zamknij": function () {
+                $(this).dialog('close');
+                window.location.reload();
+              }
+            }
+          };
+
+          dialog.dialog('option', options);
+        }
+      },
+      error: function()
+      {
+        setContentDialogWindow($('#'+idOfDialogForm), 'Wystąpił błąd podczas przetwarzania');
+      }
+    });
 }
 
 // Tworzy okno dialogowe z zawartością pobraną z danego URL
