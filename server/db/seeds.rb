@@ -72,18 +72,22 @@ polygon.save
 
 User.create(:login => "test", :password => "test", :role => "admin")
 
-Status.create [ { :name => "Nowy"}, 
+Status.create [ { :name => "Nowy"},
                 { :name => "W toku" },
                 { :name => "Rozwiązany" },
-                { :name => "Zamknięty" }] 
+                { :name => "Zamknięty" }]
 
-Category.create [ { :id => 1, :name => "Dziury w jezdni" },
-                  { :id => 2, :name => "Dziury w chodniku" },
-                  { :id => 3, :name => "Uszkodzony znak drogowy" },
-                  { :id => 4, :name => "Graffiti" },
-                  { :id => 5, :name => "Zalegający śnieg" },
-                  { :id => 6, :name => "Oblodzenie" },
-                  { :id => 7, :name => "Zalana ulica" },
-                  { :id => 8, :name => "Dewastacja" },
-                  { :id => 9, :name => "Zaśmiecenie" },
-                  { :id => 10, :name => "Zwierzęta" } ]
+def cat_icon(id)
+  Base64.encode64(File.read('db/images/icon_category_' + id.to_s + '.jpg'))
+end
+
+Category.create [ { :id => 1, :name => "Dziury w jezdni", :icon => cat_icon(1) },
+                  { :id => 2, :name => "Dziury w chodniku", :icon => cat_icon(2) },
+                  { :id => 3, :name => "Uszkodzony znak drogowy", :icon => cat_icon(3) },
+                  { :id => 4, :name => "Graffiti", :icon => cat_icon(4) },
+                  { :id => 5, :name => "Zalegający śnieg", :icon => cat_icon(5) },
+                  { :id => 6, :name => "Oblodzenie", :icon => cat_icon(6) },
+                  { :id => 7, :name => "Zalana ulica", :icon => cat_icon(7) },
+                  { :id => 8, :name => "Dewastacja", :icon => cat_icon(8) },
+                  { :id => 9, :name => "Zaśmiecenie", :icon => cat_icon(9) },
+                  { :id => 10, :name => "Zwierzęta", :icon => cat_icon(10) } ]
