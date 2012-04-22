@@ -1,7 +1,7 @@
 <h1>Formularz zgłaszania szkody</h1>
+
 <div id="issue_form">
-	<div id="issue_error_msg"></div>
-	<div id="issue_success_msg"></div>
+	<div id="issue_message"></div>
   			<%= form_tag issue_add_path, :remote => true do %>
 				<div style="width: 100%">
 					<span>Wybrałeś kategorię: </span> <span id="select-result">[wybierz]</span>.
@@ -28,15 +28,13 @@
 					<!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
 					<%= hidden_field_tag(:longitude, "") %>
 					<%= hidden_field_tag(:latitude, "") %>
-					<%= hidden_field_tag(:marker_x, "") %>
-					<%= hidden_field_tag(:marker_y, "") %>
-					<%= hidden_field_tag(:photo, "") %>
 					<%= hidden_field_tag(:category_id, "") %>
+					<%= hidden_field_tag(:photos, "") %>
 					
 					<%= label_tag(:upload_iframe, "Wybierz zdjęcie") %>
 					<iframe id="upload_iframe" src="/res/upload" width= "98%" frameborder="0" class="ui-widget-content ui-corner-all"></iframe>
 				</div>
 				<%= submit_tag("Zgłoś", :class => "btn") %>
   			<% end %>
-	</div> 
+	</div>
 </div>

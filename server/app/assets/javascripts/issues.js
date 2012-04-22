@@ -197,6 +197,7 @@ function addIssueClickListener(marker)
 
     // dialog z edycją zgłoszenia
     var dialog = initDialogWindow(editIssueUrl);
+    dialog.dialog('open');
   });
 }
 
@@ -225,5 +226,6 @@ function addTableClickListener()
 
     // dialog z edycją zgłoszenia
     var dialog = initDialogWindow(editIssueUrlFromTable);
+    dialog.dialog('open');
   });
 }

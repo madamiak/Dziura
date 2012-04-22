@@ -2,131 +2,130 @@
  * notifies.js - obsługa mapy i podglądu statusu zgłoszenia w interfejsie dla zgłaszającego
  */
 
-var g_existing;
+
+/* Strona z mapką */
+
+// marker na mapce
 var g_marker;
-var g_infowindow;
 
-var idOfSelectableElement = "selectable";
-var newIssueUrl = "/res/issue/";
+// Inicjalizacja - funkcja wywoływana przy ładowaniu strony
+function initializeNotifies()
+{
+  createMap(); // map_common.js
 
-$(function() {
+  g_marker = null;
 
-    var category_id = $(" #category_id"),
-    notificar_email = $("#notificar_email"),
-    desc = $("#desc"),
-    allFields = $([]).add(notificar_email).add(desc),
-    tips = $("#validateTips");
-
-    function updateTips(t) {
-        tips.text(t).effect("highlight",{},1500);
+  google.maps.event.addListener(g_map, 'click',
+    function(event)
+    {
+      placeMarker(event.latLng);
     }
+  );
+}
 
-    function checkLength(o,n,min,max) {
+// Tworzy marker albo przesuwa istniejący do podanego położenia
+function placeMarker(location)
+{
+  if (g_marker == null)
+  {
+    g_marker = new google.maps.Marker(
+      {
+        position: location,
+        map: g_map,
+        draggable: true
+      }
+    );
 
-        if ( o.val().length > max || o.val().length < min ) {
-            o.addClass('ui-state-error');
-            updateTips("Length of " + n + " must be between "+min+" and "+max+".");
-            return false;
-        } else {
-            return true;
-        }
+    displayDialog();
 
+    google.maps.event.addListener(g_marker, 'click', displayDialog);
+  }
+  else
+  {
+    g_marker.setPosition(location);
+  }
+}
+
+// Tworzy dialog z formą do zgłaszania
+function displayDialog()
+{
+  var dialog = initDialogWindow('/res/issue');
+
+  bindIssueForm();
+  makeSelectable();
+
+  dialog.dialog('open');
+}
+
+function makeSelectable()
+{
+  $('#selectable').selectable(
+    {
+      stop:
+      function()
+      {
+        var result = $( "#select-result" ).empty();
+        $( ".ui-selected", this ).each(
+          function()
+          {
+            var index = $( "#selectable li" ).index( this );
+            index = index + 1;
+            jQuery.getJSON("/categories/" + index + ".json",
+              function(data)
+              {
+                result.append( data.name );
+              }
+            );
+          }
+        );
+      }
     }
+  );
+}
 
-    function checkRegexp(o,regexp,n) {
+function getPhotoInBase64()
+{
+  var img = $("#upload_iframe").contents().find("img").attr("src");
 
-        if ( !( regexp.test( o.val() ) ) ) {
-            o.addClass('ui-state-error');
-            updateTips(n);
-            return false;
-        } else {
-            return true;
-        }
+  if( img != undefined )
+    return img.split(',')[1];
 
+  return '';
+}
+
+function bindIssueForm()
+{
+  $("#issue_form form ").bind("submit",
+    function()
+    {
+      $("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
+      $("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
+      $("#issue_form input[name=photo]").val(getPhotoInBase64());
+      $("#issue_form input[name=category_id]").val(index);
     }
-});
+  );
 
-function initialize() {
-    createMap(); // map_common.js
-
-    g_existing = false;
-
-    google.maps.event.addListener(g_map, 'click', function(event, isExisted) {
-        placeMarker(event.latLng, g_existing);
-    });
-}
-
-function setExisting(value) {
-    g_existing = value;
-}
-
-function getPhotoInBase64() {
-    var img = $("#upload_iframe").contents().find("img").attr("src");
-
-    if( img != undefined ) {
-        return img.split(',')[1];
+  $("#issue_form form").live("ajax:success",
+    function(event, data, status, xhr)
+    {
+      var result = jQuery.parseJSON(data.responseText);
+      $("#issue_message").html(
+        'Dziękujemy za wysłanie zgłoszenia!<br>' +
+        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + result['id'] + '<br>');
     }
+  );
 
-    return '';
-}
-
-function bindIssueForm() {
-    $("#issue_form form ").bind("submit", function() {
-        $("#issue_form input[name=longitude]").val(g_marker.getPosition().lng());
-        $("#issue_form input[name=latitude]").val(g_marker.getPosition().lat());
-        $("#issue_form input[name=photo]").val(getPhotoInBase64 ());
-        $("#issue_form input[name=category_id]").val(index);
-    });
-
-    $("#issue_form form").live("ajax:success", function(event, data, status, xhr) {
-        $("#issue_success_msg").html(data.responseText);
-    });
-
-    $("#issue_form form").live("ajax:error", function(event, data, status, xhr) {
-        $("#issue_error_msg").html(data.responseText);
-    });
-}
-
-function placeMarker(location, isExisted) {
-    if (isExisted == false) {
-        g_marker = new google.maps.Marker({
-            position: location,
-            map: g_map,
-            draggable: true
-        });
-
-        makeDialog();
-
-        google.maps.event.addListener(g_marker, 'click', function() {
-            makeDialog();
-        });
-
-        setExisting(true);
+  $("#issue_form form").live("ajax:error",
+    function(event, data, status, xhr)
+    {
+      var result = jQuery.parseJSON(data.responseText);
+      $("#issue_message").html(
+        'Twoje zgłoszenie nie mogło zostać przyjęte z powodu następujących błędów:<br>' +
+        result['message'] + '<br>');
     }
-    else {
-        g_marker.setPosition(location);
-    }
+  );
 }
 
-function makeDialog(){
-    var dialog = initDialogWindow(newIssueUrl);
-}
-
-function makeSelectable(){
-    bindIssueForm();
-    $('#selectable').selectable({
-        stop: function() {
-            var result = $( "#select-result" ).empty();
-            $( ".ui-selected", this ).each(function() {
-                var index = $( "#selectable li" ).index( this );
-                index = index + 1;
-                jQuery.getJSON("/categories/" + index + ".json", function(data) {
-                	result.append( data.name );
-			       });
-            });
-        }
-    });
-}
 
 /* Strona z podglądem zgłoszenia */
 

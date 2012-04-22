@@ -43,11 +43,11 @@ function setjQueryUI ()
     if($('div.notice')) $('div.notice').delay(microtimeToHideNotice).slideUp();
 }
 
+// Tworzy okno dialogowe z zawartością pobraną z danego URL
 function initDialogWindow(url)
 {
     var dialog_window =  createDialogWindow();
-    setContentDialogWindowFromUrl(dialog_window, url)
-    dialog_window.dialog( "open" );
+    setContentDialogWindowFromUrl(dialog_window, url);
     return dialog_window;
 }
 
@@ -101,9 +101,6 @@ function setContentDialogWindow(dialog_window, data)
 
     // ustawianie styli i akcji elementów na zgodne z jQuery UI
     setjQueryUI();
-
-    // ustawianie selectable dla kategorii przy formularzu nowego zgłoszenia;
-    makeSelectable();
 }
 
 /* funkcja do asynchronicznej obsługi formularzy */
