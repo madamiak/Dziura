@@ -69,7 +69,8 @@ function dialogLoaded(dialog)
     {
       $("#issue_message").html(
         'Dziękujemy za wysłanie zgłoszenia!<br>' +
-        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + data.id + '<br>');
+        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + data.id + '.<br>' +
+        'Podgląd stanu Twojego zgłoszenia możesz znaleźć <u><a href="/check_status/' + data.id + '">tutaj</a></u>.<br>');
     }
   );
 
