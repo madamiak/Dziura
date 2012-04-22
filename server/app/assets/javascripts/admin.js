@@ -36,7 +36,8 @@ function setjQueryUI ()
     .unbind('click')
     .click(function() {
         var url = $(this).attr('href');
-        initDialogWindow(url);
+        var dialog = initDialogWindow(url);
+        dialog.dialog( "open" );
         return false;
     });
 
