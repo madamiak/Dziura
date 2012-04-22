@@ -10,7 +10,7 @@
       <span>Kategoria: </span> <span id="category_name_span">[wybierz]</span>
       <ol id="selectable" style="float: left; width: 100%">
         <% Category.all.each do |c| %>
-          <li class="ui-state-default" style="background: url('/res/category_icon/<%= c.id.to_s %>');"> </li>
+          <li title="<%= c.name %> " lass="ui-state-default" style="background: url('/res/category_icon/<%= c.id.to_s %>');"> </li>
         <% end %>
       </ol>
 
