@@ -14,22 +14,22 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :category, "Kategoria:" %><br />
+    <%= f.label :category, "Kategoria:" %>
     <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= f.label :status, "Status:" %><br />
+    <%= f.label :status, "Status:" %>
     <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= f.label :unit, "Jednostka:" %><br />
+    <%= f.label :unit, "Jednostka:" %>
     <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= f.label :desc, "Opis:" %><br />
+    <%= f.label :desc, "Opis:" %>
     <%= f.text_area :desc, :size => "60x12" %>
   </div>
 

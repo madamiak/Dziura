@@ -62,7 +62,7 @@ function createDialogWindow()
         autoOpen: false,
         minHeight: 200,
         minWidth: 200,
-        height: 310,
+        height: 380,
         width: 400,
         resizable: true,
         modal: true,

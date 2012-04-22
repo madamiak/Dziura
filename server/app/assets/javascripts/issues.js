@@ -184,6 +184,7 @@ function issuesReceived(data)
 
   $('#issues_table').dataTable().fnClearTable();
   $('#issues_table').dataTable().fnAddData(data);
+  addTableClickListener();
 }
 
 // Funkcje dodające zdarzenia do markerów na mapce
@@ -210,5 +211,19 @@ function addIssueMouseoutListener(marker)
 {
   google.maps.event.addListener(marker, 'mouseout', function() {
     setHihglightRow(marker.getTitle());
+  });
+}
+
+function addTableClickListener()
+{
+  var issueId;
+  var editIssueUrlFromTable;
+  $('#issues_table tbody tr').click(function() {
+    issueId = $(this).find("td").eq(0).text();
+   
+    editIssueUrlFromTable = "/issues/" + issueId + "/edit";
+
+    // dialog z edycją zgłoszenia
+    var dialog = initDialogWindow(editIssueUrlFromTable);
   });
 }
