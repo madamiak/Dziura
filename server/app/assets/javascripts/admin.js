@@ -28,22 +28,40 @@ function setjQueryUI ()
     $('fieldset').addClass('ui-widget ui-widget-content');
     $('fieldset legend').addClass('ui-widget-header ui-corner-all');
     $("input:submit, button, a.btn").button();
-    $("#submit_asynchro").unbind('click').click(
+
+    $("#res_submit_asynchro").unbind('click').click(
       function()
       {
         $(this).parents('form:first').ajaxForm(
           {
             success: function(responseText)
             {
-              setContentDialogWindow($('#'+idOfDialogForm), responseText);
+              var dialog = $('#'+idOfDialogForm);
+              setContentDialogWindow(dialog, responseText);
+
+              // jeżeli nie było błędów
+              if ($("#error_notices").length == 0)
+              {
+                var options = {
+                  buttons: {
+                    "Zamknij": function () {
+                      $(this).dialog('close');
+                      window.location.reload();
+                    }
+                  }
+                };
+
+                dialog.dialog('option', options);
+              }
             },
-            error: function(responseText)
+            error: function()
             {
-              setContentDialogWindow($('#'+idOfDialogForm), responseText);
+              setContentDialogWindow($('#'+idOfDialogForm), 'Wystąpił błąd podczas przetwarzania');
             }
           }
         );
-    });
+      });
+
     $( "a.btn_dialog")
     .button()
     .unbind('click')

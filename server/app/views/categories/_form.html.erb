@@ -2,7 +2,7 @@
 
 <%= form_for(@category) do |f| %>
   <% if @category.errors.any? %>
-    <div class="notice ui-widget">
+    <div id="error_notices" class="notice ui-widget">
         <div class="ui-state-error ui-corner-all">
             <p>
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
@@ -27,6 +27,6 @@
     <%= f.file_field :icon, :accept => 'text/jpeg' %>
   </div>
   <div class="actions">
-    <%= f.submit "Zapisz", :id => 'submit_asynchro' %>
+    <%= f.submit "Zapisz", :id => 'res_submit_asynchro' %>
   </div>
 <% end %>
