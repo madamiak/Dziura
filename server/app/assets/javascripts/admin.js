@@ -28,8 +28,21 @@ function setjQueryUI ()
     $('fieldset').addClass('ui-widget ui-widget-content');
     $('fieldset legend').addClass('ui-widget-header ui-corner-all');
     $("input:submit, button, a.btn").button();
-    $("#submit_asynchro").unbind('click').click(function(){
-        commitForm(this);
+    $("#submit_asynchro").unbind('click').click(
+      function()
+      {
+        $(this).parents('form:first').ajaxForm(
+          {
+            success: function(responseText)
+            {
+              setContentDialogWindow($('#'+idOfDialogForm), responseText);
+            },
+            error: function(responseText)
+            {
+              setContentDialogWindow($('#'+idOfDialogForm), responseText);
+            }
+          }
+        );
     });
     $( "a.btn_dialog")
     .button()
@@ -110,36 +123,4 @@ function setContentDialogWindow(dialog_window, data)
 
     // ustawianie styli i akcji elementów na zgodne z jQuery UI
     setjQueryUI();
-}
-
-// Funkcja do asynchronicznej obsługi formularzy
-function commitForm(submit)
-{
-    var form = $(submit).parents('form:first');
-
-    /* uchwyt formularza */
-    form.submit(function(event) {
-
-        /* stop form from submitting normally */
-        event.preventDefault();
-
-        /* get some values from elements on the page: */
-        var $form = $( this );
-        var url = $form.attr( 'action' );
-        var $inputs = $form.find('input:text, input:file, input:password, input:hidden');
-
-        /* set up all inputs elements */
-        var values = {};
-        $inputs.each(function() {
-            values[this.name] = $(this).val();
-        });
-
-        /* Send the data using post and put the results in a dialog-form */
-        $.post( url, values,
-            function( data ) {
-                setContentDialogWindow($('#'+idOfDialogForm), data)
-            }
-        );
-    });
-
 }

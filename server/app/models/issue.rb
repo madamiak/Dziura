@@ -113,10 +113,12 @@ class Issue < ActiveRecord::Base
         raise e
       end
 
-      if !photos.nil?
+      if !photos.blank?
         photos.each do |p|
+          next if p[:image].blank?
+
           photo = issue_instance.photos.build :photo => p[:image], :mime_type => p[:image_type]
-          if !p[:markers].nil?
+          if !p[:markers].blank?
             p[:markers].each do |m|
               photo.markers.build :x => m[:x], :y => m[:y], :desc => m[:desc]
             end

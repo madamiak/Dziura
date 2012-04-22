@@ -53,7 +53,7 @@ class CategoriesController < ApplicationController
   def create
 
     icon = nil
-    if !params[:category][:icon].nil?
+    if !params[:category][:icon].blank?
       icon = Base64.encode64(params[:category][:icon].read)
     end
 
@@ -75,7 +75,7 @@ class CategoriesController < ApplicationController
   def update
 
     icon = nil
-    if !params[:category][:icon].nil?
+    if !params[:category][:icon].blank?
       icon = Base64.encode64(params[:category][:icon].read)
     end
 
