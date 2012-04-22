@@ -67,20 +67,18 @@ function dialogLoaded(dialog)
   $("#issue_form form").live("ajax:success",
     function(event, data, status, xhr)
     {
-      var result = jQuery.parseJSON(data.responseText);
       $("#issue_message").html(
         'Dziękujemy za wysłanie zgłoszenia!<br>' +
-        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + result['id'] + '<br>');
+        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + data.id + '<br>');
     }
   );
 
   $("#issue_form form").live("ajax:error",
     function(event, data, status, xhr)
     {
-      var result = jQuery.parseJSON(data.responseText);
       $("#issue_message").html(
         'Twoje zgłoszenie nie mogło zostać przyjęte z powodu następujących błędów:<br>' +
-        result['message'] + '<br>');
+        data.message + '<br>');
     }
   );
 
