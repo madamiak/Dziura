@@ -67,7 +67,17 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
 
     respond_to do |format|
+
+      if !@issue.nil?
+        old_status = @issue.status
+      end
+
       if @issue.update_attributes(params[:issue])
+        # Logowanie zmian statusu
+        if (@issue.status.id != old_status.id)
+          @issue.log_status_change(@_current_user, old_status)
+        end
+
         format.html { redirect_to edit_issue_path(@issue), :notice => 'Zgłoszenie zostało zaktualizowane.' }
         format.json { head :no_content }
       else

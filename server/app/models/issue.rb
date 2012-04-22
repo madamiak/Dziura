@@ -32,13 +32,16 @@ class Issue < ActiveRecord::Base
   validates :unit, :presence => { :message => 'Jednostka - pole obowiązkowe' }
   validates :category, :presence => { :message => 'Kategoria - pole obowiązkowe' }
 
-  # Należy wykonać to przy edycji z kontrolera, gdyz tutaj nie ma
-  # dostępu do sesji.
+  # Loguje zmianę statusu zgłoszenia i wysyła e-mail z powiadomieniem
+  #
+  # ===Argumenty:
+  # * +user+ - użytkownik, który dokonał zmiany (obiekt User)
+  # * +old_status_id+ - poprzedni status (obiekt Status)
   def log_status_change(user, old_status)
     l = logs.new :user => user, :message => status.get_log_message(old_status)
     l.save
 
-    Delayed::Job.enqueue(MailIssueStatusChanged.new(id, old_status))
+    Delayed::Job.enqueue(MailIssueStatusChanged.new(id, old_status, status))
   end
 
   # Dodaje zgłoszenie do systemu
