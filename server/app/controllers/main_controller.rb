@@ -9,6 +9,12 @@ class MainController < ApplicationController
 
   # Logowanie
   def login
+    # Jeżeli już zalogowano
+    if logged_in?
+      redirect_to admin_url
+      return
+    end
+
     if request.post?
       user = User.authenticate(params[:login], params[:password])
 
