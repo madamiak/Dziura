@@ -57,7 +57,7 @@ public class MyMenu
 		CameraMenu.setParameter(item.getItemId(), app.vCamera.camera, app.vCamera.photoQuality, app.vCamera.inPreview, app.tabHost.getCurrentTab(), app.vCamera.lCameraPreview);
 		MapMenu.setParameter(item.getItemId(), app.vOption.mapView);
 		if (item.getItemId() == MENU_QUIT) {
-			app.appExit();
+			app.showExitDialog();
 		}
 		return true;
 	}

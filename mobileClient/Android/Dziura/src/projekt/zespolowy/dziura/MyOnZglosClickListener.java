@@ -74,8 +74,8 @@ public class MyOnZglosClickListener implements OnClickListener
 					if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) 
 					{ //jesli GPS nie jest uruchomiony to pokazujemy okienko zeby wlaczyc GPSa
 						dziuraAct.vOption.mOptionsView.postInvalidate();
-						dziuraAct.showGpsOptions("Aby pobraæ lokalizacjê, nale¿y uruchomiæ us³ugê u¿ycia satelitów GPS."+
-								" Czy chcesz j¹ teraz w³¹czyæ?", "Uwaga");
+						dziuraAct.showGpsOptions("Aby pobraæ lokalizacjê, nale¿y uruchomiæ odbiornik GPS."+
+								" Czy chcesz go teraz w³¹czyæ?", "Uwaga");
 						//showGpsEnableDialog();
 					} 
 					else

@@ -126,6 +126,8 @@ public class DziuraActivity extends MapActivity
 		appConfig = new projekt.zespolowy.dziura.Configuration();
 		appConfig = appConfig.load(CONFIG_FILENAME, this);
 		
+		initializeTab(savedInstanceState);
+		
 		vOption = new OptionView(this);
 		vCamera = new CameraView(this);
 		
@@ -136,8 +138,6 @@ public class DziuraActivity extends MapActivity
 //		vOption.mOptionsView.setVisibility(View.VISIBLE);
 //		//cGPS.requestFocus();
 //		//isCameraViewSet = false;
-		
-		initializeTab(savedInstanceState);
 		
 		showInitDialog = appConfig.getShowInitDialog();
 		if(showInitDialog==true)
@@ -185,7 +185,9 @@ public class DziuraActivity extends MapActivity
 	private void showInitDialog() //wyswietlenie dialogu na poczatku dzialania aplikacji
 	{
 		AlertDialog dialog = new AlertDialog.Builder(this).create();
-		dialog.setTitle("Witaj");
+		Drawable icon = getResources().getDrawable(R.drawable.ic_launcher);
+		dialog.setIcon(icon);
+		dialog.setTitle("Zg³oœ dziurê");
 		dialog.setMessage("Wykonaj zdjêcie szkody, któr¹ chcesz zg³osiæ. Nastêpnie wype³nij krótki formularz."+
 				"\n\nCzy chcesz, aby ta wiadomoœæ wyœwietla³a siê po uruchomieniu aplikacji?");
 		dialog.setButton("Tak", new DialogInterface.OnClickListener()
@@ -229,7 +231,8 @@ public class DziuraActivity extends MapActivity
 	
 	/**
 	 * Funkcja wywolywana po nacisnieciu klawisza telefonu. Jezeli nacisniety zostal klawisz aparatu (znajdujacy sie z boku telefonu)
-	 * to nastepuje wykonanie zdjecia lub przelaczenie do widoku aparatu (jezeli aktywny byl widok formuarza).
+	 * to nastepuje wykonanie zdjecia lub przelaczenie do widoku aparatu (jezeli aktywny byl widok formuarza). Jezeli nacisniety
+	 * zostal klawisz 'Wstecz', to uzytkownik zostanie zapytany, czy na pewno chce wylaczyc aplikacje.
 	 * 
 	 * @param keyCode kod nacisnietego klawisza
 	 * @param event zdarzenie zwiazane z klawiszem
@@ -256,11 +259,45 @@ public class DziuraActivity extends MapActivity
 				}
 				return true;
 			}
+			if(keyCode == KeyEvent.KEYCODE_BACK)
+			{
+				showExitDialog();
+				return true;
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
 	
+	/**
+	 * Wyswietla dialog z pytaniem czy uzytkownik na pewno chce zamknac aplikacje. Po nacisnieciu przycisku 'Tak',
+	 * aplikacja jest zamykana. Po nacisnieciu przycisku 'Nie', dialog jest zamykany, a aplikacja dziala nadal.
+	 */
+	public void showExitDialog()
+	{
+		AlertDialog dialog = new AlertDialog.Builder(this).create();
+		Drawable icon = getResources().getDrawable(R.drawable.ic_launcher);
+		dialog.setIcon(icon);
+		dialog.setTitle("Zg³oœ dziurê");
+		dialog.setMessage("Czy na pewno chcesz wy³¹czyæ aplikacjê?");
+		dialog.setButton("Tak", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.cancel();
+				appExit();
+			}
+		});
+		dialog.setButton2("Nie", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.cancel();
+			}
+		});
+		dialog.show();
+	}
+
 	/**
 	 * Funkcja wywolywana podczas tworzenia menu aplikacji. Menu zostaje utworzone
 	 * poprzez konstruktor klasy {@link MyMenu}.
@@ -321,7 +358,10 @@ public class DziuraActivity extends MapActivity
 		if(gpsDisabling == serviceDisabling.DIALOGSHOWED)
 		{
 			gpsDisabling = serviceDisabling.DIALOGCLOSED;
-			appExit();
+			if(isInternetEnabled() == false || isInternetEnabled == true)
+			{
+				appExit();
+			}
 		}
 		if(wirelessDisabling == serviceDisabling.DIALOGSHOWED)
 		{
@@ -483,7 +523,7 @@ public class DziuraActivity extends MapActivity
 				params.width = (int) (params.height / previewRatio);
 				vCamera.preview.setLayoutParams(params);
 				parameters.setRotation(90);
-				parameters.setJpegQuality(70);
+				parameters.setJpegQuality(60);
 				if (appConfig.getCameraSettings() != null)
 				{
 					parameters.unflatten(appConfig.getCameraSettings());
@@ -576,6 +616,8 @@ public class DziuraActivity extends MapActivity
 	public void showWirelessOptions(String message, String title)
 	{
 		AlertDialog enableInternetDialog = new AlertDialog.Builder(this).create();
+		Drawable icon = getResources().getDrawable(R.drawable.ic_launcher);
+		enableInternetDialog.setIcon(icon);
 		enableInternetDialog.setTitle(title);
 		enableInternetDialog.setMessage(message);
 		enableInternetDialog.setButton("Tak", new DialogInterface.OnClickListener()
@@ -619,6 +661,8 @@ public class DziuraActivity extends MapActivity
 	public void showGpsOptions(String message, String title)
 	{
 		AlertDialog enableGpsDialog = new AlertDialog.Builder(this).create();
+		Drawable icon = getResources().getDrawable(R.drawable.ic_launcher);
+		enableGpsDialog.setIcon(icon);
 		enableGpsDialog.setTitle(title);
 		enableGpsDialog.setMessage(message);
 		enableGpsDialog.setButton("Tak", new DialogInterface.OnClickListener()
@@ -638,7 +682,10 @@ public class DziuraActivity extends MapActivity
 				if(gpsDisabling == serviceDisabling.DIALOGSHOWED)
 				{
 					gpsDisabling = serviceDisabling.DIALOGCLOSED;
-					appExit();
+					if(isInternetEnabled() == false || isInternetEnabled == true)
+					{
+						appExit();
+					}
 				}
 			}
 		});
@@ -658,18 +705,20 @@ public class DziuraActivity extends MapActivity
 		if(isGpsEnabled == false && isGpsEnabled() == true && gpsDisabling == serviceDisabling.NOTHING)
 		{
 			gpsDisabling = serviceDisabling.DIALOGSHOWED;
-			showGpsOptions("W trakcie dzia³ania aplikacji, uruchomiona zosta³a us³uga korzystania z satelitów GPS."+
-					" Czy chcesz j¹ teraz wy³¹czyæ?", "GPS");
+			showGpsOptions("W trakcie dzia³ania aplikacji uruchomiony zosta³ odbiornik sygna³u GPS."+
+					" Czy chcesz go teraz wy³¹czyæ?", "GPS");
 		}
-		if(gpsDisabling == serviceDisabling.NOTHING || gpsDisabling == serviceDisabling.DIALOGCLOSED)
+		if(isGpsEnabled == true || (gpsDisabling == serviceDisabling.DIALOGCLOSED ||
+							isGpsEnabled == false && isGpsEnabled() == false))
 		{
 			if(isInternetEnabled == false && isInternetEnabled() == true && wirelessDisabling == serviceDisabling.NOTHING)
 			{
 				wirelessDisabling = serviceDisabling.DIALOGSHOWED;
-				showWirelessOptions("W trakcie dzia³ania aplikacji, nawi¹zane zosta³o po³¹czenie z Internetem."+
-						" Czy chcesz siê teraz roz³¹czyæ?", "Internet");
+				showWirelessOptions("W trakcie dzia³ania aplikacji nawi¹zane zosta³o po³¹czenie z Internetem."+
+						" Czy chcesz siê teraz roz³¹czyæ?", "Internet");						
 			}
-			if(wirelessDisabling == serviceDisabling.NOTHING || wirelessDisabling == serviceDisabling.DIALOGCLOSED)
+			if((isInternetEnabled == true || (wirelessDisabling == serviceDisabling.DIALOGCLOSED ||
+					isInternetEnabled == false && isInternetEnabled() == false)))
 			{
 				finish();
 			}

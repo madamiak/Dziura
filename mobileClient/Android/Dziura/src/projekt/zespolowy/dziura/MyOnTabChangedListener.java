@@ -2,6 +2,7 @@ package projekt.zespolowy.dziura;
 
 import android.content.pm.ActivityInfo;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TabHost.OnTabChangeListener;
 
 /**
@@ -43,6 +44,8 @@ public class MyOnTabChangedListener implements OnTabChangeListener
 				mContext.appMenu.getMenu().setGroupVisible(0, true);
 			}
 			mContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			mContext.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
 		else if(arg0.equals("formTab"))
 		{
@@ -72,6 +75,8 @@ public class MyOnTabChangedListener implements OnTabChangeListener
 				}
 			}
 			mContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			mContext.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
 	}
 

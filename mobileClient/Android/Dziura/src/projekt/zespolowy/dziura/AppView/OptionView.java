@@ -43,7 +43,9 @@ import com.google.android.maps.OverlayItem;
 import android.content.pm.ActivityInfo;
 import android.gesture.GestureOverlayView;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -362,6 +364,17 @@ public class OptionView
 	private void initMap() {
 		mapView = (MyMapView) app.findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
+		
+		//get display size
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+        app.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int displayHeight = displaymetrics.heightPixels;
+        //int displayWidth = displaymetrics.widthPixels;
+		//dostosowanie rozmiaru mapView do wielkosci ekranu
+		LayoutParams mapParams = mapView.getLayoutParams();
+		mapParams.height = (int)(0.7*(displayHeight - app.tabWidget.getHeight()));
+		mapView.setLayoutParams(mapParams);
+		
 	    MapController mapCtrl = mapView.getController();
 	    mapCtrl.setZoom(12);
 	    latitude = app.appConfig.getLat();
