@@ -95,7 +95,7 @@ public class DamageNotification
 	private String message;
 	private String id;
 	private int photosNum = 0;
-	private int timeout = 40000;
+	private int timeout = 55000;
 	
 	/**
 	 * Konstruktor klasy {@link DamageNotification}. Pobiera z kontrolek aplikacji odpowiednie dane i zapisuje je jako

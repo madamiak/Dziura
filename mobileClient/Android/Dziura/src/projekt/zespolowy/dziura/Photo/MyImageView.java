@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
 /**
@@ -44,6 +46,19 @@ public class MyImageView extends ImageView
 			{
 				if (arg1.getAction() == MotionEvent.ACTION_DOWN)
 				{ 
+					//get display size
+					DisplayMetrics displaymetrics = new DisplayMetrics();
+			        dziuraAct.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			        int displayHeight = displaymetrics.heightPixels;
+			        int displayWidth = displaymetrics.widthPixels;
+			        //sprawdzam ktory rozmiar ekranu jest wiekszy i zmieniam odpowiednio zmienne, aby width byl dluzszy
+					if(displayWidth < displayHeight)
+					{
+						int tmp = displayWidth;
+						displayWidth = displayHeight;
+						displayHeight = tmp;
+					}
+					
 					boolean czyDodacTag = true;
 					//sprawdzenie czy nie nacisnieto jednego z tagow, jezeli tak to wyswietlenie jego opisu
 					for(int i=0; i<dziuraAct.vCamera.tagList.size(); i++)
@@ -71,6 +86,10 @@ public class MyImageView extends ImageView
 							dziuraAct.vibrate(100);  
 							setClickable(false);
 							dziuraAct.vCamera.tagTxt.requestFocus();
+							LayoutParams tagEditParams = dziuraAct.vCamera.tagTxt.getLayoutParams();
+							tagEditParams.width = displayWidth - dziuraAct.vCamera.preview.getWidth() - 20;
+							tagEditParams.height = displayHeight - 60 - dziuraAct.tabWidget.getHeight() - 20;
+							dziuraAct.vCamera.tagTxt.setLayoutParams(tagEditParams);
 						}
 					}
 				}

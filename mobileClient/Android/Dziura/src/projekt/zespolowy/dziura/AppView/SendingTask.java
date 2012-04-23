@@ -2,10 +2,12 @@ package projekt.zespolowy.dziura.AppView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
 import projekt.zespolowy.dziura.DamageNotification;
 import projekt.zespolowy.dziura.DziuraActivity;
+import projekt.zespolowy.dziura.R;
 
 /**
  * Asynchroniczne zadanie (rozszerza klase abstrakcyjna {@link android.os.AsyncTask}) sluazace do wyslania zgloszenia w
@@ -40,6 +42,8 @@ public class SendingTask extends AsyncTask < DziuraActivity, String, Integer >
 	protected void onPreExecute()
 	{
 		dialog = new AlertDialog.Builder(dziuraAct).create();
+		Drawable icon = dziuraAct.getResources().getDrawable(R.drawable.ic_launcher);
+		dialog.setIcon(icon);
 		dialog.setTitle("Zg³oszenie");
 		dialog.setCanceledOnTouchOutside(false);
 		zgloszenie = new DamageNotification(dziuraAct);
