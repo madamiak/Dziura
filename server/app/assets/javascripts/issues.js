@@ -126,7 +126,6 @@ function initNewIssueDialog(dialog)
 {
   asynchronousSubmit('#issue_submit', updateIssues);
   asynchronousSubmit('#attach_submit', updateIssues);
-  asynchronousSubmit('#detach_submit', updateIssues);
 
   $('#issue_latitude').val(g_newIssueMarker.getPosition().lat());
   $('#issue_longitude').val(g_newIssueMarker.getPosition().lng());
@@ -271,7 +270,12 @@ function initEditIssueDialog(dialog)
 {
   asynchronousSubmit('#issue_submit', updateIssues);
   asynchronousSubmit('#attach_submit', updateIssues);
-  asynchronousSubmit('#detach_submit', updateIssues);
+  $('#detach_submit').unbind('click').bind('click',
+    function()
+    {
+      setContentDialogWindowFromUrl($('#dialog-form'), $(this).val(), initEditIssueDialog);
+    }
+  );
 
   dialog.dialog('open');
 }

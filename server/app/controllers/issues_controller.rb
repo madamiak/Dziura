@@ -138,7 +138,11 @@ class IssuesController < ApplicationController
   def detach
     @issue_instance = IssueInstance.find(params[:id])
 
-    @issue_instance.detach
+    issue_id = @issue_instance.issue.id
+
+    @issue = @issue_instance.detach
+
+    redirect_to :action => "edit", :id => issue_id
   end
 
   # GET /issues/1/join/2
@@ -147,6 +151,8 @@ class IssuesController < ApplicationController
     @other_issue = Issue.find(params[:other_id])
 
     @issue.join_with(@other_issue)
+
+    render :action => "edit", :layout => false
   end
 
   # GET /issues/print?id=1&id=2&...
