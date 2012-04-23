@@ -29,7 +29,7 @@ function setjQueryUI ()
     $('fieldset legend').addClass('ui-widget-header ui-corner-all');
     $("input:submit, button, a.btn").button();
 
-    asynchronousSubmit("#res_submit_asynchro");
+    asynchronousSubmit("#res_submit_asynchro", window.location.reload);
 
     $( "a.btn_dialog")
     .button()
@@ -46,7 +46,7 @@ function setjQueryUI ()
 }
 
 // Podpina asynchroniczny submit formularza pod dany element
-function asynchronousSubmit(elementId)
+function asynchronousSubmit(elementId, afterClose)
 {
   $(elementId).parents('form:first').ajaxForm(
     {
@@ -62,7 +62,8 @@ function asynchronousSubmit(elementId)
             buttons: {
               "Zamknij": function () {
                 $(this).dialog('close');
-                window.location.reload();
+                if (afterClose)
+                  afterClose();
               }
             }
           };

@@ -124,9 +124,9 @@ function newIssue()
 // Ustawia lat i lng w załadowanej formie zgłoszenia
 function initNewIssueDialog(dialog)
 {
-  asynchronousSubmit('#issue_submit');
-  asynchronousSubmit('#attach_submit');
-  asynchronousSubmit('#detach_submit');
+  asynchronousSubmit('#issue_submit', updateIssues);
+  asynchronousSubmit('#attach_submit', updateIssues);
+  asynchronousSubmit('#detach_submit', updateIssues);
 
   $('#issue_latitude').val(g_newIssueMarker.getPosition().lat());
   $('#issue_longitude').val(g_newIssueMarker.getPosition().lng());
@@ -269,9 +269,9 @@ function addTableClickListener()
 
 function initEditIssueDialog(dialog)
 {
-  asynchronousSubmit('#issue_submit');
-  asynchronousSubmit('#attach_submit');
-  asynchronousSubmit('#detach_submit');
+  asynchronousSubmit('#issue_submit', updateIssues);
+  asynchronousSubmit('#attach_submit', updateIssues);
+  asynchronousSubmit('#detach_submit', updateIssues);
 
   dialog.dialog('open');
 }
