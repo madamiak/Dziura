@@ -48,7 +48,8 @@ function setjQueryUI ()
 // Podpina asynchroniczny submit formularza pod dany element
 function asynchronousSubmit(elementId, afterClose)
 {
-  $(elementId).parents('form:first').ajaxForm(
+  $(elementId).bind('click', function() { this.disabled=true; } );
+  var options =
     {
       success: function(responseText)
       {
@@ -70,12 +71,16 @@ function asynchronousSubmit(elementId, afterClose)
 
           dialog.dialog('option', options);
         }
+        return false;
       },
       error: function()
       {
         setContentDialogWindow($('#'+idOfDialogForm), 'Wystąpił błąd podczas przetwarzania');
+        return false;
       }
-    });
+    };
+  $(elementId).unbind('click').bind('click',
+    function() { $(this).parents('form:first').ajaxSubmit(options); return false; } );
 }
 
 // Tworzy okno dialogowe z zawartością pobraną z danego URL
