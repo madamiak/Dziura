@@ -10,9 +10,4 @@ class MainControllerTest < ActionController::TestCase
     session[:current_user_id] = User.where(:role => "admin").first.id
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-  end
-
 end

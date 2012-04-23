@@ -36,6 +36,15 @@ function initializeUnitShow(unit_id)
       }
     }
   );
+  
+  $(window).resize(resizeUnits);
+  resizeUnits();  
+}
+
+// Dostosowywuje wysokosc mapki do okna
+function resizeUnits() {
+  var newHeight = $(window).height() * 0.6;
+  $("#map_canvas").height(newHeight);
 }
 
 // --------------------
@@ -53,6 +62,9 @@ function initializeUnitNew()
   createMap(extraOptions); // map_common.js
 
   google.maps.event.addListener(g_map, 'click', mapClicked);
+  
+  $(window).resize(resizeUnits);
+  resizeUnits();
 }
 
 // Inicjalizacja - wywoływane po załadowaniu strony
@@ -88,6 +100,9 @@ function initializeUnitEdit(unit_id)
       updatePolygonsJSON();
     }
   );
+  
+  $(window).resize(resizeUnits);
+  resizeUnits();
 }
 
 // Po kliknięciu na mapę

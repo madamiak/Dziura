@@ -86,6 +86,15 @@ function initializeIssues()
 
   // Drukowanie zgłoszeń
   $("#printButton").bind("click", printIssues);
+  
+  $(window).resize(resizeIssues);
+  resizeIssues();
+}
+
+// Dostosowywuje wysokosc mapki do okna
+function resizeIssues() {
+  var newHeight = $(window).height() * 0.5;
+  $("#map_canvas").height(newHeight);
 }
 
 // Podświetla wiersz w tabelce

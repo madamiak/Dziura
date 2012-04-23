@@ -21,6 +21,15 @@ function initializeNotifies()
       placeMarker(event.latLng);
     }
   );
+  
+  $(window).resize(resize);
+  resize();
+}
+
+// Dostosowywuje wysokosc mapki do okna
+function resize() {
+  var newHeight = $(window).height() * 0.8;
+  $("#map_canvas").height(newHeight);
 }
 
 // Tworzy marker albo przesuwa istniejący do podanego położenia
