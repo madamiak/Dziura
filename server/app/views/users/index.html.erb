@@ -21,7 +21,11 @@
     <td><%= user.id %></td>
     <td><%= user.login %></td>
     <td><%= user.role %></td>
-    <td><%= user.unit %></td>
+    <% if user.unit.nil? %>
+      <td>(brak)</td>
+    <% else %>
+      <td><%= user.unit.name %></td>
+    <% end %>
     <td><%= user.created_at %></td>
     <td><%= link_to 'Edytuj', edit_user_path(user), :class => 'btn_dialog' %></td>
     <td><%= link_to 'Usuń', user, :confirm => 'Jesteś pewien?', :method => :delete, :class => 'btn' %></td>

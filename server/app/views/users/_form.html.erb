@@ -33,7 +33,8 @@
 
   <div class="field">
     <%= f.label :unit_id, "Jednostka:" %><br />
-    <%= collection_select(:user, :unit_id, Unit.all, :id, :name) %>
+    <%= collection_select(:user, :unit_id, Unit.all, :id, :name,
+        {:prompt => "(brak)"}) %>
   </div>
 
   <div class="actions">

@@ -15,5 +15,9 @@
 
 <p>
   <b>Jednostka:</b>
-  <%= @user.unit.name %>
+  <% if @user.unit.nil? %>
+    (brak)
+  <% else %>
+    <%= @user.unit.name %>
+  <% end %>
 </p>
