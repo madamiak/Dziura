@@ -1,7 +1,20 @@
 <h1>Formularz zgłaszania szkody</h1>
 
+<div id="issue_message">
+  <div class="header">
+    <div id="header_ok"><p>Dziękujemy za wysłanie zgłoszenia!</p></div>
+    <div id="header_fail"><p>Zgłoszenie nie mogło zostać przyjęte</p></div>
+  </div>
+  <div id="ok">
+    <p>Twoje zgłoszenie zostało przyjęte z identyfikatorem <b id="id"></b>.</p>
+    <p>Możesz sprawdzić jego status klikając <a id="link">tutaj</a>.</p>
+  </div>
+  <div id="fail">
+    <p><b id="errors"></b></p>
+  </div>
+</div>
+
 <div id="issue_form">
-  <div id="issue_message"></div>
 
   <%= form_tag issue_add_path, :remote => true do %>
 
@@ -17,7 +30,7 @@
       <%= label_tag(:desc, "Opis") %>
       <%= text_area_tag(:desc, "", :class => "text ui-widget-content ui-corner-all", :cols => "20") %>
 
-      <%= label_tag(:notificar_email, "E-mail") %>
+      <%= label_tag(:notificar_email, "E-mail - opcjonalnie") %>
       <%= text_field_tag(:notificar_email, "", :size => "24", :class => "ui-widget-content ui-corner-all") %>
 
       <!-- Ukryte pola sa ustawiane przez js w momencie wysylania formularza -->
@@ -30,7 +43,9 @@
 
     </div>
 
-    <%= submit_tag("Zgłoś", :class => "btn") %>
+    <div id="issue_submit">
+      <%= submit_tag("Zgłoś") %>
+    </div>
   <% end %>
 
   <div id="photo_upload">

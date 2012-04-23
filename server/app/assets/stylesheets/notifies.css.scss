@@ -109,8 +109,8 @@ img {
 }
 
 #notifies fieldset #get_data_button {
-	margin: 10px;
-	padding: 10px;
+	margin: .8em;
+	padding: .1em;
 }
 
 #notifies fieldset #id {
@@ -173,7 +173,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 div#users-contain {  width: 350px; margin: 20px 0; }
 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
 div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-.ui-button { outline: 0; margin:0; padding: .4em 1em .5em; text-decoration:none; }
+.ui-button { outline: 0; margin:0; padding: .1em 1em .1em; text-decoration:none; }
 .ui-dialog .ui-state-highlight, .ui-dialog .ui-state-error { padding: .3em;  }
 #selectable .ui-selecting { background: #FECA40; }
 #selectable .ui-selected { background: #F39814; color: white; }
@@ -185,9 +185,6 @@ input[type=text], input[type=password], textarea {
     margin-bottom:12px; 
     width:95%; 
     padding: .4em;
-}
-input[type=submit]{
-    float: right;
 }
 /* 2.2 Labels */
 label {
@@ -206,3 +203,32 @@ div.notice div {
     padding:10px;
 }
 
+#issue_message a {
+  color: #8FA5DB
+}
+
+#issue_message {
+  background: #EEEEEE;
+  border-radius: 3px 3px 3px 3px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#issue_message .header {
+  margin: 20px;
+}
+#issue_message .header p {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+#issue_message #fail #errors {
+  color: DarkRed;
+  font-weight: bold;
+}
+
+#issue_form #issue_submit {
+  position: absolute;
+  bottom: 0px;
+  margin-left: 40%;
+}

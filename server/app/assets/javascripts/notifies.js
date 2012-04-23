@@ -55,6 +55,9 @@ function displayDialog()
 // Ustawia formę i inne rzeczy w dialogu po załadowaniu
 function dialogLoaded(dialog)
 {
+  $("#issue_message").addClass('ui-widget');
+  $("#issue_message").hide();
+
   $("#issue_form form ").bind("submit",
     function()
     {
@@ -67,19 +70,41 @@ function dialogLoaded(dialog)
   $("#issue_form form").live("ajax:success",
     function(event, data, status, xhr)
     {
-      $("#issue_message").html(
-        'Dziękujemy za wysłanie zgłoszenia!<br>' +
-        'Twoje zgłoszenie zostało przyjęte i otrzymało nr ID ' + data.id + '.<br>' +
-        'Podgląd stanu Twojego zgłoszenia możesz znaleźć <u><a href="/check_status/' + data.id + '">tutaj</a></u>.<br>');
+      $("#issue_form").hide();
+
+      $("#issue_message #header_fail").hide();
+      $("#issue_message #fail").hide();
+
+      $("#issue_message #header_ok").show();
+      $("#issue_message #ok #id").text(data.id);
+      $("#issue_message #ok #link").attr('href', '/check_status/' + data.id);
+      $("#issue_message #ok").show();
+
+      $("#issue_message").show();
+
+      dialog.dialog(
+        {
+          buttons: {
+            "Zamknij": function () { $(this).dialog('close'); }
+          }
+        }
+      );
     }
   );
 
   $("#issue_form form").live("ajax:error",
     function(event, data, status, xhr)
     {
-      $("#issue_message").html(
-        'Twoje zgłoszenie nie mogło zostać przyjęte z powodu następujących błędów:<br>' +
-        data.message + '<br>');
+      data = JSON.parse(data.responseText);
+
+      $("#issue_message #header_ok").hide();
+      $("#issue_message #ok").hide();
+
+      $("#issue_message #header_fail").show();
+      $("#issue_message #fail #errors").text(data.message);
+      $("#issue_message #fail").show();
+
+      $("#issue_message").show();
     }
   );
 
@@ -122,7 +147,7 @@ function dialogLoaded(dialog)
   dialog.dialog('open');
 }
 
-// Zwraca JSON ze zdjęciami
+// Zwraca zuploadowane zdjęcie w Base64
 function getPhotosInBase64()
 {
   var img = $("#uploaded_image").attr("src");
