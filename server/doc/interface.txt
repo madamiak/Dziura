@@ -1,0 +1,38 @@
+= Ścieżki interfejsu REST
+
+=== Interfejs zgłaszającego:
+Odpowiedzialny kontroler: NotifiesController
+* GET /(.html) - główna strona z mapką i formularzem zgłoszenia
+* GET /check_status(.html) - strona do sprawdzania statusu zgłoszenia
+
+=== Interfejs do zgłaszania szkód i komunikacji z aplikacją mobilną:
+Odpowiedzialny kontroler: ServicesController
+* POST /res/issue(.json lub .html) - wysłanie zgłoszenia
+* GET /res/issue(.html) - pobranie formularza do zgłoszenia szkody
+* GET /res/categories(.json) - pobranie listy kategorii
+* GET /res/categories/1(.json) - pobranie pojedynczej kategorii
+* GET /res/category_icon/1 - zwraca obrazek z ikonką kategorii
+
+=== Interfejs panelu administratora:
+Odpowiedzialne kontrolery: MainController, IssuesController, UsersController, UnitsController,
+CategoriesController, StatusesController.
+* GET /login(.html) - strona logowania
+* GET /logout(.html) - wylogowanie
+* GET /admin - panel administratora (przekierowanie na /issues)
+* GET /issues - zarządzanie zgłoszeniami
+* GET /users - zarządzanie użytkownikami
+* GET /units - zarządzanie jednostkami
+* GET /categories - zarządzanie kategoriami zgłoszeń
+* GET /statuses - zarządzanie statusami zgłoszeń
+
+Wszystkie zasoby (issues, users, units, categories, statuses) mają wygenerowany szablonem
+interfejs zarządzania CRUD, czyli np. dla użytkowników:
+* GET /user/1 - pobranie danych użytkownika
+* POST /users - dodanie nowego użytkownika
+* GET /users/new - formularz do dodania użytkownika
+* GET /users/1/edit - formularz do edycji użytkownika
+* PUT /users/1 - aktualizacja danych użytkownika
+* DELETE /users/1 - usunięcie użytkownika
+
+Powyższy schemat jest uzupełniony dla niektórych kontrolerów o dodatkowe operacje np. złączanie zgłoszeń.
+Szczegóły można znaleźć w opisie danego kontrolera.

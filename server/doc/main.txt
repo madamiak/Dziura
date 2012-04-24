@@ -1,0 +1,8 @@
+= Dokumentacja RDOC serwera Ruby on Rails
+
+W dokumentacji zawarte są opisy:
+* modeli - zawarte pola i funkcje - szczegółowy opis
+* kontrolerów - tylko ważniejsze informacje
+* helperów - tylko wykorzystywany ApplicationHelper
+
+Dodatkowo, w dokumencie {interface}[rdoc-ref:doc/interface.txt] opisaliśmy ścieżki i ważniejsze elementy interfejsu REST.
