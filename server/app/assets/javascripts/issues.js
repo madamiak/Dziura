@@ -86,7 +86,10 @@ function initializeIssues()
 
   // Drukowanie zgłoszeń
   $("#printButton").bind("click", printIssues);
-  
+
+  // Eksport zgłoszeń
+  $("#exportButton").bind("click", exportIssues);
+
   $(window).resize(resizeIssues);
   resizeIssues();
 }
@@ -154,6 +157,18 @@ function printIssues()
   }
 
   window.location = url;
+}
+
+// Otwiera nowe okno z eksportem zgłoszeń
+function exportIssues()
+{
+  var url = '/issues/print.json?id=';
+  for (var i = 0; i < g_issues.length; i++)
+  {
+    url = url + g_issues[i].id + ',';
+  }
+
+  window.open(url);
 }
 
 // Zwraca parametry filtrowania

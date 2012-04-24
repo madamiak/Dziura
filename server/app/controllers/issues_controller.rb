@@ -162,7 +162,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => false }
-      format.json { render :json => @issues }
+      format.json { send_data @issues.to_json(:include => [ :address, :unit, :status, { :category => { :except => [:icon] } } ] ), :type => 'application/json', :disposition => 'attachment' }
     end
   end
 
