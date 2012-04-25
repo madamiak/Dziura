@@ -72,10 +72,12 @@ polygon.save
 
 User.create(:login => "test", :password => "test", :role => "admin")
 
-Status.create [ { :name => "Nowy"},
-                { :name => "W toku" },
-                { :name => "Rozwiązany" },
-                { :name => "Zamknięty" }]
+Status.create [ { :name => "Nowy", :color => "f00000" },
+                { :name => "Potwierdzony", :color => "00d0d0" },
+                { :name => "W toku", :color => "ffba00" },
+                { :name => "Rozwiązany", :color => "00d000" },
+                { :name => "Zamknięty", :color => "0000ff" },
+                { :name => "Niepoprawny", :color => "808080" } ]
 
 def cat_icon(id)
   Base64.encode64(File.read('db/images/icon_category_' + id.to_s + '.jpg'))

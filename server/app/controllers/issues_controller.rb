@@ -118,7 +118,7 @@ class IssuesController < ApplicationController
         @issues.all.to_json(:include => {
           :address => { :only => [:city, :street, :home_number, :id] },
           :category =>  { :only => [:name, :id] },
-          :status => { :only => [:name, :id] },
+          :status => { :only => [:name, :color, :id] },
           :unit => { :only => [:name, :id] } }) }
     end
   end
@@ -162,7 +162,9 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => false }
-      format.json { send_data @issues.to_json(:include => [ :address, :unit, :status, { :category => { :except => [:icon] } } ] ), :type => 'application/json', :disposition => 'attachment' }
+      format.json {
+        json_data = @issues.to_json( :include => [ :address, :unit, :status, { :category => { :except => [:icon] } } ] )
+        send_data json_data, :type => 'application/json', :disposition => 'attachment' }
     end
   end
 

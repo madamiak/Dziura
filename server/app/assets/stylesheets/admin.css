@@ -32,6 +32,7 @@ input[type=text], input[type=password], textarea {
     padding: .4em;
 }
 input[type=submit]{
+    margin-top: 3em;
     float: right;
 }
 /* 2.2 Labels */
@@ -238,4 +239,25 @@ tbody tr:nth-child(even) {
     position: relative;
     -webkit-border-radius: 5em; 
     -moz-border-radius: 5em;
+}
+
+.color_label {
+    float: left;
+    width: 4em;
+}
+
+.color_preview {
+    float: left;
+    width: 30px;
+    height: 20px;
+    margin-left: 10px;
+    border: 1px solid #000000;
+}
+
+.color_preview_in_form {
+    float: left;
+    width: 40px;
+    height: 30px;
+    margin-left: 10px;
+    border: 1px solid #000000;
 }

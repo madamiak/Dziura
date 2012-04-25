@@ -7,3 +7,11 @@
   <b>Nazwa:</b>
   <%= @status.name %>
 </p>
+
+<p>
+  <div class="color_label">
+    <b>Kolor:</b>
+    <%= @status.color %>
+  </div>
+  <div class="color_preview" style="background: #<%= @status.color %>;"></div>
+</p>

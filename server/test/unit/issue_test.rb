@@ -5,10 +5,10 @@ require 'test_helper'
 class IssueTest < ActiveSupport::TestCase
 
   def setup
-    @s_old = Status.new :name => "old"
-    @s_old.save
-    @s_new = Status.new :name => "new"
+    @s_new = Status.new :name => "new", :color => "000000"
     @s_new.save
+    @s_old = Status.new :name => "old", :color => "000000"
+    @s_old.save
 
     @cat_1 = Category.new :name => "dziury"
     @cat_1.save

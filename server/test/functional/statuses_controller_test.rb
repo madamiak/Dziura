@@ -10,12 +10,10 @@ class StatusesControllerTest < ActionController::TestCase
     session[:current_user_id] = User.where(:role => "admin").first.id
 
     # Testowe dane
-    @status = Status.new
-    @status.name = "Testowy status"
+    @status = Status.new(:name => "Testowy status", :color => "abcdef")
     @status.save!
 
-    @new_status = Status.new
-    @new_status.name = "Nowy testowy status"
+    @new_status = Status.new (:name => "Nowy testowy status", :color => "123456")
   end
 
   test "should get index" do

@@ -9,6 +9,7 @@
   <tr>
     <th>Id</th>
     <th>Nazwa</th>
+    <th>Kolor</th>
     <th>Utworzono</th>
     <th>Edycja</th>
     <th>Usuwanie</th>
@@ -19,10 +20,12 @@
         <tr>
         <td><%= status.id %></td>
         <td><%= status.name %></td>
+        <td><div class="color_label"><%= status.color %></div>
+            <div class="color_preview" style="background: #<%= status.color %>;"></div></td>
         <td><%= status.created_at %></td>
         <td><%= link_to 'Edytuj', edit_status_path(status), :class => 'btn_dialog' %></td>
         <td><%= link_to 'Usuń', status, :confirm => 'Jesteś pewien?', :method => :delete, :class => 'btn' %></td>
-    </tr>  
+    </tr>
     <% end %>
 <tbody>
 </table>

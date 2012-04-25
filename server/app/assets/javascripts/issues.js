@@ -8,6 +8,8 @@ var g_first = true;
 var g_issues = new Array();
 var g_mapClickListener = null;
 var g_newIssueMarker = null;
+// Z usługi Google :)
+var g_iconSource = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
 
 // Inicjalizacja - wywoływane przy ładowaniu strony
 function initializeIssues()
@@ -229,12 +231,19 @@ function issuesReceived(data)
   {
     var latLng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
 
+    var icon = new google.maps.MarkerImage(
+      g_iconSource + data[i].status.color,
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(10, 34)
+    );
+
     var marker = new google.maps.Marker
       ( {
         map: g_map,
         position: latLng,
         title: "" + data[i].id,
-        icon: '/assets/' + data[i].status_id + '.png'
+        icon: icon
       } );
 
     g_issueMarkers[data[i].id] = marker;

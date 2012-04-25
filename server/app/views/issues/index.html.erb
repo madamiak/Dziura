@@ -1,15 +1,15 @@
 <%# encoding: utf-8 %>
 
-<%- content_for(:head_extra) do -%>
+<% content_for(:head_extra) do %>
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
   <%= javascript_include_tag "issues.js" %>
 
   <%= stylesheet_link_tag "units.css" %>
   <%= stylesheet_link_tag "issue.css" %>
-<%- end -%>
+<% end %>
 
-<%- @body_onload = "initializeIssues()" %>
+<% @body_onload = "initializeIssues()" %>
 
 <h1>Zgłoszenia</h1>
 
@@ -35,7 +35,7 @@
 
     <%= label_tag "Dodane" %>
     <%= select_tag(:date, options_for_select([['kiedykolwiek',0], ['dziś', Date.today], 
-    ['w tym tygodniu', 7.days.ago], ['w tym miesiacu', 1.month.ago]] )) %>
+    ['w tym tygodniu', 7.days.ago], ['w tym miesiącu', 1.month.ago]] )) %>
 
     <%= label_tag "ulica" %>
     <%= text_field_tag :street %>
