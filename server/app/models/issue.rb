@@ -85,6 +85,7 @@ class Issue < ActiveRecord::Base
       p_lng = BigDecimal.new(Rails.application.config.issues[:merge_distance][:lng])
 
       i = Issue.where(:category_id => category.id,
+        :status_id => Status.get_default_status.id,
         :latitude => (latitude - p_lat)..(latitude + p_lat),
         :longitude => (longitude - p_lng)..(longitude + p_lng)).first
 

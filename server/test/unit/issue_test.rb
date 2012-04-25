@@ -16,6 +16,12 @@ class IssueTest < ActiveSupport::TestCase
     @cat_2 = Category.new :name => "znaki"
     @cat_2.save
 
+    @cat_3 = Category.new :name => "cośtam"
+    @cat_3.save
+
+    @cat_4 = Category.new :name => "cośtam innego"
+    @cat_4.save
+
     @points = [ Point.new(:number => 1, :latitude => BigDecimal.new("-1.0"), :longitude => BigDecimal.new("-1.0")),
                 Point.new(:number => 2, :latitude => BigDecimal.new(" 1.0"), :longitude => BigDecimal.new("-1.0")),
                 Point.new(:number => 3, :latitude => BigDecimal.new(" 1.0"), :longitude => BigDecimal.new(" 1.0")),
@@ -52,11 +58,11 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     assert_raise Exceptions::NilArguments do
-      Issue.add_issue(1, nil, "", "", "", nil)
+      Issue.add_issue(@cat_1.id, nil, "", "", "", nil)
     end
 
     assert_raise Exceptions::NilArguments do
-      Issue.add_issue(1, "", nil, "", "", nil)
+      Issue.add_issue(@cat_1.id, "", nil, "", "", nil)
     end
 
   end
@@ -65,7 +71,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue outside unit area" do
 
     assert_raise Exceptions::NoUnitForPoint do
-      Issue.add_issue(1, "10", "10", "bla", "bla@bla.com", nil)
+      Issue.add_issue(@cat_1.id, "10", "10", "bla", "bla@bla.com", nil)
     end
 
   end
@@ -74,7 +80,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue invalid category" do
 
     assert_raise Exceptions::UnknownCategory do
-      Issue.add_issue(-1, "10", "10", "bla", "bla@bla.com", nil)
+      Issue.add_issue(15100900, "10", "10", "bla", "bla@bla.com", nil)
     end
 
   end
@@ -83,7 +89,7 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue invalid e-mail" do
 
     assert_raise Exceptions::IncorrectNotificarEmail do
-      Issue.add_issue(1, "0", "0", "bla", "bla", nil)
+      Issue.add_issue(@cat_1.id, "0", "0", "bla", "bla", nil)
     end
 
   end
@@ -92,13 +98,13 @@ class IssueTest < ActiveSupport::TestCase
   test "add_issue joining issues" do
 
     # Wszystko OK
-    i_1 = Issue.add_issue(1, "0.0", "0.0",
+    i_1 = Issue.add_issue(@cat_1.id, "0.0", "0.0",
                           "bla", "bla@bla.com", nil)
 
     assert_not_nil(i_1)
 
     # Drugie zgłoszenie w pobliżu
-    i_2 = Issue.add_issue(1, "0.000001", "0.0",
+    i_2 = Issue.add_issue(@cat_1.id, "0.000001", "0.0",
                           "bla bla", "bla@bla.com", nil)
 
     assert_not_nil(i_2)
@@ -107,15 +113,84 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal(i_1.issue, i_2.issue)
 
     # Zgłoszenie poza obszarem złączania ma osobne issue
-    i_3 = Issue.add_issue(1, "0.99", "-0.99",
+    i_3 = Issue.add_issue(@cat_1.id, "0.99", "-0.99",
                           "bla", "bla@bla.com", nil)
 
     assert_not_equal(i_1.issue, i_3.issue)
 
     # Zgłoszenie w pobliżu, ale w innej kategorii też ma mieć osobne issue
-    i_4 = Issue.add_issue(2, "0.000001", "0.0",
+    i_4 = Issue.add_issue(@cat_2.id, "0.000001", "0.0",
                           "bla", "bla@bla.com", nil)
     assert_not_equal(i_1.issue, i_4.issue)
+
+    # Zmiana statusu zgłoszenia
+    i_1.issue.status = @s_old
+    i_1.issue.save!
+
+    # Nowe zgłoszenie w pobliżu
+    i_5 = Issue.add_issue(@cat_1.id, "0.000001", "0.0",
+                          "bla", "bla@bla.com", nil)
+    assert_not_equal(i_1.issue, i_5.issue)
+
+  end
+
+  test "join_with" do
+
+    # Instancje jednego issue
+    i_11 = Issue.add_issue(@cat_1.id, "0.0", "0.0",
+                          "bla", "bla@bla.com", nil)
+    i_12 = Issue.add_issue(@cat_1.id, "0.000001", "0.0",
+                          "bla bla", "bla@bla.com", nil)
+    i_13 = Issue.add_issue(@cat_1.id, "-0.000001", "0.0",
+                          "bla bla", "bla@bla.com", nil)
+
+    # Instancje drugiego issue
+    i_21 = Issue.add_issue(@cat_1.id, "0.500001", "0.000001",
+                          "bla bla", "bla@bla.com", nil)
+    i_22 = Issue.add_issue(@cat_1.id, "0.500001", "0.000001",
+                           "bla bla", "bla@bla.com", nil)
+
+    i_11.issue.join_with(i_21.issue)
+
+    assert_equal(i_11.issue.issue_instances.all, [ i_11, i_12, i_13, i_21, i_22 ])
+    assert_equal(i_21.issue.issue_instances.all, [])
+
+  end
+
+  test "get_close_issues" do
+
+    # Kilka zgłoszeń w różnych kategoriach blisko siebie
+    i_1 = Issue.add_issue(@cat_1.id, "0.0", "0.0",
+                          "bla", "bla@bla.com", nil)
+    i_2 = Issue.add_issue(@cat_2.id, "0.000001", "0.0",
+                          "bla bla", "bla@bla.com", nil)
+    i_3 = Issue.add_issue(@cat_3.id, "-0.000001", "0.0",
+                          "bla bla", "bla@bla.com", nil)
+    i_4 = Issue.add_issue(@cat_4.id, "0.000001", "0.000001",
+                          "bla bla", "bla@bla.com", nil)
+
+    assert_equal(i_1.issue.get_close_issues, [i_2.issue, i_3.issue, i_4.issue])
+
+  end
+
+  test "issue instance detach" do
+
+    # Kilka zgłoszeń w różnych kategoriach blisko siebie
+    i_1 = Issue.add_issue(@cat_1.id, "0.0", "0.0",
+                           "bla", "bla@bla.com", nil)
+    i_2 = Issue.add_issue(@cat_1.id, "0.000001", "0.0",
+                           "bla bla", "bla@bla.com", nil)
+    i_3 = Issue.add_issue(@cat_1.id, "-0.000001", "0.0",
+                           "bla bla", "bla@bla.com", nil)
+
+    i_3.detach
+
+    # Dokładne sprawdzenie
+    assert_equal(i_1.issue, i_2.issue)
+    assert_not_equal(i_1.issue, i_3.issue)
+
+    assert_equal(i_1.issue.issue_instances.all, [ i_1, i_2 ])
+    assert_equal(i_3.issue.issue_instances.all, [ i_3 ])
 
   end
 
