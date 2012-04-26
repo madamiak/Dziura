@@ -1,18 +1,22 @@
 <%# encoding: utf-8 %>
 
-<%- content_for(:head_extra) do -%>
+<% content_for(:head_extra) do %>
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
   <%= javascript_include_tag "units.js" %>
   <%= stylesheet_link_tag "units.css" %>
-<%- end -%>
+<% end %>
 
-<%- @body_onload = "initializeUnitNew(#{@unit.id})" %>
+<% @body_onload = "initializeUnitNew()" %>
 
 <h1>Nowa jednostka</h1>
+<p>Aby dodać nowy wielokąt kliknij na mapie, zaznacz kolejne punkty i
+   na końcu kliknij jeszcze raz na pierwszy punkt, aby zamknąć wielokąt.</p>
+<p>Wierzchołki istniejącego wielokąta można przesuwać i dodawać punkty pośrednie między sąsiednimi punktami.</p>
+<p>Aby usunąć wielokąt, kliknij w niego dwukrotnie.</p>
 
 <div id="map_canvas" class="unit_map"></div>
 
 <%= render 'form' %>
 
-<%= link_to 'Wstecz', units_path, :class => 'btn' %>
+<%= link_to 'Wstecz', units_path, :class => 'btn', :style => 'float: right; margin-top: 1em;' %>

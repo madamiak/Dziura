@@ -26,6 +26,7 @@ class UnitsController < ApplicationController
   # GET /units/1.json
   def show
     @unit = Unit.find(params[:id])
+    @polygons = @unit.polygons.to_json(:include => :points)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -48,13 +49,16 @@ class UnitsController < ApplicationController
   # GET /units/1/edit
   def edit
     @unit = Unit.find(params[:id])
+    @polygons = @unit.polygons.to_json(:include => :points)
   end
 
   # POST /units
   # POST /units.json
   def create
+    @polygons = params[:polygons]
+
     @unit = Unit.new(params[:unit])
-    @unit.set_polygons_json(params[:polygons])
+    @unit.set_polygons_json(@polygons)
 
     respond_to do |format|
       if @unit.save
@@ -70,10 +74,12 @@ class UnitsController < ApplicationController
   # PUT /units/1
   # PUT /units/1.json
   def update
+    @polygons = params[:polygons]
+
     @unit = Unit.find(params[:id])
 
     respond_to do |format|
-      if @unit.update_attributes(params[:unit]) && @unit.set_polygons_json(params[:polygons])
+      if @unit.update_attributes(params[:unit]) && @unit.set_polygons_json(@polygons)
         format.html { redirect_to @unit, :notice => 'Jednostka została zaktualizowana.' }
         format.json { head :no_content }
       else

@@ -25,14 +25,15 @@
     <%= f.text_field :name %>
   </div>
 
-  <%= hidden_field_tag('polygons', "{ \"polygons\": [] }") %>
+  <div id="original_polygons" style="display: none;"><%= h @polygons %></div>
+  <%= hidden_field_tag('polygons', '[]') %>
 
   <%= f.fields_for(:address, @unit.address) do |builder| %>
     <%= render 'addresses/address_form', :f => builder %>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Zapisz" %>
+    <%= f.submit "Zapisz", :style => 'margin-top: 1em' %>
   </div>
 
 <% end %>

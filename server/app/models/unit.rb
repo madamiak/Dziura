@@ -5,7 +5,7 @@
 # === Pola
 # [name] nazwa jednostki
 # [address] adres jednostki, wymagane
-# [polygons] wielokąty opisujące obszar jednostki
+# [polygons] wielokąty opisujące obszar jednostki, musi być co najmniej 1
 # [issues] zgłoszenia na terenie jednostki
 # [users] użytkownicy przypisani do jednostki
 #
@@ -28,6 +28,12 @@ class Unit < ActiveRecord::Base
 
     begin
       polys = ActiveSupport::JSON.decode(json_data)
+
+      if polys.empty?
+        errors.add(:polygons, 'Jednostka musi mieć przypisany obszar!')
+        return false
+      end
+
       polys.each do |poly|
         railsPoly = Polygon.new()
 
@@ -42,7 +48,7 @@ class Unit < ActiveRecord::Base
         new_polys << railsPoly;
       end
     rescue
-      self.errors << "Nieprawidłowe dane obszaru!"
+      errors.add(:polygons, 'Nieprawidłowe dane obszaru!')
       return false
     end
 

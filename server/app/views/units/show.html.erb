@@ -1,29 +1,28 @@
 <%# encoding: utf-8 %>
 
-<%- content_for(:head_extra) do -%>
+<% content_for(:head_extra) do %>
   <%= maps_javascript_tag %>
   <%= javascript_include_tag "map_common.js" %>
   <%= javascript_include_tag "units.js" %>
   <%= stylesheet_link_tag "units.css" %>
-<%- end -%>
+<% end %>
 
-<%- @body_onload = "initializeUnitShow(#{@unit.id})" %>
+<% @body_onload = "initializeUnitShow()" %>
+
+<div id="map_canvas" class="unit_map"></div>
 
 <div id="show_unit">
   <b>Nazwa:</b>
   <%= @unit.name %>
+  <br />
 
-  <br>
-
-  <b>Adres:</b>
-  <br>
+  <b>Adres:</b> <br/>
   <div style='margin-left: 3em'>
-  <%= render @unit.address %>
+    <%= render @unit.address %>
   </div>
 
+  <div id="polygons" style="display: none;"><%=h @polygons %></div>
+
   <%= link_to 'Edytuj', edit_unit_path(@unit), :class => 'btn' %>
+  <%= link_to 'Wstecz', units_path, :class => 'btn' %>
 </div>
-
-<div id="map_canvas" class="unit_map"></div>
-
-<%= link_to 'Wstecz', units_path, :class => 'btn' %>

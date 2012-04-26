@@ -5,40 +5,45 @@
 /* Część dotycząca wyświetlania wielokątów jednostki */
 
 // Inicjalizacja - wywoływane po załadowaniu strony
-function initializeUnitShow(unit_id)
+function initializeUnitShow()
 {
   var extraOptions = { disableDoubleClickZoom: true };
   createMap(extraOptions); // map_common.js
 
-  jQuery.getJSON('/units/' + unit_id + '.json',
-    function(data)
+  var data = JSON.parse( $('#polygons').text() || '[]' );
+
+  var mapBounds = new google.maps.LatLngBounds();
+
+  for (var i = 0; i < data.length; i++)
+  {
+    var poly = data[i];
+    var points = new google.maps.MVCArray();
+
+    poly.points.sort(function(a, b){
+      return a.number-b.number
+    });
+
+    for (var j = 0; j < poly.points.length; ++j)
     {
-      for (var i = 0; i < data.polygons.length; i++)
-      {
-        var poly = data.polygons[i];
-        var points = new google.maps.MVCArray();
-
-        poly.points.sort(function(a, b){
-          return a.number-b.number
-        })
-
-        for (var j = 0; j < poly.points.length; ++j)
-        {
-          var pt = poly.points[j];
-          points.push(new google.maps.LatLng(pt.latitude, pt.longitude));
-        }
-
-        var polygon = new google.maps.Polygon
-        ( {
-          map: g_map,
-          paths: points
-        } );
-      }
+      var pt = poly.points[j];
+      var latLng = new google.maps.LatLng(pt.latitude, pt.longitude);
+      points.push(latLng);
+      mapBounds.extend(latLng);
     }
-  );
-  
+
+    var polygon = new google.maps.Polygon(
+      {
+        map: g_map,
+        paths: points
+      }
+    );
+  }
+
+if (data.length > 0)
+  g_map.fitBounds(mapBounds);
+
   $(window).resize(resizeUnits);
-  resizeUnits();  
+  resizeUnits();
 }
 
 // Dostosowywuje wysokosc mapki do okna
@@ -62,45 +67,49 @@ function initializeUnitNew()
   createMap(extraOptions); // map_common.js
 
   google.maps.event.addListener(g_map, 'click', mapClicked);
-  
+
   $(window).resize(resizeUnits);
   resizeUnits();
 }
 
 // Inicjalizacja - wywoływane po załadowaniu strony
-function initializeUnitEdit(unit_id)
+function initializeUnitEdit()
 {
   var extraOptions = { disableDoubleClickZoom: true };
   createMap(extraOptions); // map_common.js
 
   google.maps.event.addListener(g_map, 'click', mapClicked);
 
-  jQuery.getJSON('/units/' + unit_id + '.json',
-    function(data)
+  var data = JSON.parse( $('#original_polygons').text() );
+
+  var mapBounds = new google.maps.LatLngBounds();
+
+  for (var i = 0; i < data.length; i++)
+  {
+    var poly = data[i];
+
+    var points = new google.maps.MVCArray();
+
+    poly.points.sort(function(a, b){
+      return a.number-b.number
+    });
+
+    for (var j = 0; j < poly.points.length; j++)
     {
-      for (var i = 0; i < data.polygons.length; i++)
-      {
-        var poly = data.polygons[i];
-
-        var points = new google.maps.MVCArray();
-
-        poly.points.sort(function(a, b){
-          return a.number-b.number
-        })
-
-        for (var j = 0; j < poly.points.length; j++)
-        {
-          var pt = poly.points[j];
-          points.push(new google.maps.LatLng(pt.latitude, pt.longitude));
-        }
-
-        createEditablePolygon(points);
-      }
-
-      updatePolygonsJSON();
+      var pt = poly.points[j];
+      var latLng = new google.maps.LatLng(pt.latitude, pt.longitude);
+      points.push(latLng);
+      mapBounds.extend(latLng);
     }
-  );
-  
+
+    createEditablePolygon(points);
+  }
+
+  if (data.length > 0)
+    g_map.fitBounds(mapBounds);
+
+  updatePolygonsJSON();
+
   $(window).resize(resizeUnits);
   resizeUnits();
 }
@@ -110,13 +119,14 @@ function mapClicked(event)
 {
   var pointNum = g_polygonMarkers.length + 1;
 
-  var marker = new google.maps.Marker
-    ( {
-        map: g_map,
-        position: event.latLng,
-        draggable: true,
-        title: "" + pointNum
-      } );
+  var marker = new google.maps.Marker(
+    {
+      map: g_map,
+      position: event.latLng,
+      draggable: true,
+      title: "" + pointNum
+    }
+  );
 
   g_polygonMarkers.push(marker);
 
@@ -190,21 +200,19 @@ function addPolygonDeleteListener(polygon)
 // Aktualizuje ukryte pole z JSON'em wielokąta
 function updatePolygonsJSON()
 {
-  var polygonsField = document.getElementById("polygons");
-
   var polygonsExport = [];
 
   for (var i = 0; i < g_polygons.length; i++)
   {
     var poly = g_polygons[i];
     var pointsExport = [];
-    var num = 0;
+
     for (j = 0; j < poly.getPath().getLength(); j++)
     {
       var pt = poly.getPath().getAt(j);
 
       var ptExport = new Object();
-      ptExport.number = ++num;
+      ptExport.number = 1+j;
       ptExport.latitude = pt.lat();
       ptExport.longitude = pt.lng();
       pointsExport.push(ptExport);
@@ -216,5 +224,5 @@ function updatePolygonsJSON()
     polygonsExport.push(polyExport);
   }
 
-  polygonsField.value = JSON.stringify(polygonsExport);
+  $('#polygons').val( JSON.stringify(polygonsExport) );
 }
