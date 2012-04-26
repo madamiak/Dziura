@@ -150,10 +150,16 @@ class IssueTest < ActiveSupport::TestCase
     i_22 = Issue.add_issue(@cat_1.id, "0.500001", "0.000001",
                            "bla bla", "bla@bla.com", nil)
 
+    old_issue_id = i_21.issue.id
+
     i_11.issue.join_with(i_21.issue)
 
     assert_equal(i_11.issue.issue_instances.all, [ i_11, i_12, i_13, i_21, i_22 ])
-    assert_equal(i_21.issue.issue_instances.all, [])
+
+    # Stare issue powinno być usunięte
+    assert_raise ActiveRecord::RecordNotFound do
+      Issue.find(old_issue_id)
+    end
 
   end
 

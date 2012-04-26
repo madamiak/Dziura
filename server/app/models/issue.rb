@@ -146,7 +146,7 @@ class Issue < ActiveRecord::Base
       self.issue_instances << other_issue.issue_instances
       self.save!
 
-      other_issue.destroy
+      Issue.delete(other_issue)
     end
   end
 
