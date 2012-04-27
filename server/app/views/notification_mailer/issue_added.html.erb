@@ -7,12 +7,9 @@
   <body>
     <h1>Dziękujemy za zgłoszenie szkody!</h1>
     <p>
-      Twoje zgłoszenie zostało przyjęte z identyfikatorem: <b><%= @issue_instance.id %></b>.<br/>
+      Twoje zgłoszenie zostało przyjęte z identyfikatorem instancji: <b><%= @issue_instance.id %></b>.<br/>
     </p>
     <p>
-     <% if @issue_instance.issue.issue_instances.length > 1 %>
-     Twoje zgłoszenie zostało automatycznie przyporządkowane do istniejącego zgłoszenia w pobliżu.
-     <% end %>
      Obecny status zgłoszenia: <b><%= @issue_instance.issue.status.name %></b>.
     </p>
     <p>

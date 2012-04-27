@@ -102,14 +102,19 @@ img {
 	margin: 0px;
 	min-width: 1000px;
 	padding: 0px;
+	overflow: hidden;
 }
 
 #notifies fieldset #get_data_button {
+	float: left;
+	clear: none;
 	margin: .8em;
 	padding: .1em;
 }
 
 #notifies fieldset #id {
+	float: left;
+	clear: none;
 	margin: 10px;
 	width: 40%;
 }
