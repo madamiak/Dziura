@@ -130,7 +130,7 @@ function newIssue()
           map: g_map,
           position: event.latLng
         } );
-      initDialogWindow('/issues/new', 500, 600, initNewIssueDialog);
+      initDialogWindow('/issues/new', 400, 600, initNewIssueDialog);
     }
   );
 }
@@ -267,7 +267,7 @@ function addIssueClickListener(marker)
     editIssueUrl = "/issues/" + id + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrl, 500, 600, initEditIssueDialog);
+    var dialog = initDialogWindow(editIssueUrl, 800, 600, initEditIssueDialog);
   });
 }
 
@@ -295,7 +295,7 @@ function addTableClickListener()
     editIssueUrlFromTable = "/issues/" + issueId + "/edit";
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrlFromTable, 500, 600, initEditIssueDialog);
+    var dialog = initDialogWindow(editIssueUrlFromTable, 800, 600, initEditIssueDialog);
   });
 }
 

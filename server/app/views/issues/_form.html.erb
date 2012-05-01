@@ -19,69 +19,71 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :category_id, "Kategoria:" %>
-    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
+  <div style="float: left;">
+	  <div class="field">
+	    <%= f.label :category_id, "Kategoria:" %>
+	    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
+	  </div>
+	
+	  <div class="field">
+	    <%= f.label :status_id, "Status:" %>
+	    <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
+	  </div>
+	
+	  <div class="field">
+	    <%= f.label :unit_id, "Jednostka:" %>
+	    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
+	  </div>
+	
+	  <div class="field">
+	    <%= f.label :desc, "Opis:" %>
+	    <%= f.text_area :desc, :size => "60x12" %>
+	  </div>
+	
+	  <% addr = @issue.address %>
+	  <% addr = Address.new if addr.nil? %>
+	  <%= f.fields_for(:address, addr) do |builder| %>
+	    <%= render 'addresses/address_form', :f => builder %>
+	  <% end %>
+	
+	  <div class="field">
+	    <%= f.label :latitude, "Szer. geogr.:" %>
+	     <%= f.text_field :latitude %>
+	  </div>
+	
+	  <div class="field">
+	    <%= f.label :longitude, "Dł. geogr.:" %>
+	     <%= f.text_field :longitude %>
+	  </div>
+	  <div class="actions">
+	    <%= f.submit 'Zapisz', :id => 'issue_submit' %>
+	  </div>
   </div>
 
-  <div class="field">
-    <%= f.label :status_id, "Status:" %>
-    <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
+  <div style="break-before: always;">
+	  <% if !@issue.new_record? %>
+	    <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
+	    <% @issue.issue_instances.each do |issue_i| %>
+	      <h4>Utworzono: </h4><%= issue_i.created_at %>
+	      <h4>Opis: </h4><%= issue_i.desc %>
+	      <button id="detach_submit" type="button" class="btn"
+	              value="<%= url_for :action => "detach", :id => issue_i.id %>">Odłącz</button>
+	      <br />
+	
+	      <% if (issue_i.photos.length > 0) %>
+	        <b>Zdjęcia:</b><br/>
+	        <% issue_i.photos.each do |photo| %>
+	          <% photo.markers.each do |m| %>
+	            <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+	          <% end %>
+	          <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
+	        <% end %>
+	      <% end %>
+	
+	    <% end %>
+	  <% end %>
   </div>
 
-  <div class="field">
-    <%= f.label :unit_id, "Jednostka:" %>
-    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :desc, "Opis:" %>
-    <%= f.text_area :desc, :size => "60x12" %>
-  </div>
-
-  <% addr = @issue.address %>
-  <% addr = Address.new if addr.nil? %>
-  <%= f.fields_for(:address, addr) do |builder| %>
-    <%= render 'addresses/address_form', :f => builder %>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :latitude, "Szer. geogr.:" %>
-     <%= f.text_field :latitude %>
-  </div>
-
-  <div class="field">
-    <%= f.label :longitude, "Dł. geogr.:" %>
-     <%= f.text_field :longitude %>
-  </div>
-
-  <% if !@issue.new_record? %>
-    <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
-    <% @issue.issue_instances.each do |issue_i| %>
-      <%= issue_i.created_at %>
-      <%= issue_i.desc %>
-      <button id="detach_submit" type="button" class="btn"
-              value="<%= url_for :action => "detach", :id => issue_i.id %>">Odłącz</button>
-      <br />
-
-      <% if (issue_i.photos.length > 0) %>
-        <b>Zdjęcia:</b><br/>
-        <% issue_i.photos.each do |photo| %>
-          <% photo.markers.each do |m| %>
-            <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
-          <% end %>
-          <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
-        <% end %>
-      <% end %>
-
-    <% end %>
-  <% end %>
-
-  <br />
-
-  <div class="actions">
-    <%= f.submit 'Zapisz', :id => 'issue_submit' %>
-  </div>
 <% end %>
 
 <% if !@issue.new_record? %>

@@ -18,6 +18,8 @@
 <a href="#" id="exportButton" class="btn" >Eksport widocznych zgłoszeń</a>
 
 <fieldset id="search_issue">
+    <legend>Filtrowanie zgłoszeń:</legend>
+
     <%= label_tag "Kategoria" %>
     <% categories = Category.all.map { |category| [category.name, category.id] } %>
     <% categories.insert(0, ['wszystkie',0]) %>
@@ -39,7 +41,6 @@
 
     <%= label_tag "ulica" %>
     <%= text_field_tag :street %>
-    <legend>Filtrowanie zgłoszeń:</legend>
 </fieldset>
 
 <div id="map_canvas" class="issue_map"></div>
