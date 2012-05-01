@@ -1,97 +1,131 @@
 <%# encoding: utf-8 %>
 
 <%= form_for(@issue, :remote => true) do |f| %>
-
-  <% if @issue.errors.any? %>
-    <div id="error_notices" class="notice ui-widget">
-        <div class="ui-state-error ui-corner-all">
-            <p>
-                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                <strong>Alert:</strong>
-                Zgłoszenie nie została zapisana z powodu następujących błędów:
-            </p>
-            <ul>
-            <% @issue.errors.messages.each do |message| %>
-              <li><%= message.last.last.html_safe %></li>
-            <% end %>
-            </ul>
-        </div>
-    </div>
-  <% end %>
-
-  <div style="float: left;">
-	  <div class="field">
-	    <%= f.label :category_id, "Kategoria:" %>
-	    <%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
-	  </div>
 	
-	  <div class="field">
-	    <%= f.label :status_id, "Status:" %>
-	    <%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
-	  </div>
+	<% if @issue.errors.any? %>
+		<div id="error_notices" class="notice ui-widget" class="ui-state-error ui-corner-all">
+		
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				<strong>Alert:</strong>
+				Zgłoszenie nie została zapisana z powodu następujących błędów:
+			</p>
+			
+			<ul>
+				<% @issue.errors.messages.each do |message| %>
+					<li><%= message.last.last.html_safe %></li>
+				<% end %>
+			</ul>
+			
+		</div>
+	<% end %>
 	
-	  <div class="field">
-	    <%= f.label :unit_id, "Jednostka:" %>
-	    <%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
-	  </div>
+	<div style="float: left;">
 	
-	  <div class="field">
-	    <%= f.label :desc, "Opis:" %>
-	    <%= f.text_area :desc, :size => "60x12" %>
-	  </div>
+		<div class="field">
+			<%= f.label :category_id, "Kategoria:" %>
+			<%= collection_select(:issue, :category_id, Category.all, :id, :name) %>
+		</div>
+		
+		<div class="field">
+			<%= f.label :status_id, "Status:" %>
+			<%= collection_select(:issue, :status_id, Status.all, :id, :name) %>
+		</div>
+		
+		<div class="field">
+			<%= f.label :unit_id, "Jednostka:" %>
+			<%= collection_select(:issue, :unit_id, Unit.all, :id, :name) %>
+		</div>
+		
+		<div class="field">
+			<%= f.label :desc, "Opis:" %>
+			<%= f.text_area :desc, :size => "60x12" %>
+		</div>
+		
+		<% addr = @issue.address %>
+		<% addr = Address.new if addr.nil? %>
+		<%= f.fields_for(:address, addr) do |builder| %>
+			<%= render 'addresses/address_form', :f => builder %>
+		<% end %>
+		
+		<div class="field">
+			<%= f.label :latitude, "Szer. geogr.:" %>
+			<%= f.text_field :latitude %>
+		</div>
+		
+		<div class="field">
+			<%= f.label :longitude, "Dł. geogr.:" %>
+			<%= f.text_field :longitude %>
+		</div>
+		
+		<div class="actions">
+			<%= f.submit 'Zapisz', :id => 'issue_submit' %>
+		</div>
+		
+	</div>
 	
-	  <% addr = @issue.address %>
-	  <% addr = Address.new if addr.nil? %>
-	  <%= f.fields_for(:address, addr) do |builder| %>
-	    <%= render 'addresses/address_form', :f => builder %>
-	  <% end %>
+	<div style="break-before: always;">
 	
-	  <div class="field">
-	    <%= f.label :latitude, "Szer. geogr.:" %>
-	     <%= f.text_field :latitude %>
-	  </div>
-	
-	  <div class="field">
-	    <%= f.label :longitude, "Dł. geogr.:" %>
-	     <%= f.text_field :longitude %>
-	  </div>
-	  <div class="actions">
-	    <%= f.submit 'Zapisz', :id => 'issue_submit' %>
-	  </div>
-  </div>
-
-  <div style="break-before: always;">
-	  <% if !@issue.new_record? %>
-	    <h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
-	    <% @issue.issue_instances.each do |issue_i| %>
-	      <h4>Utworzono: </h4><%= issue_i.created_at %>
-	      <h4>Opis: </h4><%= issue_i.desc %>
-	      <button id="detach_submit" type="button" class="btn"
-	              value="<%= url_for :action => "detach", :id => issue_i.id %>">Odłącz</button>
-	      <br />
-	
-	      <% if (issue_i.photos.length > 0) %>
-	        <b>Zdjęcia:</b><br/>
-	        <% issue_i.photos.each do |photo| %>
-	          <% photo.markers.each do |m| %>
-	            <div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
-	          <% end %>
-	          <%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
-	        <% end %>
-	      <% end %>
-	
-	    <% end %>
-	  <% end %>
-  </div>
-
+		<% if !@issue.new_record? %>
+			<h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
+			<% @issue.issue_instances.each do |issue_i| %>
+				<label>Utworzono: </label><%= issue_i.created_at %>
+				<label>Opis: </label><%= issue_i.desc %> <br />
+				
+				<button id="detach_submit" type="button" class="btn"
+					value="<%= url_for :action => "detach", :id => issue_i.id %>">Odłącz</button>
+			
+				<br />
+		
+				<% if (issue_i.photos.length > 0) %>
+					<b>Zdjęcia:</b><br/>
+					<% issue_i.photos.each do |photo| %>
+						<% photo.markers.each do |m| %>
+							<div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+						<% end %>
+						<%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
+					<% end %>
+				<% end %>
+		
+			<% end %>
+		<% end %>
+		
+	</div>
 <% end %>
-
+	
 <% if !@issue.new_record? %>
-  <% close_issues = @issue.get_close_issues %>
-  <% if !close_issues.empty? %>
-    <%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
-      Połącz z <%= select_tag(:other_id, options_from_collection_for_select(close_issues, :id, :id)) %>
-      <%= submit_tag 'Wykonaj', :id => 'attach_submit' %>
-    <% end %>
-  <% end %>
+
+	<div style="float: left; width: 50%;">
+	
+		<% close_issues = @issue.get_close_issues %>
+		<% if !close_issues.empty? %>
+			<%= form_tag({:action => "join", :id => @issue.id}, :method => "get", :remote => true) do %>
+				<br />		
+				<label>Bliskie instancje</label>
+				
+				<table>
+					<tr>
+						<td>ID</td>
+						<td>Opis</td>
+						<td>Adres</td>
+					</tr>
+					<% @issue.get_close_issues.each do |close_issue_i| %>
+						<tr>
+							<td><%= close_issue_i.id %></td>
+							<td><%= close_issue_i.desc %></td>
+							<td><%= close_issue_i.address.street %> <%= close_issue_i.address.home_number %>, <%= close_issue_i.address.city %></td>
+						</tr>
+					<% end %>
+				</table>
+				
+				<br />
+				Połącz z <%= select_tag(:other_id, options_from_collection_for_select(close_issues, :id, :id)) %>
+				
+				<%= submit_tag 'Wykonaj', :id => 'attach_submit' %>
+				
+			<% end %>
+		<% end %>
+		
+	</div>
+	
 <% end %>
