@@ -6,7 +6,6 @@
 # o dodatkowe funkcje.
 #
 class IssuesController < ApplicationController
-  before_filter :require_admin
   layout "admin"
 
   # GET /issues

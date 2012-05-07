@@ -39,8 +39,11 @@
     <%= select_tag(:date, options_for_select([['kiedykolwiek',0], ['dziś', Date.today], 
     ['w tym tygodniu', 7.days.ago], ['w tym miesiącu', 1.month.ago]] )) %>
 
-    <%= label_tag "ulica" %>
+    <%= label_tag "Ulica" %>
     <%= text_field_tag :street %>
+
+    <%= label_tag "ID" %>
+    <%= text_field_tag :id %>
 </fieldset>
 
 <div id="map_canvas" class="issue_map"></div>

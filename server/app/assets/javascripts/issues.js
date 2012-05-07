@@ -83,6 +83,7 @@ function initializeIssues()
   // Aktualizacja po zmianie select boxa albo adresu
   $("select").bind("change", updateIssues);
   $("input[name=street]").bind("keyup", updateIssues);
+  $("input[name=id]").bind("keyup", updateIssues);
 
   // Nowe zgłoszenie
   $("#newIssueButton").bind("click", newIssue);
@@ -180,6 +181,10 @@ function getFilterParams()
   var params = {};
   params["search"] = {};
 
+  if( $("input[name=id]").length>0 && $("input[name=id]").val() != 0 ) {
+    params["search"]["id_equals"] = $("input[name=id]").val();
+  }
+
   if( $("select[name=category_id]").length>0 && $("select[name=category_id]").val() != 0 ) {
     params["search"]["category_id_equals"] = $("select[name=category_id]").val();
   }
@@ -267,7 +272,7 @@ function addIssueClickListener(marker)
     g_editId = marker.getTitle();
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog);
+    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog, updateIssues);
   });
 }
 
@@ -293,15 +298,15 @@ function addTableClickListener()
     g_editId = $(this).find("td").eq(0).text();
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog);
+    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog, updateIssues);
   });
 }
 
 function initEditIssueDialog(dialog)
 {
-  asynchronousSubmit('#issue_submit', updateIssues);
-  asynchronousSubmit('#attach_submit', updateIssues, reinitDialog);
-  asynchronousSubmit('.detach_submit', updateIssues, reinitDialog);
+  asynchronousSubmit('#issue_submit', null);
+  asynchronousSubmit('#attach_submit', null, reinitDialog);
+  asynchronousSubmit('.detach_submit', null, reinitDialog);
 
   dialog.dialog('open');
 }

@@ -40,7 +40,7 @@ class IssueInstance < ActiveRecord::Base
     IssueInstance.transaction do
       new_issue = Issue.new :longitude => self.longitude + 0.00001, :latitude => self.latitude + 0.00001,
         :status => self.issue.status, :category => self.issue.category,
-        :unit => self.issue.unit
+        :unit => self.issue.unit, :desc => self.desc
 
       new_issue.address = Address.create_by_position(self.latitude, self.longitude)
 

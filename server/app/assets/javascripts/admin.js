@@ -100,15 +100,15 @@ function asynchronousSubmit(elementId, afterClose, afterClick)
 }
 
 // Tworzy okno dialogowe z zawartością pobraną z danego URL
-function initDialogWindow(url, w, h, dialogLoaded)
+function initDialogWindow(url, w, h, dialogLoaded, dialogClosed)
 {
-    var dialog_window = createDialogWindow(w, h);
+    var dialog_window = createDialogWindow(w, h, dialogClosed);
     setContentDialogWindowFromUrl(dialog_window, url, dialogLoaded);
     return dialog_window;
 }
 
 // Funkcja tworząca okno dialogowe
-function createDialogWindow(w, h)
+function createDialogWindow(w, h, dialogClosed)
 {
     if (!w)
         var w = 400;
@@ -134,6 +134,8 @@ function createDialogWindow(w, h)
         },
         close: function() {
             dialog.remove();
+            if (dialogClosed)
+              dialogClosed();
         }
     });
 
