@@ -8,6 +8,7 @@ var g_first = true;
 var g_issues = new Array();
 var g_mapClickListener = null;
 var g_newIssueMarker = null;
+var g_editId = null;
 // Z usługi Google :)
 var g_iconSource = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
 
@@ -263,11 +264,10 @@ function issuesReceived(data)
 function addIssueClickListener(marker)
 {
   google.maps.event.addListener(marker, 'click', function() {
-    var id = marker.getTitle();
-    editIssueUrl = "/issues/" + id + "/edit";
+    g_editId = marker.getTitle();
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrl, 800, 600, initEditIssueDialog);
+    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog);
   });
 }
 
@@ -290,25 +290,26 @@ function addTableClickListener()
   var issueId;
   var editIssueUrlFromTable;
   $('#issues_table tbody tr').click(function() {
-    issueId = $(this).find("td").eq(0).text();
-
-    editIssueUrlFromTable = "/issues/" + issueId + "/edit";
+    g_editId = $(this).find("td").eq(0).text();
 
     // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow(editIssueUrlFromTable, 800, 600, initEditIssueDialog);
+    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog);
   });
 }
 
 function initEditIssueDialog(dialog)
 {
   asynchronousSubmit('#issue_submit', updateIssues);
-  asynchronousSubmit('#attach_submit', updateIssues);
-  $('#detach_submit').unbind('click').bind('click',
-    function()
-    {
-      setContentDialogWindowFromUrl($('#dialog-form'), $(this).val(), initEditIssueDialog);
-    }
-  );
+  asynchronousSubmit('#attach_submit', updateIssues, reinitDialog);
+  asynchronousSubmit('.detach_submit', updateIssues, reinitDialog);
 
   dialog.dialog('open');
+}
+
+// Funkcja wywoływana po złączeniu/odłączeniu zgłoszenia,
+//  żeby przeładować dialog i na nowo ustawić eventy funkcją initEditIssueDialog
+function reinitDialog()
+{
+  setContentDialogWindowFromUrl( $('#'+idOfDialogForm),
+                                 "/issues/" + g_editId + "/edit", initEditIssueDialog);
 }

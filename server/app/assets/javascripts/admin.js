@@ -46,9 +46,12 @@ function setjQueryUI ()
 }
 
 // Podpina asynchroniczny submit formularza pod dany element
-function asynchronousSubmit(elementId, afterClose)
+function asynchronousSubmit(elementId, afterClose, afterClick)
 {
-  $(elementId).bind('click', function() { this.disabled=true; } );
+  $(elementId).each(function(i) {
+      $(this).bind('click', function() { this.disabled=true; } );
+    } );
+
   var options =
     {
       success: function(responseText)
@@ -79,8 +82,21 @@ function asynchronousSubmit(elementId, afterClose)
         return false;
       }
     };
-  $(elementId).unbind('click').bind('click',
-    function() { $(this).parents('form:first').ajaxSubmit(options); return false; } );
+
+  $(elementId).each(
+    function(i)
+    {
+      $(this).unbind('click').bind('click',
+        function()
+        {
+          $(this).parents('form:first').ajaxSubmit(options);
+          if (afterClick)
+            afterClick();
+          return false;
+        }
+      );
+    }
+  );
 }
 
 // Tworzy okno dialogowe z zawartością pobraną z danego URL

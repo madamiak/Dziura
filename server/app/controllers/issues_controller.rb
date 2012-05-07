@@ -140,9 +140,11 @@ class IssuesController < ApplicationController
 
     issue_id = @issue_instance.issue.id
 
-    @issue = @issue_instance.detach
+    @issue_instance.detach
 
-    redirect_to :action => "edit", :id => issue_id
+    @issue = Issue.find(issue_id)
+
+    render :action => "edit", :layout => false
   end
 
   # GET /issues/1/join/2

@@ -63,36 +63,39 @@
 		</div>
 		
 	</div>
-	
-	<div style="break-before: always;">
-	
-		<% if !@issue.new_record? %>
-			<h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
-			<% @issue.issue_instances.each do |issue_i| %>
-				<label>Utworzono: </label><%= issue_i.created_at %>
-				<label>Opis: </label><%= issue_i.desc %> <br />
-				
-				<button id="detach_submit" type="button" class="btn"
-					value="<%= url_for :action => "detach", :id => issue_i.id %>">Odłącz</button>
-			
-				<br />
-		
-				<% if (issue_i.photos.length > 0) %>
-					<b>Zdjęcia:</b><br/>
-					<% issue_i.photos.each do |photo| %>
-						<% photo.markers.each do |m| %>
-							<div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
-						<% end %>
-						<%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
-					<% end %>
-				<% end %>
-		
-			<% end %>
-		<% end %>
-		
-	</div>
+
 <% end %>
+
+<div style="break-before: always;">
+
+	<% if !@issue.new_record? %>
+		<h3>Instancje: (<%= @issue.issue_instances.count %>)</h3>
+		<% @issue.issue_instances.each do |issue_i| %>
+			<label>Utworzono: </label><%= issue_i.created_at %>
+			<label>Opis: </label><%= issue_i.desc %> <br />
+
+			<% if @issue.issue_instances.count > 1 %>
+				<%= form_tag({:action => "detach", :id => issue_i.id}, :method => "get", :remote => true) do %>
+					<%= submit_tag 'Odłącz', :class => 'detach_submit' %>
+				<% end %>
+			<% end %>
+
+			<br />
 	
+			<% if (issue_i.photos.length > 0) %>
+				<b>Zdjęcia:</b><br/>
+				<% issue_i.photos.each do |photo| %>
+					<% photo.markers.each do |m| %>
+						<div id="marker" style="left: <%= m.x %>px; top: <%= m.y %>px;"></div>
+					<% end %>
+					<%= image_tag "/res/photos/#{photo.id}", { :id => 'uploaded_image', :width => '200px' } %>
+				<% end %>
+			<% end %>
+		
+		<% end %>
+	<% end %>
+</div>
+
 <% if !@issue.new_record? %>
 
 	<div style="float: left; width: 50%;">
