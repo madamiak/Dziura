@@ -101,7 +101,7 @@
 
 <% if !@issue.new_record? %>
 
-	<div style="float: left; width: 50%;">
+	<div id="close_issues">
 	
 		<% close_issues = @issue.get_close_issues %>
 		<% if !close_issues.empty? %>

@@ -54,22 +54,23 @@ div.notice div {
 #edit_form {
     float: left;
 }
-
 #edit_instance {
     break-before: always;
     float: right;
     width: 45%;
 }
-
 #edit_instance #instance {
     border-bottom: 1px solid #CCCCCC;
     padding: 12px;
 }
-
 #edit_instance #instance label {
     font-size: 1.17em;
     font-weight: bold;
     margin-top: 3px;
+}
+#close_issues {
+    float: right;
+    width: 45%;
 }
 /* 3. Table */
 table { 
