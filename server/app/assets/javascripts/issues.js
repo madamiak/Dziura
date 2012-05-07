@@ -9,6 +9,7 @@ var g_issues = new Array();
 var g_mapClickListener = null;
 var g_newIssueMarker = null;
 var g_editId = null;
+var flag = false;
 // Z usługi Google :)
 var g_iconSource = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
 
@@ -294,12 +295,16 @@ function addTableClickListener()
 {
   var issueId;
   var editIssueUrlFromTable;
-  $('#issues_table tbody tr').click(function() {
-    g_editId = $(this).find("td").eq(0).text();
-
-    // dialog z edycją zgłoszenia
-    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog, updateIssues);
-  });
+  if(!flag) {
+  	flag = true;
+	  $('#issues_table tbody tr').live("click", function(event) {
+	  	event.stopPropagation();
+	    g_editId = $(this).find("td").eq(0).text();
+	
+	    // dialog z edycją zgłoszenia
+	    var dialog = initDialogWindow("/issues/" + g_editId + "/edit", 800, 600, initEditIssueDialog, updateIssues);
+	  });
+	}
 }
 
 function initEditIssueDialog(dialog)

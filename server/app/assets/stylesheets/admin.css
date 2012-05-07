@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-/* 1 Main styles */
+/* 1. Main styles */
 html,body {
     background: url("/assets/bg.png") repeat scroll 0 0 #191919;
     color: #222222;
@@ -24,7 +24,7 @@ a {
 img {
     border: none;
 }
-/* 2 Forms */
+/* 2. Forms */
 /* 2.1 Text Inputs, textareas */
 input[type=text], input[type=password], textarea {
     margin-bottom:12px; 
@@ -32,7 +32,6 @@ input[type=text], input[type=password], textarea {
     padding: .4em;
 }
 input[type=submit]{
-    margin-top: 3em;
     float: right;
 }
 /* 2.2 Labels */
@@ -50,6 +49,27 @@ div.notice {
 }
 div.notice div {
     padding:10px;
+}
+/* 2.4 Columns */
+#edit_form {
+    float: left;
+}
+
+#edit_instance {
+    break-before: always;
+    float: right;
+    width: 50%;
+}
+
+#edit_instance #instance {
+    border-bottom: 1px solid #CCCCCC;
+    padding: 12px;
+}
+
+#edit_instance #instance label {
+    font-size: 1.17em;
+    font-weight: bold;
+    margin-top: 3px;
 }
 /* 3. Table */
 table { 
@@ -231,7 +251,8 @@ tbody tr:nth-child(even) {
     text-align: center;
     padding-bottom: 10px;
 }
-/* 5 Others */
+
+/* 5. Others */
 #marker {
     width: 10px; 
     height: 10px; 

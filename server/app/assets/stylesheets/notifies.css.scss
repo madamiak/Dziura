@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/* 1. Main styles */
 html,body {
 	background: url("/assets/bg.png") repeat scroll 0 0 #191919;
 	color: #222222;
@@ -22,6 +23,7 @@ img {
 	width: 100%;
 }
 
+/* 2. Main window */
 #notifies {
 	width: 80%;
 	margin: 20px auto 0;
@@ -30,6 +32,7 @@ img {
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
+/* 2.1 Header */
 #notifies #header {
 	background: #dfdfdf;
 	background: -moz-linear-gradient(top, #dfdfdf 0%, #999a9f 100%);
@@ -58,15 +61,16 @@ img {
 	background: -o-linear-gradient(top, #1F2126 0%, #40444E 100%);
 	background: -ms-linear-gradient(top, #1F2126 0%, #40444E 100%);
 	background: linear-gradient(top, #1F2126 0%, #40444E 100%);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset;
-    color: #FFFFFF;
-    list-style: none outside none;
-    font-size: 11px;
-    padding: 5px;
-    overflow: hidden;
-    text-shadow: 0 1px #000000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset;
+  color: #FFFFFF;
+  list-style: none outside none;
+  font-size: 11px;
+  padding: 5px;
+  overflow: hidden;
+  text-shadow: 0 1px #000000;
 }
 
+/* 2.2 Received data about issue */
 #notifies #issue_data {
 	font-family: Verdana,Arial,sans-serif; 
 	font-size: 1.1em;
@@ -96,6 +100,7 @@ img {
 	padding: 1px;
 }
 
+/* 2.3 Searching fieldset */
 #notifies fieldset {
 	color: #222222;
 	font-family: Arial;
@@ -137,6 +142,7 @@ img {
 	text-shadow: 0 1px rgba(255, 255, 255, 0.4);
 }
 
+/* 2.4 Footer */
 #footer_notifies {
 	color: #FFFFFF;
 	font-size: 11px;
@@ -152,6 +158,41 @@ img {
 	font-weight: bold;
 }
 
+/* 3. Received data in form */
+#issue_message a {
+	color: #8FA5DB
+}
+
+#issue_message {
+	background: #EEEEEE;
+	border-radius: 3px 3px 3px 3px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+#issue_message .header {
+	margin: 20px;
+}
+
+#issue_message .header p {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+}
+
+#issue_message #fail #errors {
+	color: DarkRed;
+	font-weight: bold;
+}
+
+#issue_form #issue_submit {
+	position: absolute;
+	right: 5%;
+	bottom: 0px;
+	margin-left: 40%;
+}
+
+/* 4. Others */
 #map_canvas { 
 	width: 100%;
 	height: 400px;
@@ -163,74 +204,105 @@ h2 {
 	margin: 0 0 10px;
 	padding-bottom: 5px;
 }
+
 #upload_iframe {
 	height: 50px;
 }
 
-label, input { display:block; }
-input.text { margin-bottom:12px; width:95%; padding: .4em; }
-fieldset { padding:0; border:0; margin-top:25px; }
-h1 { font-size: 1.2em; margin: .6em 0; }
-div#users-contain {  width: 350px; margin: 20px 0; }
-div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-.ui-button { outline: 0; margin:0; padding: .1em 1em .1em; text-decoration:none; float: right;}
-.ui-dialog .ui-state-highlight, .ui-dialog .ui-state-error { padding: .3em;  }
-#selectable .ui-selecting { background: #FECA40; }
-#selectable .ui-selected { background: #F39814; color: white; }
-#selectable { list-style-type: none; margin: 0; padding: 0; }
-#selectable li { margin: 3px; padding: 1px; float: left; width: 30px; height: 30px; font-size: 62.5%; text-align: center; }
-/* 2 Forms */
-/* 2.1 Text Inputs, textareas */
+label, input { 
+	display:block; 
+}
+
+input.text { 
+	margin-bottom:12px; 
+	width:95%; 
+	padding: .4em; 
+}
+
+fieldset { 
+	padding:0; 
+	border:0; 
+	margin-top:25px; 
+}
+
+h1 { 
+	font-size: 1.2em; 
+	margin: .6em 0; 
+}
+
+div#users-contain {  
+	width: 350px; 
+	margin: 20px 0; 
+}
+
+div#users-contain table { 
+	margin: 1em 0; 
+	border-collapse: collapse; 
+	width: 100%; 
+}
+
+div#users-contain table td, div#users-contain table th { 
+	border: 1px solid #eee; 
+	padding: .6em 10px; 
+	text-align: left; 
+}
+
+.ui-button { 
+	outline: 0; 
+	margin:0; 
+	padding: .1em 1em .1em; 
+	text-decoration:none; 
+	float: right;
+}
+
+.ui-dialog .ui-state-highlight, .ui-dialog .ui-state-error { 
+	padding: .3em;  
+}
+
+#selectable .ui-selecting { 
+	background: #FECA40; 
+}
+
+#selectable .ui-selected { 
+	background: #F39814; 
+	color: white; 
+}
+
+#selectable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+}
+
+#selectable li { 
+	margin: 3px; 
+	padding: 1px; 
+	float: left; 
+	width: 30px; 
+	height: 30px; 
+	font-size: 62.5%; 
+	text-align: center; 
+}
+
 input[type=text], input[type=password], textarea {
-    margin-bottom:12px; 
-    width:95%; 
-    padding: .4em;
+	margin-bottom:12px; 
+	width:95%; 
+	padding: .4em;
 }
-/* 2.2 Labels */
+
 label {
-    display: block;
+	display: block;
 }
-/* 2.3 Notice */
+
 div.notice {
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    margin-left: -180px;
-    width: 360px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+	position: fixed;
+	top: 50px;
+	left: 50%;
+	margin-left: -180px;
+	width: 360px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
 }
+
 div.notice div {
-    padding:10px;
-}
-
-#issue_message a {
-  color: #8FA5DB
-}
-
-#issue_message {
-  background: #EEEEEE;
-  border-radius: 3px 3px 3px 3px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-#issue_message .header {
-  margin: 20px;
-}
-#issue_message .header p {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0;
-}
-
-#issue_message #fail #errors {
-  color: DarkRed;
-  font-weight: bold;
-}
-
-#issue_form #issue_submit {
-  position: absolute;
-  right: 5%;
-  bottom: 0px;
-  margin-left: 40%;
+	padding:10px;
 }

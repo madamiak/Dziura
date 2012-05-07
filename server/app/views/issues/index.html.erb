@@ -19,6 +19,9 @@
 
 <fieldset id="search_issue">
     <legend>Filtrowanie zgłoszeń:</legend>
+    
+    <%= label_tag "ID" %>
+    <%= text_field_tag :id %>
 
     <%= label_tag "Kategoria" %>
     <% categories = Category.all.map { |category| [category.name, category.id] } %>
@@ -35,15 +38,12 @@
     <% units.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:unit_id, options_for_select(units, "")) %>
 
+    <%= label_tag "Ulica" %>
+    <%= text_field_tag :street %>
+    
     <%= label_tag "Dodane" %>
     <%= select_tag(:date, options_for_select([['kiedykolwiek',0], ['dziś', Date.today], 
     ['w tym tygodniu', 7.days.ago], ['w tym miesiącu', 1.month.ago]] )) %>
-
-    <%= label_tag "Ulica" %>
-    <%= text_field_tag :street %>
-
-    <%= label_tag "ID" %>
-    <%= text_field_tag :id %>
 </fieldset>
 
 <div id="map_canvas" class="issue_map"></div>

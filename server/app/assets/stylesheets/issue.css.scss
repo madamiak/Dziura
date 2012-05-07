@@ -68,14 +68,17 @@ table.dataTable thead th div.DataTables_sort_wrapper span {
     margin: 1%;
     padding: 1%;
     width: 96%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 #search_issue label {
     display: inline;
-    margin-left: 3%;
+    margin-left: 2%;
 }
 #search_issue label:first-child {
     margin-left: 0;
 }
 #search_issue input[type=text] {
-    width: 200px;
+    width: 120px;
 }
