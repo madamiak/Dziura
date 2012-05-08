@@ -75,6 +75,14 @@ function dialogLoaded(dialog)
       $("#issue_form input[id=photos]").val(getPhotosInBase64());
     }
   );
+  
+  // Ukrywanie przycisku "Zglos" wewnatrz okna dialog
+  $(":submit").hide();
+  
+  // Dodawanie przycisku "Zglos" do button_pane okna dialogowego
+  var buttons = dialog.dialog("option", "buttons");
+  $.extend(buttons, { "Zgłoś": function () { $(":submit").click(); } });
+  dialog.dialog("option", "buttons", buttons);
 
   $("#issue_form form").live("ajax:success",
     function(event, data, status, xhr)

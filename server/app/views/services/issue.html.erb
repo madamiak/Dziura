@@ -42,14 +42,14 @@
       <%= label_tag(:photo_upload, "Wybierz zdjęcie") %>
 
     </div>
-    <div id="photo_preview"></div>
+
     <div id="issue_submit">
       <%= submit_tag("Zgłoś") %>
     </div>
   <% end %>
 
   <div id="photo_upload">
-    
+    <div id="photo_preview"></div>
     <%= form_tag({:controller => 'image_converter_service', :action => 'upload'}, :multipart => true, :id => 'photo_form') do %>
       <%= file_field_tag 'photo' %>
     <% end %>
