@@ -53,6 +53,7 @@ div.notice div {
 /* 2.4 Columns */
 #edit_form {
     float: left;
+    width: 45%;
 }
 #edit_instance {
     break-before: always;
