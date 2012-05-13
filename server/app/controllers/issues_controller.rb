@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => false } # show.html.erb
+      format.html { render :layout => 'bare' } # show.html.erb
       format.json { render :json => @issue }
     end
   end
@@ -36,7 +36,7 @@ class IssuesController < ApplicationController
     @issue = Issue.new
 
     respond_to do |format|
-      format.html { render :layout => false } # new.html.erb
+      format.html { render :layout => 'bare' } # new.html.erb
       format.json { render :json => @issue }
     end
   end
@@ -44,7 +44,7 @@ class IssuesController < ApplicationController
   # GET /issues/1/edit
   def edit
     @issue = Issue.find(params[:id])
-    render :layout => false # edit.html.erb
+    render :layout => 'bare' # edit.html.erb
   end
 
   # POST /issues
@@ -57,7 +57,7 @@ class IssuesController < ApplicationController
         format.html { redirect_to @issue, :notice => 'Zgłoszenie zostało utworzone.' }
         format.json { render :json => @issue, :status => :created, :location => @issue }
       else
-        format.html { render :action => "new", :layout => false }
+        format.html { render :action => "new", :layout => 'bare' }
         format.json { render :json => @issue.errors, :status => :unprocessable_entity }
       end
     end
@@ -83,7 +83,7 @@ class IssuesController < ApplicationController
         format.html { redirect_to @issue, :notice => 'Zgłoszenie zostało zaktualizowane.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit", :layout => false }
+        format.html { render :action => "edit", :layout => 'bare' }
         format.json { render :json => @issue.errors, :status => :unprocessable_entity }
       end
     end
@@ -143,7 +143,7 @@ class IssuesController < ApplicationController
 
     @issue = Issue.find(issue_id)
 
-    render :action => "edit", :layout => false
+    render :action => "edit", :layout => 'bare'
   end
 
   # GET /issues/1/join/2
@@ -153,7 +153,7 @@ class IssuesController < ApplicationController
 
     @issue.join_with(@other_issue)
 
-    render :action => "edit", :layout => false
+    render :action => "edit", :layout => 'bare'
   end
 
   # GET /issues/print?id=1&id=2&...
@@ -162,7 +162,7 @@ class IssuesController < ApplicationController
     @issues = Issue.find(ids)
 
     respond_to do |format|
-      format.html { render :layout => false }
+      format.html { render :layout => 'bare' }
       format.json {
         json_data = @issues.to_json( :include => [ :address, :unit, :status, { :category => { :except => [:icon] } } ] )
         send_data json_data, :type => 'application/json', :disposition => 'attachment' }

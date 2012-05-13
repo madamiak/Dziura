@@ -293,3 +293,9 @@ tbody tr:nth-child(even) {
     margin-left: 10px;
     border: 1px solid #000000;
 }
+
+.form_debug_id {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 2ex;
+}

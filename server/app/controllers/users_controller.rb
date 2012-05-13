@@ -7,7 +7,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin
 
-  layout "admin"
+  layout 'admin'
 
   # GET /users
   # GET /users.json
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => false } # show.html.erb
+      format.html { render :layout => 'bare' } # show.html.erb
       format.json { render :json => @user }
     end
   end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     @user = User.new
 
     respond_to do |format|
-      format.html { render :layout => false }
+      format.html { render :layout => 'bare' }
       format.json { render :json => @user }
     end
   end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    render :layout => false
+    render :layout => 'bare'
   end
 
   # POST /users
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, :notice => 'Użytkownik został utworzony.' }
         format.json { render :json => @user, :status => :created, :location => @user }
       else
-        format.html { render :action => "new", :layout => false }
+        format.html { render :action => "new", :layout => 'bare' }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, :notice => 'Użytkownik został zaktualizowany.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit", :layout => false }
+        format.html { render :action => "edit", :layout => 'bare' }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end

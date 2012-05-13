@@ -25,7 +25,7 @@ class StatusesController < ApplicationController
     @status = Status.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => false } # show.html.erb
+      format.html { render :layout => 'bare' } # show.html.erb
       format.json { render :json => @status }
     end
   end
@@ -36,7 +36,7 @@ class StatusesController < ApplicationController
     @status = Status.new
 
     respond_to do |format|
-      format.html { render :layout => false }
+      format.html { render :layout => 'bare' }
       format.json { render :json => @status }
     end
   end
@@ -44,7 +44,7 @@ class StatusesController < ApplicationController
   # GET /statuses/1/edit
   def edit
     @status = Status.find(params[:id])
-    render :layout => false
+    render :layout => 'bare'
   end
 
   # POST /statuses
@@ -57,7 +57,7 @@ class StatusesController < ApplicationController
         format.html { redirect_to @status, :notice => 'Status został utworzony.' }
         format.json { render :json => @status, :status => :created, :location => @status }
       else
-        format.html { render :action => "new", :layout => false }
+        format.html { render :action => "new", :layout => 'bare' }
         format.json { render :json => @status.errors, :status => :unprocessable_entity }
       end
     end
@@ -73,7 +73,7 @@ class StatusesController < ApplicationController
         format.html { redirect_to @status, :notice => 'Status został zaktualizowany.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit", :layout => false }
+        format.html { render :action => "edit", :layout => 'bare' }
         format.json { render :json => @status.errors, :status => :unprocessable_entity }
       end
     end

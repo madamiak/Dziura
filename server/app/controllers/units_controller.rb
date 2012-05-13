@@ -9,7 +9,7 @@
 class UnitsController < ApplicationController
   before_filter :require_admin
 
-  layout "admin"
+  layout 'admin'
 
   # GET /units
   # GET /units.json
