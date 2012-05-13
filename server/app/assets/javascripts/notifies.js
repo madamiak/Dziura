@@ -99,13 +99,8 @@ function dialogLoaded(dialog)
 
       $("#issue_message").show();
 
-      dialog.dialog(
-        {
-          buttons: {
-            "Zamknij": function () { $(this).dialog('close'); }
-          }
-        }
-      );
+      var buttons = { "Zamknij": function () { $(this).dialog('close'); } };
+      dialog.dialog("option", "buttons", buttons);
     }
   );
 
@@ -121,7 +116,7 @@ function dialogLoaded(dialog)
       $("#issue_message #fail #errors").text(data.message);
       $("#issue_message #fail").show();
 
-      $("#issue_message").show();
+      $("#issue_message").show().delay(5000).slideUp(300);
     }
   );
 
