@@ -147,15 +147,24 @@ tbody tr:nth-child(even) {
     float: left;
     font-size: 11px;
 }
-#wrapper #top a {
-    color: #555555;
+#wrapper #top #user_span {
     float: right;
+}
+#wrapper #top #user_span #login {
+    color: #000000;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 0.2em;
+}
+#wrapper #top #user_span a {
+    margin-left: 0.2em;
+    color: #555555;
     font-size: 11px;
     font-weight: bold;
     text-decoration: none;
     font-size: 11px;
 }
-#wrapper #top a:hover {
+#wrapper #top #user_span a:hover {
     background: none;
     color: #000000;
     text-decoration: none;

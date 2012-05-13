@@ -50,7 +50,10 @@
 		<span id="info">
 			Panel administracyjny - System Zgłaszania Uszkodzeń Jezdni
 		</span>
-		<%= link_to "Wyloguj", logout_path  %></div>
+		<span id="user_span">
+			<span id="login">Użytkownik: <%= controller.current_user.login %></span> |
+			<%= link_to "Wyloguj", logout_path  %></div>
+		</span>
 		<div id="panel">
 			<ul class="menu">
 			  <li><%= link_to "Zgłoszenia", issues_path  %></li>

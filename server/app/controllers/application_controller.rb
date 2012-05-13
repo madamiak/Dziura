@@ -11,13 +11,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :logged_in?, :is_admin?
 
-  private
-
   # Zwraca obecnie zalogowanego użytkownika
   def current_user #:doc:
     @_current_user ||= session[:current_user_id] &&
       User.find_by_id(session[:current_user_id])
   end
+
+  private
 
   # Czy zalogowano?
   def logged_in? #:doc:
