@@ -18,6 +18,14 @@ function initializeIssues()
 {
   createMap(); // map_common.js
 
+  if ($('#map_center').length > 0)
+  {
+    g_map.setCenter(new google.maps.LatLng(
+      $('#map_center #lat').text(),
+      $('#map_center #lng').text())
+    );
+  }
+
   // Aktualizacja zgłoszeń po zmianie widoku mapki
   google.maps.event.addListener(g_map, 'bounds_changed',
     function()

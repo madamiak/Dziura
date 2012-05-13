@@ -110,6 +110,10 @@ class IssuesController < ApplicationController
     params[:search][:longitude_greater_than] = BigDecimal.new(params[:sw_lng])
     params[:search][:longitude_less_than] = BigDecimal.new(params[:ne_lng])
 
+    if !current_user.unit.nil?
+      params[:search][:unit_id_equals] = current_user.unit.id
+    end
+
     @issues = Issue.search(params[:search])
 
     respond_to do |format|

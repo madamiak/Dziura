@@ -33,10 +33,12 @@
     <% statuses.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:status_id, options_for_select(statuses, "")) %>
 
+  <% if controller.current_user.unit.nil? %>
     <%= label_tag "Jednostka" %>
     <% units = Unit.all.map { |unit| [unit.name, unit.id] } %>
     <% units.insert(0, ['wszystkie',0]) %>
     <%= select_tag(:unit_id, options_for_select(units, "")) %>
+  <% end %>
 
     <%= label_tag "Ulica" %>
     <%= text_field_tag :street %>
@@ -45,6 +47,16 @@
     <%= select_tag(:date, options_for_select([['kiedykolwiek',0], ['dziś', Date.today], 
     ['w tym tygodniu', 7.days.ago], ['w tym miesiącu', 1.month.ago]] )) %>
 </fieldset>
+
+<% if !controller.current_user.unit.nil? %>
+  <% point = Issue.where(:unit_id => controller.current_user.unit.id).first %>
+  <% if !point.nil? %>
+    <div id="map_center" style="display: none">
+    <div id="lat"><%= point.latitude.to_s %></lat></div>
+    <div id="lng"><%= point.longitude.to_s %></lng></div>
+    </div>
+  <% end %>
+<% end %>
 
 <div id="map_canvas" class="issue_map"></div>
 
