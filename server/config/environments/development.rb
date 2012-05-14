@@ -36,6 +36,9 @@ Dziura::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Pokazywanie id formularzy do debugowania
+  config.debug_forms = true
+
   # Konfiguracja wysyłania e-maili
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings[:address] = "localhost"
