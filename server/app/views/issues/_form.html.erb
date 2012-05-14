@@ -73,6 +73,7 @@
 		<% @issue.issue_instances.each do |issue_i| %>
 		
 			<div id="instance">
+				<label>ID: </label><%= issue_i.id %>
 				<label>Utworzono: </label><%= issue_i.created_at %>
 				<label>Opis: </label><%= issue_i.desc %> <br />
 	

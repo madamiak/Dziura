@@ -93,6 +93,7 @@ function initializeIssues()
   $("select").bind("change", updateIssues);
   $("input[name=street]").bind("keyup", updateIssues);
   $("input[name=id]").bind("keyup", updateIssues);
+  $("input[name=instance_id]").bind("keyup", updateIssues);
 
   // Nowe zgłoszenie
   $("#newIssueButton").bind("click", newIssue);
@@ -192,6 +193,10 @@ function getFilterParams()
 
   if( $("input[name=id]").length>0 && $("input[name=id]").val() != 0 ) {
     params["search"]["id_equals"] = $("input[name=id]").val();
+  }
+
+  if( $("input[name=instance_id]").length>0 && $("input[name=instance_id]").val() != 0 ) {
+    params["search"]["issue_instances_id_in"] = $("input[name=instance_id]").val();
   }
 
   if( $("select[name=category_id]").length>0 && $("select[name=category_id]").val() != 0 ) {

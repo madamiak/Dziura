@@ -19,9 +19,12 @@
 
 <fieldset id="search_issue">
     <legend>Filtrowanie zgłoszeń:</legend>
-    
+
     <%= label_tag "ID" %>
     <%= text_field_tag :id %>
+
+    <%= label_tag "ID instancji" %>
+    <%= text_field_tag :instance_id %>
 
     <%= label_tag "Kategoria" %>
     <% categories = Category.all.map { |category| [category.name, category.id] } %>
