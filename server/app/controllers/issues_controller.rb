@@ -166,7 +166,7 @@ class IssuesController < ApplicationController
     @issues = Issue.find(ids)
 
     respond_to do |format|
-      format.html { render :layout => 'bare' }
+      format.html { render :layout => false }
       format.json {
         json_data = @issues.to_json( :include => [ :address, :unit, :status, { :category => { :except => [:icon] } } ] )
         send_data json_data, :type => 'application/json', :disposition => 'attachment' }
