@@ -10,6 +10,31 @@ class ServicesController < ApplicationController
   layout false
 
   # POST /res/issue
+  # POST /res/issue.json
+  #
+  # Zapytanie dodające nowe zgłoszenie. Wywołuje Issue.add_issue z przekazanymi
+  # parametrami.
+  #
+  # Parametry zapytania to (JSON; parametry HTTP POST - analogicznie):
+  #  "category_id": (id kategorii zgłoszenia),
+  #  "latitude": (szer. geogr.),
+  #  "longitude": (dł. geogr.),
+  #  *** "desc": (opis),
+  #  *** "notificar_email": (e-mail zgłaszającego),
+  #  "photos": (lista zdjęć)
+  #  [
+  #   {
+  #    "image": (zdjęcie w Base64),
+  #    "image_type": (typ MIME zdjęcia, np. "image/jpeg"),
+  #    *** "markers": (lista znaczników)
+  #    [
+  #     { "x": (poz. x), "y": (poz. y), "desc": (opis) },
+  #     ...
+  #    ]
+  #   },
+  #   ...
+  #  ]
+  # *** oznacza parametr opcjonalny.
   def issue
     if request.post?
       begin

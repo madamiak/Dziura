@@ -46,6 +46,13 @@ class Issue < ActiveRecord::Base
 
   # Dodaje zgłoszenie do systemu
   #
+  # Zgłoszenie zostaje dodane jako nowe (utworzone nowe Issue)
+  # lub następuje złączenie z istniejącym Issue, jeżeli jest w skonfigurowanym
+  # obszarze złączania, Issue ma status "nowy" i zgadzają się kategorie.
+  #
+  # Zwraca obiekt przyjętego zgłoszenia (IssueInstace)
+  # lub +nil+ jeżeli wystąpił jakiś inny błąd (niezgłoszony wyjątkiem).
+  #
   # ===Argumenty:
   # * +category_id+ - id kategorii zgłoszenia
   # * +longitude+, +latitude+ - współrzędne (+string+)
@@ -60,8 +67,6 @@ class Issue < ActiveRecord::Base
   # * Exceptions::IncorrectNotificarEmail gdy +notificar_email+ jest nieprawidłowy
   # * ActiveRecord::RecordInvalid gdy wystąpi inny błąd walidacji
   #
-  # Zwraca obiekt przyjętego zgłoszenia (IssueInstace)
-  # lub +nil+ jeżeli wystąpił jakiś inny błąd
   def self.add_issue(category_id, longitude, latitude, desc, notificar_email, photos)
 
     raise Exceptions::NilArguments if category_id.nil? or longitude.nil? or latitude.nil?
