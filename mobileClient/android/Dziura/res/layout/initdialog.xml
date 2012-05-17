@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Wykonaj najpierw zdjęcie szkody, a następnie wypełnij krótki formularz, aby wysłać zgłoszenie. Naciśnij Pomoc aby uzyskać więcej informacji." android:paddingBottom="5dp" android:paddingRight="5dp" android:paddingLeft="5dp"/>
+
+    <CheckBox
+        android:id="@+id/dCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Wyświetlaj okna zawierające podpowiedzi na temat korzystania z aplikacji." />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/dButtonOk"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="Ok" />
+
+        <Button
+            android:id="@+id/dButtonMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pomoc..." />
+
+    </LinearLayout>
+
+</LinearLayout>
