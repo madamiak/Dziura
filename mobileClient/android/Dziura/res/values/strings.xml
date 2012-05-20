@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Zgłoś dziurę</string>
+    <string name="damage_type">Rodzaj szkody</string>
+    <string name="get_gps">Pobierz pozycję GPS telefonu</string>
+    <string name="get_info">Chcę otrzymywać informacje o zgłoszeniu</string>
+    <string name="damage_desc">Opis szkody</string>
+    <string name="submit">ZGŁOŚ</string>
+    <string name="email">E-mail</string>
+    <string name="damage_place">Wskaż na mapie miejsce wystąpienia szkody</string>
+    <string name="street">Ulica</string>
+    <string name="number">Numer</string>
+    <string name="city">Miejscowość</string>
+    <string name="zip_code">Kod pocztowy</string>
+    <string name="photo_desc">Podpis zaznaczonego fragmentu zdjęcia</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="delete_photo">Usuń zdjęcie</string>
+    <string name="take_next_photo">Następne zdjęcie</string>
+    <string name="delete_tags">Usuń tagi</string>
+    <string name="description_hint">Dodatkowy opis zgłoszenia</string>
+    <string name="menu_camera_scene">Tryb aparatu</string>
+    <string name="menu_camera_scene_atuo">Auto</string>
+    <string name="menu_camera_scene_action">Akcja</string>
+    <string name="menu_camera_scene_portrait">Portret</string>
+    <string name="menu_camera_scene_landscape">Krajobraz</string>
+    <string name="menu_camera_scene_night">Noc</string>
+    <string name="menu_camera_scene_nightportrait">Nocny portret</string>
+    <string name="menu_camera_scene_theatre">Teatr</string>
+    <string name="menu_camera_scene_beach">Plaża</string>
+    <string name="menu_camera_scene_snow">Śnieg</string>
+    <string name="menu_camera_scene_sunset">Zachód słońca</string>
+    <string name="menu_camera_scene_steadyphoto">Stabilny</string>
+    <string name="menu_camera_scene_fireworks">Fajerwerki</string>
+    <string name="menu_camera_scene_sports">Sport</string>
+    <string name="menu_camera_scene_party">Impreza</string>
+    <string name="menu_camera_scene_candlelight">Światło świec</string>
+    <string name="menu_camera_whitebalance">Balans bieli</string>
+    <string name="menu_camera_whitebalance_auto">Auto</string>
+    <string name="menu_camera_whitebalance_incandescent">Rozżarzony</string>
+    <string name="menu_camera_whitebalance_fluorescent">Fluorescencyjny</string>
+    <string name="menu_camera_whitebalance_daylight">Światło dzienne</string>
+    <string name="menu_camera_whitebalance_cloudydaylight">Pochmurny dzień</string>
+    <string name="menu_camera_whitebalance_twilight">Zmierzch</string>
+    <string name="menu_camera_whitebalance_shade">Cień</string>
+    <string name="menu_camera_quality">Jakość zdjęcia</string>
+    <string name="menu_camera_quality_low">Niska</string>
+    <string name="menu_camera_quality_medium">Średnia</string>
+    <string name="menu_camera_quality_high">Wysoka</string>
+    <string name="menu_camera_quality_veryhigh">Bardzo wysoka</string>
+    <string name="menu_map_mode">Tryb mapy</string>
+    <string name="menu_map_mode_map">Mapa</string>
+    <string name="menu_map_mode_satellite">Satelita</string>
+    <string name="menu_camera_flash">Lampa</string>
+    <string name="menu_camera_flash_auto">Auto</string>
+    <string name="menu_camera_flash_off">Wyłączona</string>
+    <string name="menu_camera_flash_on">Włączona</string>
+    <string name="menu_camera_flash_redeye">Czerwone oczy</string>
+    <string name="menu_camera_flash_torch">Pochodnia</string>
+    <string name="menu_camera_focus">Focus</string>
+    <string name="menu_camera_focus_auto">Auto</string>
+    <string name="menu_camera_focus_fixed">Ustalony</string>
+    <string name="menu_camera_focus_infinity">Nieskończoność</string>
+    <string name="menu_camera_focus_macro">Macro</string>
+    <string name="menu_quit">Zamknij</string>
+    <string name="menu_sending">Sposób wysyłania</string>
+    <string name="menu_sending_server">Bezpośrednio na serwer</string>
+    <string name="menu_sending_mail">Na adres email</string>
+    
+    
+</resources>
