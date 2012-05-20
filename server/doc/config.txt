@@ -1,0 +1,14 @@
+= Konfiguracja aplikacji
+
+Najważniejsza część konfiguracji znajduje się w pliku +config/application.rb+.
+Znajdują się tam opcje szablonu RoR plus dodatkowe opcje samej aplikacji, czyli:
+[config.server_url] URL i port na którym działa serwer
+[config.notification_email] adres e-mail, który będzie podany jako źródło powiadomień
+[config.maps] konfiguracja Google Maps -- klucz API, na co jest scentrowana domyślnie mapa
+[config.issues.merge_distance] odległość (współrz. geogr.) w jakiej mogą być scalane zgłoszenia
+[config.debug_forms] wyświetlanie źródła formularzy (wyłączone domyślnie)
+
+Dodatkowo katalogu +config/environments/+ plikach +development.rb+, +production.rb+ i +test.rb+,
+znajdują się opcje aktywne tylko w danym środowisku uruchomieniowym: jako serwer developerski (+rails server+),
+jako serwer produkcyjny i testowy (uruchamiany przy testach). W +development.rb+ jest ustawiona opcja
++config.debug_forms+.

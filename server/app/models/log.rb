@@ -2,6 +2,10 @@
 
 # Klasa zalogowanego zdarzenia
 #
+# Obecnie logowane są zmiany statusów zgłoszeń, ale nie ma
+# interfejsu do podglądu logów. W przyszłości można będzie
+# rozwinąć dalej taką funkcjonalność.
+#
 class Log < ActiveRecord::Base
 
   belongs_to :user

@@ -1,0 +1,9 @@
+= Modele
+
+Poniżej zawarliśmy dokumentację wygenerowaną dla modeli (w kolejności alfabetycznej). Każdy z modeli
+odpowiada jednej tabeli w bazie danych.
+
+Na następnej stronie przedstawiamy diagram ERD bazy danych, wygenerowany za pomocą narzędzia rails-erd.
+
+Na diagramie widać też dodatkową tabela jobs jest wykorzystywana przez plug-in delayed-job
+obsługujący wysyłanie e-maili do użytkowników.

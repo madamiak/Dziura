@@ -63,7 +63,7 @@ module Dziura
 
     # URL serwera
     config.server_url = {
-      :host => "dziura.zapto.org", # do testowania (alias 87.99.29.139)
+      :host => "dziura.org",
       :port => 3000
     }
     # E-mail podawany w powiadomieniach

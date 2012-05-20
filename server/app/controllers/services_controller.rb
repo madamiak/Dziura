@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-# Kontroler wystawiający usługi dla klienta mobilnego
+# Kontroler wystawiający usługi dla klienta mobilnego jak i interfejsu webowego
 #
 # Umożliwia zgłoszenie uszkodzenia i pobieranie aktualnych danych kategorii.
 #
@@ -15,13 +15,13 @@ class ServicesController < ApplicationController
   # Zapytanie dodające nowe zgłoszenie. Wywołuje Issue.add_issue z przekazanymi
   # parametrami.
   #
-  # Parametry zapytania to (JSON; parametry HTTP POST - analogicznie):
+  # Parametry zapytania w JSON to (parametry HTTP POST - analogicznie):
   #  "category_id": (id kategorii zgłoszenia),
   #  "latitude": (szer. geogr.),
   #  "longitude": (dł. geogr.),
   #  *** "desc": (opis),
   #  *** "notificar_email": (e-mail zgłaszającego),
-  #  "photos": (lista zdjęć)
+  #  *** "photos": (lista zdjęć)
   #  [
   #   {
   #    "image": (zdjęcie w Base64),
@@ -57,18 +57,30 @@ class ServicesController < ApplicationController
   end
 
   # GET /res/categories
+  #
+  # Umożliwia pobranie listy dostępnych kategorii
+  #
+  # Zwraca listę z ID i nazwami
   def categories
     @categories = Category.all
     render :json => @categories.to_json( :only => [:id, :name] )
   end
 
   # GET /res/categories/1
+  #
+  # Umożliwia pobranie pojedynczej kategorii o danym ID
+  #
+  # Zwraca ID i nazwę
   def category
     @category = Category.find(params[:id])
     render :json => @category.to_json( :only => [:id, :name] )
   end
 
   # GET /res/category_icon/1
+  #
+  # Umożliwia pobranie ikony kategorii o danym ID
+  #
+  # Zwraca obrazek w formacie JPG
   def category_icon
     category = Category.find(params[:id])
     if !category.nil? && !category.icon.nil?

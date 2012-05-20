@@ -1,8 +1,49 @@
 = Dokumentacja RDOC serwera Ruby on Rails
 
-W dokumentacji zawarte są opisy:
+=== Podział katalogów z kodem
+
+Serwer aplikacji napisany w Ruby on Rails składa się z następujących głównych elementów:
+* schemat bazy danych na podstawie szablonów migracji (+db/migrations/+, +db/schema.rb+) -
+  określa, jakie obiekt znajdują się w bazie danych i jakie mają atrybuty
+* klasy modeli odpowiadające obiektom z bazy danych (+app/models/+) - można je uzupełnić
+  o walidatory sprawdzające poprawność danych i własne funkcje operujące na obiektach
+* klasy kontrolerów (+app/controllers/+) - najważniejsza część aplikacji - obsługują one
+  zapytania HTTP, wykonują zadane operacje i zwracają wyniki w postaci JSON lub strony HTML
+* widoki (+app/views/+), czyli szablony stron HTML, które są zwracane w wynikach
+* assets (+app/assets/+), czyli dodatkowe zasoby, w tym: pliki JavaScript, style CSS, obrazki
+* dodatkowe składniki (+lib/+, +vendor/+)
+* statyczne strony (+public/+)
+* testy (+test/+)
+* konfiguracja (+config/+)
+
+=== Schemat działania
+
+Sekwencja zdarzeń, która opisuje typową interakcję z serwerem, wygląda w skrócie następująco:
+1. Użytkownik wysyła zapytanie np. GET /issues/1/edit
+2. Dla kontrolera IssuesController wywoływana jest metoda +edit+
+   z parametrami zapytania (tutaj zostanie "wyciągnięte" id=1 z URL zapytania).
+3. Kontroler wykonuje jakieś działania (np. pobiera dane z bazy), często poprzez funkcje modeli.
+4. Kontroler wywołuje (czasem niejawnie) funkcję +render+, która wyświetla szablon strony z widoków
+   (tutaj app/views/issues/edit.html.erb) lub np. zwraca JSON. Rodzaj akcji może zależeć od URL
+   np. końcówka +.html+ powoduje wyświetlenie HTML, a +.json+, JSON-a.
+5. Jeżeli strona linkuje do innych zasobów (JS, CSS, obrazki), zostaną one pobrane przez przeglądarkę
+   z adresu GET /assets/... -- zwróci to bezpośrednio dany zasób.
+
+Dodatkowo, interaktywne funkcjonalności stron zapewniają skrypty w JavaScript. Wykonują one również
+standardowe zapytania do serwera, ale dane przesyłają w postaci JSON, ze względu na łatwiejszą obsługę.
+
+Istnieje jeszcze jedna funkcjonalność -- wysyłanie e-maili z powiadomieniami -- którą serwer wykonuje w tle za pomocą
+pluginu delayed_job.
+
+=== Dokumentacja
+
+Dokumentacja RDOC dotyczy samego kodu Ruby aplikacji (plików *.rb). W dokumentacji znajdują się opisy:
 * modeli - zawarte pola i funkcje - szczegółowy opis
 * kontrolerów - tylko ważniejsze informacje
-* helperów - tylko wykorzystywany ApplicationHelper
+* pozostałych klas - jedynie krótkie opisy
 
-Dodatkowo, w dokumencie {interface}[rdoc-ref:doc/interface.txt] opisaliśmy ścieżki i ważniejsze elementy interfejsu REST.
+W dokumencie PDF zawarliśmy:
+* ścieżki i ważniejsze elementy interfejsu REST
+* opis konfiguracji aplikacji
+* dokumentację modeli
+* dokumentację dwóch wybranych kontrolerów: ServicesController oraz IssuesController

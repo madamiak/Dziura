@@ -1,0 +1,4 @@
+= Wybrane kontrolery
+
+Wybraliśmy do dokumentacji jedynie kontroler ServicesController, który pełni najważniejszą rolę - umożliwia wysyłanie zgłoszeń
+oraz kontroler IssuesController, który obsługuje panel zarządzania zgłoszeniami.

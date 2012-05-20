@@ -10,6 +10,8 @@ class IssuesController < ApplicationController
 
   # GET /issues
   # GET /issues.json
+  #
+  # Wyświetla index.html.erb -- stronę zarządzania zgłoszeniami
   def index
     @issues = Issue.all
 
@@ -21,6 +23,8 @@ class IssuesController < ApplicationController
 
   # GET /issues/1
   # GET /issues/1.json
+  #
+  # Zwraca show.html.erb bez szablonu (sam kod HTML)
   def show
     @issue = Issue.find(params[:id])
 
@@ -32,6 +36,8 @@ class IssuesController < ApplicationController
 
   # GET /issues/new
   # GET /issues/new.json
+  #
+  # Zwraca new.html.erb bez szablonu (sam kod HTML)
   def new
     @issue = Issue.new
 
@@ -42,6 +48,8 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/1/edit
+  #
+  # Zwraca edit.html.erb bez szablonu (sam kod HTML)
   def edit
     @issue = Issue.find(params[:id])
     render :layout => 'bare' # edit.html.erb
@@ -49,6 +57,8 @@ class IssuesController < ApplicationController
 
   # POST /issues
   # POST /issues.json
+  #
+  # Dodaje nowe zgłoszenie
   def create
     @issue = Issue.new(params[:issue])
 
@@ -65,6 +75,8 @@ class IssuesController < ApplicationController
 
   # PUT /issues/1
   # PUT /issues/1.json
+  #
+  # Aktualizuje dane zgłoszenie
   def update
     @issue = Issue.find(params[:id])
 
@@ -91,6 +103,8 @@ class IssuesController < ApplicationController
 
   # DELETE /issues/1
   # DELETE /issues/1.json
+  #
+  # Usuwa dane zgłoszenie
   def destroy
     @issue = Issue.find(params[:id])
     @issue.destroy
@@ -102,6 +116,14 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/by_rect.json
+  #
+  # Zwraca listę zgłoszeń znajdujących się w prostokącie współrzędnych geogr.
+  # plus odfiltrowane przez zadane kryteria
+  #
+  # Argumenty:
+  #  sw_lat, sw_lng - płd.-zach. wierzchołek
+  #  ne_lat, ne_lng - płn.-wsch. wierzchołek
+  #  search - tablica z dodatkowymi kryteriami
   def get_by_rect
     params[:search] = {} if params[:search].nil?
 
@@ -127,6 +149,12 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/by_pages.json
+  #
+  # Zwraca listę zgłoszeń z podziałem na paginację.
+  #
+  # Argumenty:
+  #  limit - ile na stronę
+  #  offset - od którego zacząć
   def get_by_pages
     @issues = Issue.order(:created_at).limit(params[:limit]).offset(params[:offset])
 
@@ -137,7 +165,10 @@ class IssuesController < ApplicationController
 
   # GET /issues/1/detach
   #
-  # 1 to id IssueInstance, a nie Issue
+  # ! 1 to id IssueInstance, a nie Issue !
+  #
+  # Odłącza daną instancję od zgłoszenia (tworzy osobne zgłoszenie)
+  # Przekierowuje z powrotem do edycji oryginalnego zgłoszenia.
   def detach
     @issue_instance = IssueInstance.find(params[:id])
 
@@ -151,6 +182,8 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/1/join/2
+  #
+  # Łączy dwa podane zgłoszenia. Przekierowuje do edycji złączonego zgłoszenia.
   def join
     @issue = Issue.find(params[:id])
     @other_issue = Issue.find(params[:other_id])
@@ -161,6 +194,8 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/print?id=1&id=2&...
+  #
+  # Drukuje lub eksportuje do JSON dane zgłoszenia.
   def print
     ids = params[:id].split(',')
     @issues = Issue.find(ids)

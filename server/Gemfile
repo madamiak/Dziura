@@ -21,6 +21,9 @@ gem 'therubyracer'
 gem "delayed_job",  :git => 'git://github.com/collectiveidea/delayed_job.git'
 gem 'delayed_job_active_record'
 
+# Generowanie diagramu ERD
+# gem 'rails-erd'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
