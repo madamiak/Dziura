@@ -61,6 +61,26 @@ function displayDialog()
   var dialog = initDialogWindow('/res/issue', 450, 500, dialogLoaded);
 }
 
+function selectCategory() {
+  console.log("Category selected");
+  var selectedElem = $('#selectable').children('.ui-selected').first();
+  var index = selectedElem.index() + 1;
+  if (index == 0)
+  {
+    $('#category_name_span').text('[wybierz]');
+    $('#category_id').val('');
+    return;
+  }
+
+  jQuery.getJSON('/res/categories/' + index + '.json',
+    function(data)
+    {
+      $('#category_name_span').text(data.name);
+      $('#category_id').val(data.id);
+    }
+  );
+}
+
 // Ustawia formę i inne rzeczy w dialogu po załadowaniu
 function dialogLoaded(dialog)
 {
@@ -125,22 +145,7 @@ function dialogLoaded(dialog)
       stop:
       function (event, ui)
       {
-        var selectedElem = $('#selectable').children('.ui-selected').first();
-        var index = selectedElem.index() + 1;
-        if (index == 0)
-        {
-          $('#category_name_span').text('[wybierz]');
-          $('#category_id').val('');
-          return;
-        }
-
-        jQuery.getJSON('/res/categories/' + index + '.json',
-          function(data)
-          {
-            $('#category_name_span').text(data.name);
-            $('#category_id').val(data.id);
-          }
-        );
+        selectCategory(); 
       }
     }
   );
