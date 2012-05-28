@@ -16,7 +16,12 @@ class IssueInstancesController < ApplicationController
 
     respond_to do |format|
       format.html # get_by_id.html.erb
-      format.json { render :json => @issue_instances, :except => [:issue_id] }
+      format.json { render :json => @issue_instances, :except => [:issue_id],
+                    :include => { :issue => { :only => [ :latitude, :longitude ],
+                      :include => { :category => { :only => [ :name ] },
+                                    :status => { :only => [ :name ] },
+                                    :unit => { :only => [ :name ] }
+                                  } } } }
     end
   end
 
