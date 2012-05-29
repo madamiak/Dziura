@@ -99,7 +99,7 @@ public class DamageNotification
 	private String photosList[];
 	private TagsList tagsList[];
 	private String email;
-	private final String serverURL = "http://dziura.zapto.org:3000";
+	private final String serverURL = "http://192.168.0.3:3000";
 	private final String serverURL2 = "//res/issue.json";
 	private String message;
 	private String id;

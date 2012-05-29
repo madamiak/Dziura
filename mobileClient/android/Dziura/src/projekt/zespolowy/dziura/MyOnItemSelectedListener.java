@@ -46,5 +46,15 @@ public class MyOnItemSelectedListener implements OnItemSelectedListener
 	{
 		return this.selectedItem;
 	}
+	
+	/**
+	 * Ustawia ktory rodzaj szkody zostal wybrany. Funkcja stworzona na potrzeby testow.
+	 * 
+	 * @param dmg pozycja zaznaczonego elementu
+	 */
+	public void setSelectedDamageType(int dmg)
+	{
+		this.selectedItem = dmg;
+	}
 
 }

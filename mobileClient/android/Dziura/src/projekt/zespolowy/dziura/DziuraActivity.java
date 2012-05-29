@@ -156,6 +156,11 @@ public class DziuraActivity extends MapActivity
 	 */
 	public boolean formDialogShowed = false;
 
+	/**
+	 * Instancja klasy {@link InitDialog} reprezentujaca ekran powitalny aplikacji.
+	 */
+	public InitDialog dialog;
+
 	/** Funkcja wywolywana, kiedy aktywnosc jest po raz pierwszy tworzona.
 	 * <br><br>Wykonane zostaja tutaj nastepujace czynnosci:
 	 * <ul>
@@ -227,7 +232,7 @@ public class DziuraActivity extends MapActivity
 
 	private void showInitDialog() //wyswietlenie dialogu na poczatku dzialania aplikacji
 	{
-		InitDialog dialog = new InitDialog(this);
+		dialog = new InitDialog(this);
 		dialog.show();
 	}
 	

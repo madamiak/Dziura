@@ -429,7 +429,8 @@ public class CameraView
 	 */
 	public void destroy() {
 		File photo;
-		for(int i=0; i<MAX_PHOTOS; i++) {
+		for(int i=0; i<MAX_PHOTOS; i++) 
+		{
 			if (fileIsOnSd[i]) {
 				photo = new File(Environment.getExternalStorageDirectory(), fileNames[i]);
 			} else {
