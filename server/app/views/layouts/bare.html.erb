@@ -1,7 +1,5 @@
 <%# encoding: utf-8 %>
 
-<% if Rails.application.config.debug_forms || false %>
   <span class="form_debug_id">(źródło: <%= controller.controller_name + "#" + controller.params[:action] %>)</span>
-<% end %>
 
 <%= yield %>
